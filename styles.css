@@ -347,6 +347,7 @@ ul { list-style: none; }
 .info-cols h4 {
   font-weight: 400;
   font-size: clamp(20px, 1.98vw, 30px);
+  margin-bottom: 40px;           /* blank line between heading and body, as in the mockup */
 }
 
 .info-cols p {
