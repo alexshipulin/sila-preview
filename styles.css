@@ -282,8 +282,12 @@ ul { list-style: none; }
 .footer {
   background: var(--dark);
   color: var(--cream);
-  padding: 95px 0 12px;
+  padding: 126px 0 16px;
 }
+
+/* footer is a full-width composition in the mockup — render it at 100%, not the
+   25%-reduced scale used for the upper sections */
+.footer .shell { zoom: 1; }
 
 .footer-quote {
   margin: 0 133px;
