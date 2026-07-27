@@ -109,21 +109,9 @@ ul { list-style: none; }
 
 /* ============================== hero ============================== */
 
-/* The hero is rendered --hero-scale larger than the rest of the layout: it grows
-   symmetrically past the content column via negative side margins, and its own
-   type/stroke sizes below carry the same factor.
-   The growth is capped by the free space left in the viewport (the column is
-   inside a 0.75 zoom, hence the 100vw / 0.75), so narrow screens shrink the
-   bleed instead of overflowing. */
 .hero {
-  --hero-scale: 1.2;
-  --hero-bleed: min(
-    (100% - 2 * var(--pad)) * (var(--hero-scale) - 1) / 2,
-    max(0px, (100vw / 0.75 - 100%) / 2 - 16px)
-  );
   position: relative;
-  margin-top: 49px;
-  margin-inline: calc(var(--pad) - var(--hero-bleed));
+  margin: 49px var(--pad) 0;
   aspect-ratio: 1462 / 784;
   overflow: hidden;
 }
@@ -135,12 +123,12 @@ ul { list-style: none; }
   object-position: 50% 50%;
 }
 
-/* 16px inset stroke around the hero (Frame 12), scaled with the hero */
+/* 16px inset stroke around the hero (Frame 12) */
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  border: clamp(8px, 1.27vw, 19.2px) solid var(--stroke);
+  border: clamp(7px, 1.06vw, 16px) solid var(--stroke);
   pointer-events: none;
 }
 
@@ -159,7 +147,7 @@ ul { list-style: none; }
   left: 3.28%;
   top: 5.75%;
   max-width: 82%;
-  font-size: clamp(17px, 2.86vw, 43.2px);   /* 36px × --hero-scale */
+  font-size: clamp(17px, 2.38vw, 36px);
   color: var(--hero-grey);
 }
 
@@ -434,12 +422,7 @@ ul { list-style: none; }
   .site-header { padding: 24px var(--pad) 0; }
   .logo-mark { top: 26px; width: 26px; height: 22px; }
 
-  /* no room to oversize the hero on narrow screens — keep it in the column */
-  .hero {
-    margin-top: 32px;
-    margin-inline: var(--pad);
-    aspect-ratio: 3 / 4;
-  }
+  .hero { margin-top: 32px; aspect-ratio: 3 / 4; }
   .hero-text { max-width: 92%; }
 
   .products {
