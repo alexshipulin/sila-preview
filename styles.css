@@ -133,22 +133,12 @@ ul { list-style: none; }
   pointer-events: none;
 }
 
-/* Oversized SILA wordmark sitting inside the hero image */
-.hero-wordmark {
-  position: absolute;
-  left: 3.28%;
-  bottom: 5.62%;
-  width: 93.4%;
-  height: auto;
-  aspect-ratio: 1365.4 / 280;    /* keeps the wordmark undistorted at any width */
-}
-
 .hero-text {
   position: absolute;
   left: 3.28%;
-  top: 5.75%;
-  max-width: 82%;
-  font-size: clamp(17px, 2.38vw, 36px);
+  top: 5.74%;
+  max-width: 77.7%;
+  font-size: clamp(15px, 1.85vw, 28px);
   color: var(--hero-grey);
 }
 
