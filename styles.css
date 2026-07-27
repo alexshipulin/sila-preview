@@ -405,7 +405,7 @@ ul { list-style: none; }
   justify-content: center;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 24px;
+  padding: 24px 0;
 }
 
 .pd[hidden] { display: none; }
@@ -422,9 +422,10 @@ ul { list-style: none; }
 .pd-dialog {
   position: relative;
   margin: auto;                  /* safe centering: never clips a tall sheet */
-  width: 1429px;
+  width: 100%;
+  max-width: 1512px;             /* same column as .shell, so nothing peeks out behind */
   zoom: 0.75;
-  padding: 96px 109px 85px 100px;
+  padding: 96px 146px 85px;
   background: var(--cream);
   color: var(--dark);
   font-family: var(--font-display);
@@ -456,9 +457,10 @@ ul { list-style: none; }
 
 /* ---------- upper half: gallery + info ---------- */
 
+/* 580 : 540 of the design, kept as ratios so the sheet can breathe with the page */
 .pd-top {
   display: grid;
-  grid-template-columns: 580px 540px;
+  grid-template-columns: 58fr 54fr;
   gap: 100px;
 }
 
@@ -586,7 +588,7 @@ ul { list-style: none; }
 .pd-order-grid {
   margin-top: 62px;
   display: grid;
-  grid-template-columns: 540px 540px;
+  grid-template-columns: 1fr 1fr;
   gap: 140px;
 }
 
@@ -707,9 +709,13 @@ html.pd-lock body { position: fixed; left: 0; right: 0; width: 100%; }
 
 /* ============================== responsive ============================== */
 
-/* the 1072px-wide sheet no longer fits with margins — step the zoom down */
-@media (max-width: 1160px) {
-  .pd-dialog { zoom: 0.62; }
+/* Below this the sheet is narrower than the 1512 reference, so its margins and
+   gutters follow the viewport. The vw values equal 146px / 100px / 140px at
+   exactly 1134px, so nothing jumps as the breakpoint is crossed. */
+@media (max-width: 1134px) {
+  .pd-dialog { padding-inline: 12.88vw; }
+  .pd-top { gap: 8.82vw; }
+  .pd-order-grid { gap: 12.35vw; }
 }
 
 @media (max-width: 900px) {
@@ -774,8 +780,7 @@ html.pd-lock body { position: fixed; left: 0; right: 0; width: 100%; }
 
   .pd-dialog {
     zoom: 1;
-    width: 100%;
-    max-width: 560px;
+    max-width: none;             /* full-bleed sheet, like the rest of the mobile layout */
     padding: 64px var(--pad) 48px;
   }
 
