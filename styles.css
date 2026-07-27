@@ -7,6 +7,7 @@
   --dark: #1f1f1f;
   --cream: #fffdf4;
   --hero-grey: #b8b8b8;
+  --stroke: #f7f6f1;             /* hero stroke + hero wordmark (Frame 12) */
   --muted-white: rgba(255, 255, 255, 0.5);
   --line-grey: #9e9e9e;
 
@@ -110,25 +111,43 @@ ul { list-style: none; }
 
 .hero {
   position: relative;
-  margin: 60px var(--pad) 0;
+  margin: 49px var(--pad) 0;
   aspect-ratio: 1462 / 784;
   overflow: hidden;
 }
 
-.hero img {
+.hero-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: 50% 50%;
 }
 
+/* 16px inset stroke around the hero (Frame 12) */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: clamp(7px, 1.06vw, 16px) solid var(--stroke);
+  pointer-events: none;
+}
+
+/* Oversized SILA wordmark sitting inside the hero image */
+.hero-wordmark {
+  position: absolute;
+  left: 3.28%;
+  bottom: 5.62%;
+  width: 93.4%;
+  height: auto;
+  aspect-ratio: 1365.4 / 280;    /* keeps the wordmark undistorted at any width */
+}
+
 .hero-text {
   position: absolute;
-  left: clamp(20px, 3.35%, 49px);
-  top: clamp(20px, 6.25%, 49px);
-  max-width: 1020px;
-  padding-right: 20px;
-  font-size: clamp(17px, 1.98vw, 30px);
+  left: 3.28%;
+  top: 5.75%;
+  max-width: 82%;
+  font-size: clamp(17px, 2.38vw, 36px);
   color: var(--hero-grey);
 }
 
