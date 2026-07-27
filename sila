@@ -1,0 +1,1741 @@
+{
+  "version": "2.14",
+  "children": [
+    {
+      "type": "frame",
+      "id": "dchXh",
+      "x": -4829,
+      "y": -3411,
+      "name": "Frame 12",
+      "width": 1512,
+      "height": 7070,
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "FtxNv",
+          "x": 0,
+          "y": 0,
+          "name": "Frame 9",
+          "width": 1512,
+          "height": 7070,
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Nt6J5",
+              "x": 0,
+              "y": 0,
+              "name": "MacBook Pro 14\" - 4",
+              "clip": true,
+              "width": 1512,
+              "height": 7070,
+              "fill": "#ffffffff",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "AgtpX",
+                  "x": 0,
+                  "y": 2533,
+                  "name": "Rectangle 112",
+                  "fill": "#fffdf4ff",
+                  "width": 1512,
+                  "height": 2505
+                },
+                {
+                  "type": "group",
+                  "id": "pxxpR",
+                  "x": 366,
+                  "y": 2623,
+                  "name": "Group 113",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "o4tPP",
+                      "x": 0,
+                      "y": 7,
+                      "name": "location / Bali",
+                      "fill": "#1f1f1fff",
+                      "content": "location / Bali",
+                      "fontFamily": "Belleza",
+                      "fontSize": 26,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "T3HANx",
+                      "x": 308,
+                      "y": 7,
+                      "name": "founded / 2025",
+                      "fill": "#1f1f1fff",
+                      "content": "founded / 2025",
+                      "fontFamily": "Belleza",
+                      "fontSize": 26,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Px7Lc",
+                      "x": 608,
+                      "y": 0,
+                      "name": "founders / lovers",
+                      "fill": "#1f1f1fff",
+                      "content": "founders / lovers",
+                      "fontFamily": "Belleza",
+                      "fontSize": 26,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "z7rHev",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Frame 6",
+                  "clip": true,
+                  "width": 1512,
+                  "height": 2533,
+                  "fill": "#1f1f1fff",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "group",
+                      "id": "MHQ5p",
+                      "x": 726,
+                      "y": 41,
+                      "name": "Group 5",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "uZ8fd",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Ellipse 3",
+                          "sweepAngle": -360.00001001791264,
+                          "fill": "#1f1f1fff",
+                          "width": 60,
+                          "height": 60
+                        },
+                        {
+                          "type": "path",
+                          "id": "u1Hcu",
+                          "x": 12.605273246765137,
+                          "y": 15.126953125,
+                          "name": "Vector",
+                          "geometry": "M165.54185 4.13857c19.31322-2.75905 131.51381-4.13857 336.6018-4.13857 276.82278 0 423.9711 1.83936 441.44497 5.51807 28.50995 5.5181 53.34107 18.85343 74.49368 40.00601 22.0722 21.15257 36.3272 45.98383 42.765 74.49377 4.5984 25.75095 6.8976 63.45774 6.8976 113.1203l0 86.90949-807.01648 0-20.69271 12.41559c-22.07225 12.87548-33.10839 25.29116-33.10839 37.24694 0 2.75904 1.37952 5.0582 4.13854 6.89756 3.67871 3.67871 123.23669 28.05017 358.67401 73.11435 198.65027 37.70675 316.36883 61.61837 353.15588 71.73483 36.78711 10.11645 67.13648 28.05011 91.04805 53.80102 34.0281 37.70679 51.0422 81.85126 51.0422 132.43348 0 37.70678-10.1165 73.11438-30.3494 106.22277-19.3132 33.1084-46.90363 57.93958-82.771 74.49378l-28.96985 13.79516c-89.20868 0.91968-223.4815 1.37952-402.81848 1.37952-178.41733 0-312.69012 0.45984-402.81845 1.37952l-33.10838-16.5542c-55.18062-27.59033-82.77093-73.11432-82.77092-136.57202 0-68.97577 30.34934-118.63837 91.04802-148.98767l24.83128-11.03614 347.63788-2.75903c172.89926-1.83935 274.98343-3.21887 306.25247-4.13855 31.26898-0.91968 50.12238-4.13855 56.56006-9.65662 21.15259-14.71484 31.72888-28.05004 31.72888-40.00585 0-1.83936-0.45984-3.21888-1.37952-4.13855-2.75897-2.75904-121.39734-26.67066-355.91494-71.73484-230.83893-43.22482-358.21421-68.97577-382.12581-77.25287-19.31322-7.35739-40.00594-22.07223-62.07819-44.1445-38.62643-40.46579-57.93965-85.9898-57.93965-136.57205 0-32.18866 8.27709-64.83717 24.83128-97.94556 12.87548-23.91162 32.18869-45.06418 57.93965-63.4577 26.67064-19.31324 54.26093-31.26906 82.77092-35.86744z",
+                          "fill": "#fffdf4ff",
+                          "width": 34.7899169921875,
+                          "height": 29.74789810180664
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "id": "E5xwC",
+                      "x": 0,
+                      "y": 976,
+                      "name": "Group 108",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "id": "EP9Y5",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Rectangle 4",
+                          "width": 1512,
+                          "height": 526
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "id": "h3hZN",
+                      "x": 25,
+                      "y": 152.89956410974264,
+                      "name": "Group 109",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "id": "My2NY",
+                          "x": 0,
+                          "y": 0,
+                          "name": "IMG_4265 1",
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "mode": "stretch"
+                          },
+                          "width": 1461.9998779296875,
+                          "height": 784.1995239257812
+                        },
+                        {
+                          "type": "text",
+                          "id": "lGnRK",
+                          "x": 49.25829315185547,
+                          "y": 49.25927225500345,
+                          "name": "‘Sila’ is a jewellery brand originated from Bali. These pieces are not meant only for a special occasion, they simply live through every day with you. Trust yourself.",
+                          "fill": "#b8b8b8ff",
+                          "textGrowth": "fixed-width-height",
+                          "width": 717.20751953125,
+                          "height": 137.92453002929688,
+                          "content": "‘Sila’ is a jewellery brand originated from Bali. These pieces are not meant only for a special occasion, they simply live through every day with you.\n\nTrust yourself.",
+                          "fontFamily": "Archivo",
+                          "fontSize": 26,
+                          "fontWeight": "300"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "id": "p4g2II",
+                      "x": 622.775390625,
+                      "y": 1400.44921875,
+                      "name": "Group 110",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ZIFxL",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Lattice Ring",
+                          "rotation": -9.213866198408551e-15,
+                          "fill": "#ffffffff",
+                          "textGrowth": "fixed-width-height",
+                          "width": 345.4693908691406,
+                          "height": 36.61224365234375,
+                          "content": "Lattice Ring",
+                          "fontFamily": "Archivo",
+                          "fontSize": 36,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1.8
+                        },
+                        {
+                          "type": "text",
+                          "id": "B7KJ0",
+                          "x": 0,
+                          "y": 52.611328125,
+                          "name": "2 500 000 IDR",
+                          "rotation": -9.213866198408551e-15,
+                          "fill": "#ffffffff",
+                          "textGrowth": "fixed-width-height",
+                          "width": 373.6326599121094,
+                          "height": 28.163265228271484,
+                          "content": "2 500 000 IDR",
+                          "fontFamily": "Archivo",
+                          "fontSize": 22,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1.1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "id": "Hbuns",
+                      "x": 132.775390625,
+                      "y": 1400.44921875,
+                      "name": "Group 111",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "HWcLo",
+                          "x": 0,
+                          "y": 52.611328125,
+                          "name": "2 300 000 IDR",
+                          "rotation": -9.213866198408551e-15,
+                          "fill": "#ffffffff",
+                          "textGrowth": "fixed-width-height",
+                          "width": 339.83673095703125,
+                          "height": 28.163265228271484,
+                          "content": "2 300 000 IDR",
+                          "fontFamily": "Archivo",
+                          "fontSize": 22,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1.1
+                        },
+                        {
+                          "type": "text",
+                          "id": "ZbMmU",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Rhythm Ring",
+                          "rotation": -9.213866198408551e-15,
+                          "fill": "#ffffffff",
+                          "textGrowth": "fixed-width-height",
+                          "width": 322,
+                          "height": 36.61224365234375,
+                          "content": "Rhythm Ring",
+                          "fontFamily": "Archivo",
+                          "fontSize": 36,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1.8
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "id": "VGLMh",
+                      "x": 1110.775390625,
+                      "y": 1400.44921875,
+                      "name": "Group 112",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "YDZ0H",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Signet Ring",
+                          "rotation": -9.213866198408551e-15,
+                          "fill": "#ffffffff",
+                          "textGrowth": "fixed-width-height",
+                          "width": 298.5306091308594,
+                          "height": 36.61224365234375,
+                          "content": "Signet Ring",
+                          "fontFamily": "Archivo",
+                          "fontSize": 36,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1.8
+                        },
+                        {
+                          "type": "text",
+                          "id": "s9Aro",
+                          "x": 0,
+                          "y": 52.611328125,
+                          "name": "3 000 000 IDR",
+                          "rotation": -9.213866198408551e-15,
+                          "fill": "#ffffffff",
+                          "textGrowth": "fixed-width-height",
+                          "width": 298.5306091308594,
+                          "height": 28.163265228271484,
+                          "content": "3 000 000 IDR",
+                          "fontFamily": "Archivo",
+                          "fontSize": 22,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1.1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "Z7nJI",
+                      "x": 133,
+                      "y": 1519,
+                      "name": "A silver ring shaped by repeated vertical forms, creating a clean architectural rhythm. Minimal from afar, detailed up close. Designed  to become a daily piece with character — structured, calm, and strong.",
+                      "fill": "#ffffff80",
+                      "textGrowth": "fixed-width",
+                      "width": 290,
+                      "content": "A silver ring shaped by repeated vertical forms, creating a clean architectural rhythm. Minimal from afar, detailed up close. Designed  to become a daily piece with character — structured, calm, and strong.",
+                      "fontFamily": "Archivo",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "dwKcw",
+                      "x": 623,
+                      "y": 1519,
+                      "name": "A sculptural silver ring built from small rounded elements, creating a soft open structure around the finger. Light-catching, tactile, and bold without feeling heavy. A piece for everyday presence — noticeable, but never loud.",
+                      "fill": "#ffffff80",
+                      "textGrowth": "fixed-width",
+                      "width": 290,
+                      "content": "A sculptural silver ring built from small rounded elements, creating a soft open structure around the finger. Light-catching, tactile, and bold without feeling heavy. A piece for everyday presence — noticeable, but never loud.",
+                      "fontFamily": "Archivo",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "zULT8",
+                      "x": 1111,
+                      "y": 1519,
+                      "name": "A smooth silver signet ring with a warm zircon stone at the center. Its rounded form feels calm and grounded, while the stone adds a quiet point of light. Inside, ttwo small stones symbolize a connection with yourself.",
+                      "fill": "#ffffff80",
+                      "textGrowth": "fixed-width",
+                      "width": 290,
+                      "content": "A smooth silver signet ring with a warm zircon stone at the center. Its rounded form feels calm and grounded, while the stone adds a quiet point of light. Inside, ttwo small stones symbolize a connection with yourself.",
+                      "fontFamily": "Archivo",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "line",
+                      "id": "o64ir",
+                      "x": 133,
+                      "y": 1497,
+                      "name": "Line 1",
+                      "width": 290,
+                      "height": 0,
+                      "stroke": "#9e9e9eff",
+                      "strokeWidth": 1
+                    },
+                    {
+                      "type": "line",
+                      "id": "zWKh1",
+                      "x": 623,
+                      "y": 1497,
+                      "name": "Line 2",
+                      "width": 290,
+                      "height": 0,
+                      "stroke": "#9e9e9eff",
+                      "strokeWidth": 1
+                    },
+                    {
+                      "type": "line",
+                      "id": "wUP4m",
+                      "x": 1111,
+                      "y": 1497,
+                      "name": "Line 3",
+                      "width": 290,
+                      "height": 0,
+                      "stroke": "#9e9e9eff",
+                      "strokeWidth": 1
+                    },
+                    {
+                      "type": "text",
+                      "id": "BXoFv",
+                      "x": 23,
+                      "y": 61,
+                      "name": "SILA",
+                      "fill": "#ffffffff",
+                      "textGrowth": "fixed-width-height",
+                      "width": 322,
+                      "height": 36.61224365234375,
+                      "content": "SILA",
+                      "fontFamily": "Archivo",
+                      "fontSize": 22,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.1
+                    },
+                    {
+                      "type": "text",
+                      "id": "AZFia",
+                      "x": 1233,
+                      "y": 56,
+                      "name": "rings",
+                      "fill": "#ffffffff",
+                      "content": "rings",
+                      "fontFamily": "Archivo",
+                      "fontSize": 22,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.1
+                    },
+                    {
+                      "type": "text",
+                      "id": "wcuAS",
+                      "x": 1371,
+                      "y": 56,
+                      "name": "delivery",
+                      "fill": "#ffffffff",
+                      "content": "delivery",
+                      "fontFamily": "Archivo",
+                      "fontSize": 22,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.1
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "lOWHm",
+                      "x": 527,
+                      "y": 959,
+                      "name": "ring1-3 1",
+                      "fill": [
+                        {
+                          "type": "image",
+                          "enabled": false,
+                          "mode": "fill"
+                        },
+                        {
+                          "type": "image",
+                          "enabled": true,
+                          "mode": "fill"
+                        }
+                      ],
+                      "width": 460,
+                      "height": 460
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "YKmmC",
+                      "x": 37,
+                      "y": 959,
+                      "name": "ring3-2 1",
+                      "fill": [
+                        {
+                          "type": "image",
+                          "enabled": false,
+                          "mode": "fill"
+                        },
+                        {
+                          "type": "image",
+                          "enabled": true,
+                          "mode": "fill"
+                        }
+                      ],
+                      "width": 460,
+                      "height": 460
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "g3q07B",
+                      "x": 1015,
+                      "y": 959,
+                      "name": "ring2-3_black_stone 1",
+                      "fill": [
+                        {
+                          "type": "image",
+                          "enabled": false,
+                          "mode": "fill"
+                        },
+                        {
+                          "type": "image",
+                          "enabled": true,
+                          "mode": "fill"
+                        }
+                      ],
+                      "width": 460,
+                      "height": 460
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "FjGAK",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Frame 7",
+                  "clip": true,
+                  "width": 1512,
+                  "height": 2533,
+                  "fill": "#1f1f1fff",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "group",
+                      "id": "XBojq",
+                      "x": 0,
+                      "y": 976,
+                      "name": "Group 108",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "id": "A47wR",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Rectangle 4",
+                          "width": 1512,
+                          "height": 526
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "id": "FQaFi",
+                      "x": 622.775390625,
+                      "y": 1400.44921875,
+                      "name": "Group 110",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Q1fsW",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Lattice Ring",
+                          "rotation": -9.213866198408551e-15,
+                          "fill": "#fffdf4ff",
+                          "textGrowth": "fixed-width-height",
+                          "width": 345.4693908691406,
+                          "height": 36.61224365234375,
+                          "content": "Lattice Ring",
+                          "fontFamily": "Archivo",
+                          "fontSize": 36,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1.8
+                        },
+                        {
+                          "type": "text",
+                          "id": "ePGhY",
+                          "x": 0,
+                          "y": 52.611328125,
+                          "name": "2 500 000 IDR",
+                          "rotation": -9.213866198408551e-15,
+                          "fill": "#fffdf4ff",
+                          "textGrowth": "fixed-width-height",
+                          "width": 373.6326599121094,
+                          "height": 28.163265228271484,
+                          "content": "2 500 000 IDR",
+                          "fontFamily": "Archivo",
+                          "fontSize": 22,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1.1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "id": "nQKnr",
+                      "x": 132.775390625,
+                      "y": 1400.44921875,
+                      "name": "Group 111",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "h65ZRW",
+                          "x": 0,
+                          "y": 52.611328125,
+                          "name": "2 300 000 IDR",
+                          "rotation": -9.213866198408551e-15,
+                          "fill": "#fffdf4ff",
+                          "textGrowth": "fixed-width-height",
+                          "width": 339.83673095703125,
+                          "height": 28.163265228271484,
+                          "content": "2 300 000 IDR",
+                          "fontFamily": "Archivo",
+                          "fontSize": 22,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1.1
+                        },
+                        {
+                          "type": "text",
+                          "id": "lmxLl",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Rhythm Ring",
+                          "rotation": -9.213866198408551e-15,
+                          "fill": "#fffdf4ff",
+                          "textGrowth": "fixed-width-height",
+                          "width": 322,
+                          "height": 36.61224365234375,
+                          "content": "Rhythm Ring",
+                          "fontFamily": "Archivo",
+                          "fontSize": 36,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1.8
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "id": "yCY3f",
+                      "x": 1110.775390625,
+                      "y": 1400.44921875,
+                      "name": "Group 112",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "spcT2",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Signet Ring",
+                          "rotation": -9.213866198408551e-15,
+                          "fill": "#fffdf4ff",
+                          "textGrowth": "fixed-width-height",
+                          "width": 298.5306091308594,
+                          "height": 36.61224365234375,
+                          "content": "Signet Ring",
+                          "fontFamily": "Archivo",
+                          "fontSize": 36,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1.8
+                        },
+                        {
+                          "type": "text",
+                          "id": "cvHJg",
+                          "x": 0,
+                          "y": 52.611328125,
+                          "name": "3 000 000 IDR",
+                          "rotation": -9.213866198408551e-15,
+                          "fill": "#fffdf4ff",
+                          "textGrowth": "fixed-width-height",
+                          "width": 298.5306091308594,
+                          "height": 28.163265228271484,
+                          "content": "3 000 000 IDR",
+                          "fontFamily": "Archivo",
+                          "fontSize": 22,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1.1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "dWWvh",
+                      "x": 133,
+                      "y": 1519,
+                      "name": "A silver ring shaped by repeated vertical forms, creating a clean architectural rhythm. Minimal from afar, detailed up close. Designed  to become a daily piece with character — structured, calm, and strong.",
+                      "fill": "#ffffff80",
+                      "textGrowth": "fixed-width",
+                      "width": 290,
+                      "content": "A silver ring shaped by repeated vertical forms, creating a clean architectural rhythm. Minimal from afar, detailed up close. Designed  to become a daily piece with character — structured, calm, and strong.",
+                      "fontFamily": "Belleza",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "U7Clp",
+                      "x": 623,
+                      "y": 1519,
+                      "name": "A sculptural silver ring built from small rounded elements, creating a soft open structure around the finger. Light-catching, tactile, and bold without feeling heavy. A piece for everyday presence — noticeable, but never loud.",
+                      "fill": "#ffffff80",
+                      "textGrowth": "fixed-width",
+                      "width": 290,
+                      "content": "A sculptural silver ring built from small rounded elements, creating a soft open structure around the finger. Light-catching, tactile, and bold without feeling heavy. A piece for everyday presence — noticeable, but never loud.",
+                      "fontFamily": "Belleza",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "damZo",
+                      "x": 1111,
+                      "y": 1519,
+                      "name": "A smooth silver signet ring with a warm zircon stone at the center. Its rounded form feels calm and grounded, while the stone adds a quiet point of light. Inside, ttwo small stones symbolize a connection with yourself.",
+                      "fill": "#ffffff80",
+                      "textGrowth": "fixed-width",
+                      "width": 290,
+                      "content": "A smooth silver signet ring with a warm zircon stone at the center. Its rounded form feels calm and grounded, while the stone adds a quiet point of light. Inside, ttwo small stones symbolize a connection with yourself.",
+                      "fontFamily": "Belleza",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "line",
+                      "id": "dr5UY",
+                      "x": 133,
+                      "y": 1497,
+                      "name": "Line 1",
+                      "width": 290,
+                      "height": 0,
+                      "stroke": "#9e9e9eff",
+                      "strokeWidth": 1
+                    },
+                    {
+                      "type": "line",
+                      "id": "UaS9A",
+                      "x": 623,
+                      "y": 1497,
+                      "name": "Line 2",
+                      "width": 290,
+                      "height": 0,
+                      "stroke": "#9e9e9eff",
+                      "strokeWidth": 1
+                    },
+                    {
+                      "type": "line",
+                      "id": "KquYM",
+                      "x": 1111,
+                      "y": 1497,
+                      "name": "Line 3",
+                      "width": 290,
+                      "height": 0,
+                      "stroke": "#9e9e9eff",
+                      "strokeWidth": 1
+                    },
+                    {
+                      "type": "text",
+                      "id": "Tr7mR",
+                      "x": 23,
+                      "y": 61,
+                      "name": "SILA",
+                      "fill": "#fffdf4ff",
+                      "textGrowth": "fixed-width-height",
+                      "width": 322,
+                      "height": 36.61224365234375,
+                      "content": "SILA",
+                      "fontFamily": "Archivo",
+                      "fontSize": 22,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.1
+                    },
+                    {
+                      "type": "text",
+                      "id": "V9gRsn",
+                      "x": 1233,
+                      "y": 56,
+                      "name": "rings",
+                      "fill": "#fffdf4ff",
+                      "content": "rings",
+                      "fontFamily": "Archivo",
+                      "fontSize": 22,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.1
+                    },
+                    {
+                      "type": "text",
+                      "id": "WXDsD",
+                      "x": 1371,
+                      "y": 56,
+                      "name": "delivery",
+                      "fill": "#fffdf4ff",
+                      "content": "delivery",
+                      "fontFamily": "Archivo",
+                      "fontSize": 22,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.1
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "KvIz7",
+                      "x": 527,
+                      "y": 959,
+                      "name": "ring1-3 1",
+                      "fill": [
+                        {
+                          "type": "image",
+                          "enabled": false,
+                          "mode": "fill"
+                        },
+                        {
+                          "type": "image",
+                          "enabled": true,
+                          "mode": "fill"
+                        }
+                      ],
+                      "width": 460,
+                      "height": 460
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "hhAnM",
+                      "x": 37,
+                      "y": 959,
+                      "name": "ring3-2 1",
+                      "fill": [
+                        {
+                          "type": "image",
+                          "enabled": false,
+                          "mode": "fill"
+                        },
+                        {
+                          "type": "image",
+                          "enabled": true,
+                          "mode": "fill"
+                        }
+                      ],
+                      "width": 460,
+                      "height": 460
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "SD6dK",
+                      "x": 1015,
+                      "y": 959,
+                      "name": "ring2-3_black_stone 1",
+                      "fill": [
+                        {
+                          "type": "image",
+                          "enabled": false,
+                          "mode": "fill"
+                        },
+                        {
+                          "type": "image",
+                          "enabled": true,
+                          "mode": "fill"
+                        }
+                      ],
+                      "width": 460,
+                      "height": 460
+                    }
+                  ]
+                },
+                {
+                  "type": "rectangle",
+                  "id": "igRg7",
+                  "x": 25,
+                  "y": 1786,
+                  "name": "hf_20260710_163427_16eb9a14-10d8-489b-aea7-264a4f2fc336 2",
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "mode": "stretch"
+                  },
+                  "width": 718,
+                  "height": 718
+                },
+                {
+                  "type": "rectangle",
+                  "id": "k7szC",
+                  "x": 769,
+                  "y": 1786,
+                  "name": "ring_black_stone_v1 2",
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "mode": "stretch"
+                  },
+                  "width": 718,
+                  "height": 718
+                },
+                {
+                  "type": "line",
+                  "id": "MGkLY",
+                  "x": 769,
+                  "y": 2750,
+                  "name": "Line 4",
+                  "rotation": 0.000005008956130975318,
+                  "width": 718,
+                  "height": 0,
+                  "stroke": "#1f1f1fff",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "group",
+                  "id": "G6ah8",
+                  "x": 25,
+                  "y": 2750.2124632887135,
+                  "name": "Group 83",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "EvJ5z",
+                      "x": 0,
+                      "y": 0,
+                      "name": "IMG_4265 1",
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "mode": "stretch"
+                      },
+                      "width": 718,
+                      "height": 807.5750732421875
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "jg7RT",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Rectangle 105",
+                      "fill": "#dae1f1ff",
+                      "width": 717.3001708984375,
+                      "height": 807.5750732421875
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "R1P40",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Rectangle 106",
+                      "fill": "#000000ff",
+                      "width": 717.3001708984375,
+                      "height": 807.5750732421875
+                    }
+                  ]
+                },
+                {
+                  "type": "rectangle",
+                  "id": "XNGfp",
+                  "x": 25,
+                  "y": 3648,
+                  "name": "hf_20260710_172416_98547852-2121-451c-be7b-1f711c05724a 1",
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "mode": "stretch"
+                  },
+                  "width": 470,
+                  "height": 470
+                },
+                {
+                  "type": "rectangle",
+                  "id": "Kxi3V",
+                  "x": 520,
+                  "y": 3648,
+                  "name": "hf_20260710_154853_574511e4-1ed7-4521-ae11-8b0c5be1c6a1 1",
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "mode": "stretch"
+                  },
+                  "width": 472,
+                  "height": 470
+                },
+                {
+                  "type": "rectangle",
+                  "id": "r9da7e",
+                  "x": 1017,
+                  "y": 3648,
+                  "name": "hf_20260710_165547_d00eafdd-34ad-4839-8064-aa762d1b8772 1",
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "mode": "stretch"
+                  },
+                  "width": 471,
+                  "height": 470
+                },
+                {
+                  "type": "frame",
+                  "id": "eVoIY",
+                  "x": 520,
+                  "y": 4268,
+                  "name": " Who we are",
+                  "width": 250,
+                  "height": 250,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "AGRBa",
+                      "x": -0.00019450571562629193,
+                      "y": 0,
+                      "name": "image 78",
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "mode": "stretch"
+                      },
+                      "width": 250,
+                      "height": 250
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "MLuqU",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Rectangle 65",
+                      "fill": "#000000ff",
+                      "width": 250,
+                      "height": 250
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "jUgue",
+                  "x": 27,
+                  "y": 4268,
+                  "name": "material/ silver",
+                  "fill": "#1f1f1fff",
+                  "content": "material/\nsilver",
+                  "fontFamily": "Belleza",
+                  "fontSize": 26,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "trqke",
+                  "x": 815,
+                  "y": 4268,
+                  "name": "Our jewellery is made of high quality silver and we always use natural gemstones. The brand’s symbol has two hidden stones that represent the connection to your authentic self.",
+                  "fill": "#1f1f1fff",
+                  "textGrowth": "fixed-width",
+                  "width": 506,
+                  "content": "Our jewellery is made of high quality silver and we always use natural gemstones.\n\nThe brand’s symbol has two hidden stones that represent the connection to your authentic self.",
+                  "fontFamily": "Belleza",
+                  "fontSize": 26,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "line",
+                  "id": "Du1Dr",
+                  "x": 25,
+                  "y": 4581,
+                  "name": "Line 6",
+                  "rotation": 0.000005008956130975318,
+                  "width": 745,
+                  "height": 0,
+                  "stroke": "#1f1f1fff",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "text",
+                  "id": "H5fBRV",
+                  "x": 27,
+                  "y": 4638,
+                  "name": "location/ Bali",
+                  "fill": "#1f1f1fff",
+                  "textGrowth": "fixed-width",
+                  "width": 92,
+                  "content": "location/\nBali",
+                  "fontFamily": "Belleza",
+                  "fontSize": 26,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "group",
+                  "id": "O43rPF",
+                  "x": 520.999605254794,
+                  "y": 4638,
+                  "name": "Group 39",
+                  "children": [
+                    {
+                      "type": "group",
+                      "id": "nJ8CS",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Group 38",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "id": "smcrE",
+                          "x": 0.0001973726029973477,
+                          "y": 0,
+                          "name": "Снимок экрана 2026-07-06 в 21.21.13 1",
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "mode": "stretch"
+                          },
+                          "width": 250,
+                          "height": 250
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "w8XQJz",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Rectangle 63",
+                          "fill": "#dae1f1ff",
+                          "width": 250,
+                          "height": 250
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "HkPgS",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Rectangle 64",
+                          "fill": "#dae1f1ff",
+                          "width": 250,
+                          "height": 250
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "PUnb1",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Rectangle 65",
+                          "fill": "#000000ff",
+                          "width": 250,
+                          "height": 250
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "wqoVG",
+                  "x": 815,
+                  "y": 4638,
+                  "name": "For us, jewellery is not merely a visual addition to your look, but rather, a personal item that helps you to tap into your inner strength and beauty, building the connection between your inner ’self’ and the outside world.",
+                  "fill": "#1f1f1fff",
+                  "textGrowth": "fixed-width",
+                  "width": 479,
+                  "content": "For us, jewellery is not merely a visual addition to your look, but rather, a personal item that helps you to tap into your inner strength and beauty, building the connection between your inner ’self’ and the outside world.",
+                  "fontFamily": "Belleza",
+                  "fontSize": 26,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "eXOgr",
+                  "x": 0,
+                  "y": 5038,
+                  "name": "Frame 8",
+                  "clip": true,
+                  "width": 1512,
+                  "height": 2042,
+                  "fill": "#1f1f1fff",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "xpkrc",
+                      "x": 133,
+                      "y": 126,
+                      "name": "For us, jewellery is not merely a visual addition to your look, but rather, a personal item that helps you to tap into your inner strength and beauty, building the connection between your inner ’self’ and the outside world",
+                      "fill": "#fffdf4ff",
+                      "textGrowth": "fixed-width",
+                      "width": 1276,
+                      "content": "For us, jewellery is not merely a visual addition to your look, but rather, a personal item that helps you to tap into your inner strength and beauty, building the connection between your inner ’self’ and the outside world",
+                      "fontFamily": "Belleza",
+                      "fontSize": 26,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "group",
+                      "id": "v6Qyfz",
+                      "x": 0,
+                      "y": 234,
+                      "name": "Group 115",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "id": "q9r9aS",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Rectangle 4",
+                          "width": 1512,
+                          "height": 526
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "zkiO6",
+                      "x": 25,
+                      "y": 892,
+                      "name": "ChatGPT Image Jul 15, 2026, 02_26_02 PM 1",
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "mode": "stretch"
+                      },
+                      "width": 1462,
+                      "height": 410
+                    },
+                    {
+                      "type": "text",
+                      "id": "ALzRl",
+                      "x": 31,
+                      "y": 1367,
+                      "name": "Payment  We keep payment simple — and flexible. You can pay by card transfer, cryptocurrency, Wise, or PayPal. Wherever you are in the world, there's a way that works for you. If none of these feel convenient, just write to us. We'll find an option that suits you — we always do.",
+                      "fill": "#fffdf4ff",
+                      "textGrowth": "fixed-width",
+                      "width": 672,
+                      "content": "Payment \nWe keep payment simple — and flexible.\nYou can pay by card transfer, cryptocurrency, Wise, or PayPal. Wherever you are in the world, there's a way that works for you.\nIf none of these feel convenient, just write to us. We'll find an option that suits you — we always do.",
+                      "fontFamily": "Belleza",
+                      "fontSize": 26,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "k0KkNQ",
+                      "x": 775,
+                      "y": 1367,
+                      "name": "Delivery  Anywhere in Bali, delivery is on us — always free. Your piece is wrapped with care and sent on its way to you, whether you're in Canggu, Ubud, Uluwatu, or somewhere quieter down the coast. Just tell us where you are, and we'll bring it to you",
+                      "fill": "#fffdf4ff",
+                      "textGrowth": "fixed-width",
+                      "width": 672,
+                      "content": "Delivery \nAnywhere in Bali, delivery is on us — always free.\nYour piece is wrapped with care and sent on its way to you, whether you're in Canggu, Ubud, Uluwatu, or somewhere quieter down the coast. Just tell us where you are, and we'll bring it to you",
+                      "fontFamily": "Belleza",
+                      "fontSize": 30,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "group",
+                      "id": "U2bDuK",
+                      "x": 24.999999999996362,
+                      "y": 1626.9999999999927,
+                      "name": "Group 68",
+                      "children": [
+                        {
+                          "type": "group",
+                          "id": "tkliK",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Group 119",
+                          "children": [
+                            {
+                              "type": "path",
+                              "id": "txL68",
+                              "x": 367.36694335937864,
+                              "y": 3.044999122626905,
+                              "name": "Vector",
+                              "geometry": "M171.05994 8.27707c22.07223-5.51805 144.38922-8.27707 366.95105-8.27707l91.04797 0c135.1925 0 217.04382 1.37949 245.55383 4.13849 29.42969 1.83939 55.18054 9.19682 77.25281 22.0723 78.1726 45.06413 120.0178 119.09811 125.5359 222.10194l4.1387 56.56013-245.55387 0c-164.62219 0-250.61194 1.83936-257.96936 5.51807-12.87549 5.51807-20.69275 16.55423-23.45178 33.1084-2.75904 15.63452-4.13855 55.18066-4.13855 118.63837 0 57.01995 0.45983 91.96765 1.37951 104.84313 0.91968 12.87549 3.67871 21.61243 8.2771 26.21082 4.59839 5.51807 19.31317 9.19678 44.14441 11.03613 24.8313 0.91968 98.40552 1.37952 220.72254 1.37952l256.59 0-4.1387 57.93964c-1.8394 41.38543-5.5181 69.89544-11.0361 85.52996-29.4297 84.61029-86.90953 137.4917-172.4395 158.64429-22.99188 5.51807-142.09002 8.2771-357.29443 8.2771-216.12408 0-336.6017-3.67871-361.43298-11.03613-83.69061-22.07227-138.87124-74.49384-165.54187-157.26477-6.43774-19.31323-9.65662-47.82324-9.65662-85.52997l0-56.56012 498.005 0c6.43775-5.51807 16.09437-14.71484 28.96985-27.59033 0-26.67066-0.45984-66.67661-1.37951-120.01789-0.91968-54.26092-1.37952-95.18655-1.37952-122.77685-12.87549-10.11646-24.37146-20.23291-34.48791-30.34937l-489.72791 0 0-56.56013c0-38.62642 2.75904-66.21671 8.2771-82.77088 12.87548-38.62642 33.56814-71.73481 62.07812-99.32514 29.42966-28.51 62.99796-47.82321 100.70472-57.93964z",
+                              "fill": "#fffdf433",
+                              "width": 354.6988220214844,
+                              "height": 296.2861022949219
+                            },
+                            {
+                              "type": "path",
+                              "id": "rb3ba",
+                              "x": 0,
+                              "y": 3.044999122626905,
+                              "name": "Vector",
+                              "geometry": "M165.54185 4.13857c19.31322-2.75905 131.51381-4.13857 336.6018-4.13857 276.82278 0 423.9711 1.83936 441.44497 5.51807 28.50995 5.5181 53.34107 18.85343 74.49368 40.00601 22.0722 21.15257 36.3272 45.98383 42.765 74.49377 4.5984 25.75095 6.8976 63.45774 6.8976 113.1203l0 86.90949-807.01648 0-20.69271 12.41559c-22.07225 12.87548-33.10839 25.29116-33.10839 37.24694 0 2.75904 1.37952 5.0582 4.13854 6.89756 3.67871 3.67871 123.23669 28.05017 358.67401 73.11435 198.65027 37.70675 316.36883 61.61837 353.15588 71.73483 36.78711 10.11645 67.13648 28.05011 91.04805 53.80102 34.0281 37.70679 51.0422 81.85126 51.0422 132.43348 0 37.70678-10.1165 73.11438-30.3494 106.22277-19.3132 33.1084-46.90363 57.93958-82.771 74.49378l-28.96985 13.79516c-89.20868 0.91968-223.4815 1.37952-402.81848 1.37952-178.41733 0-312.69012 0.45984-402.81845 1.37952l-33.10838-16.5542c-55.18062-27.59033-82.77093-73.11432-82.77092-136.57202 0-68.97577 30.34934-118.63837 91.04802-148.98767l24.83128-11.03614 347.63788-2.75903c172.89926-1.83935 274.98343-3.21887 306.25247-4.13855 31.26898-0.91968 50.12238-4.13855 56.56006-9.65662 21.15259-14.71484 31.72888-28.05004 31.72888-40.00585 0-1.83936-0.45984-3.21888-1.37952-4.13855-2.75897-2.75904-121.39734-26.67066-355.91494-71.73484-230.83893-43.22482-358.21421-68.97577-382.12581-77.25287-19.31322-7.35739-40.00594-22.07223-62.07819-44.1445-38.62643-40.46579-57.93965-85.9898-57.93965-136.57205 0-32.18866 8.27709-64.83717 24.83128-97.94556 12.87548-23.91162 32.18869-45.06418 57.93965-63.4577 26.67064-19.31324 54.26093-31.26906 82.77092-35.86744z",
+                              "fill": "#fffdf433",
+                              "width": 349.7724914550781,
+                              "height": 296.2861022949219
+                            },
+                            {
+                              "type": "path",
+                              "id": "zR1Mo",
+                              "x": 1110.1163330078161,
+                              "y": 0,
+                              "name": "Vector",
+                              "geometry": "M784.94421 415.23416l0-231.7586-273.14404 0c-148.06799 0-237.27664 1.37953-267.62598 4.13858-30.34935 1.83932-59.31912 10.11644-86.90942 24.83129-17.47386 9.19677-35.86745 22.99192-55.18066 41.38547-19.31322 18.39353-34.02809 35.86737-44.14453 52.42157-21.15257 36.78711-31.72876 68.9758-31.72876 96.5661l0 12.41559 758.73339 0z m-569.73986-408.33651c22.99192-4.59843 141.63031-6.89765 355.91503-6.89765 212.44544 0.91972 328.32477 4.59843 347.63794 11.03614 57.9397 22.07224 101.16428 58.39948 129.67428 108.98171 13.7952 24.83129 22.0723 53.34128 24.8313 85.53 2.7591 31.269 4.1387 121.39734 4.1387 270.38504l0 278.66208-12.4158 30.34937c-26.6706 62.53802-70.35525 103.46362-131.05392 122.77685-18.39355 4.59839-47.36334 6.89758-86.90942 6.89758l-62.07825 0-1.37951-120.01782c-0.91968-58.85931-2.2992-94.72668-4.13855-107.60217-0.91968-12.87549-4.59833-26.21082-11.03601-40.00598-17.47394-36.78711-42.30524-62.99793-74.4939-78.63245l-31.72888-16.55408-303.49341 0c-202.32892 0-307.17212 2.75892-314.52954 8.27698-15.63451 10.11646-23.45166 57.01996-23.45166 140.71057 0 45.98389 2.2992 78.63245 6.89758 97.94568 5.51806 19.31323 16.55409 38.16651 33.10828 56.56006 24.83128 27.59033 55.64053 45.06421 92.42761 52.42163 9.19678 1.83936 13.79517 3.21887 13.79517 4.13855 0 1.83936-25.29119 2.75903-75.87342 2.75903l-91.04797 0 0-335.22229c0-223.4815 2.75904-346.25833 8.2771-368.33059 12.87548-51.50193 37.7067-95.18658 74.49377-131.05396 36.78708-36.7871 80.93157-61.15852 132.43348-73.11428z",
+                              "fill": "#fffdf433",
+                              "width": 351.88372802734375,
+                              "height": 295.5823669433594
+                            },
+                            {
+                              "type": "path",
+                              "id": "rdtOV",
+                              "x": 739.9348144531286,
+                              "y": 0,
+                              "name": "Vector",
+                              "geometry": "M0 377.98724l0-377.98724 133.813 0c72.6545 0 108.98174 1.37952 108.98174 4.13857-0.91968 0.91967-2.75906 1.3795-5.5181 1.3795-56.10029 8.2771-103.00381 30.80916-140.71055 67.5962-37.70676 36.7871-61.15852 82.77097-70.3553 137.95159-2.75903 19.31321-4.13854 61.61834-4.13854 126.9154l0 75.87335c1.83935 91.96772 4.13855 150.82703 6.89757 176.57801 3.67871 24.8313 12.87547 45.98382 27.59031 63.4577 11.03613 11.95581 22.53209 19.31323 34.48789 22.07227 25.75095 5.51806 133.813 8.2771 324.18614 8.2771l99.32504 0c219.8028 0 349.93708-0.91968 390.4029-2.75904 40.46582-2.75903 71.7348-11.49597 93.80707-26.21081 0.91967-0.91968 1.83933-1.83936 2.75903-2.75904 2.759-1.83935 10.1165-13.33532 22.0723-34.48791 12.8755-21.15259 24.8311-42.30512 35.8673-63.45764l16.5542-30.34937c1.8393 0 2.759 39.54608 2.759 118.63831 0 85.52997-3.6786 138.87121-11.036 160.0238-16.5542 41.38544-41.3855 71.27496-74.4939 89.66852-17.47388 10.11645-39.54614 16.5542-66.2168 19.31323-26.67059 2.75903-86.44958 4.13855-179.33697 4.13855-15.63446 0-47.82312-0.45984-96.56604-1.37952-48.74286 0-90.12836 0-124.15644 0l-387.6438-1.37951-28.96982-13.79517c-53.34126-24.8313-87.36931-62.99792-102.08414-114.49982-5.51806-20.23291-8.27709-155.88519-8.27709-406.95703z",
+                              "fill": "#fffdf433",
+                              "width": 352.5875549316406,
+                              "height": 299.8049621582031
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "QMvw6",
+                      "x": 708,
+                      "y": 1996,
+                      "name": "EST 2025",
+                      "fill": "#fffdf4ff",
+                      "content": "EST 2025",
+                      "fontFamily": "Belleza",
+                      "fontSize": 26,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "tDwYM",
+                      "x": 311,
+                      "y": 1996,
+                      "name": "INSTAGRAM",
+                      "fill": "#fffdf4ff",
+                      "content": "INSTAGRAM",
+                      "fontFamily": "Belleza",
+                      "fontSize": 26,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "oygMT",
+                      "x": 1076,
+                      "y": 1996,
+                      "name": "FACEBOOK",
+                      "fill": "#fffdf4ff",
+                      "content": "FACEBOOK",
+                      "fontFamily": "Belleza",
+                      "fontSize": 26,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "RFEbq",
+                      "x": 622.775390625,
+                      "y": 675.44921875,
+                      "name": "Lattice Ring",
+                      "rotation": -9.213866198408551e-15,
+                      "fill": "#fffdf4ff",
+                      "textGrowth": "fixed-width-height",
+                      "width": 345.4693908691406,
+                      "height": 36.61224365234375,
+                      "content": "Lattice Ring",
+                      "fontFamily": "Archivo",
+                      "fontSize": 36,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.8
+                    },
+                    {
+                      "type": "text",
+                      "id": "eOjsT",
+                      "x": 622.775390625,
+                      "y": 728.060546875,
+                      "name": "2 500 000 IDR",
+                      "rotation": -9.213866198408551e-15,
+                      "fill": "#fffdf4ff",
+                      "textGrowth": "fixed-width-height",
+                      "width": 373.6326599121094,
+                      "height": 28.163265228271484,
+                      "content": "2 500 000 IDR",
+                      "fontFamily": "Archivo",
+                      "fontSize": 22,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.1
+                    },
+                    {
+                      "type": "text",
+                      "id": "sW5rp",
+                      "x": 132.775390625,
+                      "y": 728.060546875,
+                      "name": "2 300 000 IDR",
+                      "rotation": -9.213866198408551e-15,
+                      "fill": "#fffdf4ff",
+                      "textGrowth": "fixed-width-height",
+                      "width": 339.83673095703125,
+                      "height": 28.163265228271484,
+                      "content": "2 300 000 IDR",
+                      "fontFamily": "Archivo",
+                      "fontSize": 22,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.1
+                    },
+                    {
+                      "type": "text",
+                      "id": "uS7LE",
+                      "x": 132.775390625,
+                      "y": 675.44921875,
+                      "name": "Rhythm Ring",
+                      "rotation": -9.213866198408551e-15,
+                      "fill": "#fffdf4ff",
+                      "textGrowth": "fixed-width-height",
+                      "width": 322,
+                      "height": 36.61224365234375,
+                      "content": "Rhythm Ring",
+                      "fontFamily": "Archivo",
+                      "fontSize": 36,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.8
+                    },
+                    {
+                      "type": "text",
+                      "id": "cqqql",
+                      "x": 1110.775390625,
+                      "y": 675.44921875,
+                      "name": "Signet Ring",
+                      "rotation": -9.213866198408551e-15,
+                      "fill": "#fffdf4ff",
+                      "textGrowth": "fixed-width-height",
+                      "width": 298.5306091308594,
+                      "height": 36.61224365234375,
+                      "content": "Signet Ring",
+                      "fontFamily": "Archivo",
+                      "fontSize": 36,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.8
+                    },
+                    {
+                      "type": "text",
+                      "id": "HOECt",
+                      "x": 1110.775390625,
+                      "y": 728.060546875,
+                      "name": "3 000 000 IDR",
+                      "rotation": -9.213866198408551e-15,
+                      "fill": "#fffdf4ff",
+                      "textGrowth": "fixed-width-height",
+                      "width": 298.5306091308594,
+                      "height": 28.163265228271484,
+                      "content": "3 000 000 IDR",
+                      "fontFamily": "Archivo",
+                      "fontSize": 22,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.1
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "xGYmo",
+                      "x": 527,
+                      "y": 234,
+                      "name": "ring1-3 1",
+                      "fill": [
+                        {
+                          "type": "image",
+                          "enabled": false,
+                          "mode": "fill"
+                        },
+                        {
+                          "type": "image",
+                          "enabled": true,
+                          "mode": "fill"
+                        }
+                      ],
+                      "width": 460,
+                      "height": 460
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "R0HO3",
+                      "x": 37,
+                      "y": 234,
+                      "name": "ring3-2 1",
+                      "fill": [
+                        {
+                          "type": "image",
+                          "enabled": false,
+                          "mode": "fill"
+                        },
+                        {
+                          "type": "image",
+                          "enabled": true,
+                          "mode": "fill"
+                        }
+                      ],
+                      "width": 460,
+                      "height": 460
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "lXoH2",
+                      "x": 1015,
+                      "y": 234,
+                      "name": "ring2-3_black_stone 1",
+                      "fill": [
+                        {
+                          "type": "image",
+                          "enabled": false,
+                          "mode": "fill"
+                        },
+                        {
+                          "type": "image",
+                          "enabled": true,
+                          "mode": "fill"
+                        }
+                      ],
+                      "width": 460,
+                      "height": 460
+                    },
+                    {
+                      "type": "path",
+                      "id": "MIaxX",
+                      "x": 754.5829467773438,
+                      "y": 1425.9705810546875,
+                      "name": "Vector 3",
+                      "geometry": "M0 0l0.13617 0",
+                      "width": 0.1361686885356903,
+                      "height": 0,
+                      "stroke": "#fffdf4ff",
+                      "strokeWidth": 2,
+                      "strokeLinejoin": "round",
+                      "strokeLinecap": "round"
+                    },
+                    {
+                      "type": "group",
+                      "id": "cwqrv",
+                      "x": 21.8251953125,
+                      "y": 1398.24609375,
+                      "name": "Group 127",
+                      "children": [
+                        {
+                          "type": "path",
+                          "id": "W519N",
+                          "x": 0,
+                          "y": 2.498046875,
+                          "name": "Vector 1",
+                          "geometry": "M19.42722 0c-0.19228 0-3.04495 0-8.13724 1.85961-14.8739 5.43167-10.76998 25.58472-10.77395 29.86312-0.0064 6.88661 9.06036 9.36747 14.8027 10.97155 1.81459 0.22973 3.81475 0.2036 5.24276-0.14321 1.42801-0.34682 2.22327-1.01354 3.7393-2.63148",
+                          "width": 24.300790786743164,
+                          "height": 42.843570709228516,
+                          "stroke": "#f71e1eff",
+                          "strokeWidth": 2,
+                          "strokeLinejoin": "round",
+                          "strokeLinecap": "round"
+                        },
+                        {
+                          "type": "path",
+                          "id": "u4p3K",
+                          "x": 729.857421875,
+                          "y": 0,
+                          "name": "Vector 2",
+                          "geometry": "M34.52034 0c-3.53377 0-13.94703 0.65-21.57785 3.33363-8.45617 5.71959-10.76838 11.62352-12.07945 16.68226-0.51163 2.20794-0.71123 3.68664-0.86304 6.99618",
+                          "width": 34.52034378051758,
+                          "height": 27.012067794799805,
+                          "stroke": "#f71e1eff",
+                          "strokeWidth": 2,
+                          "strokeLinejoin": "round",
+                          "strokeLinecap": "round"
+                        },
+                        {
+                          "type": "path",
+                          "id": "ZQFG6",
+                          "x": 732.8935546875,
+                          "y": 27.724609375,
+                          "name": "Vector 4",
+                          "geometry": "M0 0c0 0.19019 0 3.98857 2.11877 10.72751 6.35631 5.30309 11.56872 7.72613 14.00389 7.8623 1.58871 0.0463 3.89401 0.0463 6.26917 0.0463",
+                          "width": 22.39183235168457,
+                          "height": 18.636110305786133,
+                          "stroke": "#f71e1eff",
+                          "strokeWidth": 2,
+                          "strokeLinejoin": "round",
+                          "strokeLinecap": "round"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "hJb5T",
+                  "x": 769,
+                  "y": 2831,
+                  "name": "We are SILA,  a jewellery brand born in Bali",
+                  "fill": "#1f1f1fff",
+                  "textGrowth": "fixed-width",
+                  "width": 423,
+                  "content": "We are SILA,  a jewellery brand born in Bali",
+                  "lineHeight": 0.9166666666666666,
+                  "fontFamily": "Belleza",
+                  "fontSize": 60,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "xWQmw",
+                  "x": 769,
+                  "y": 3078,
+                  "name": "We create items, which motivate you to choose yourself above all else and discover your unique personality. Our jewellery is made of high quality silver and we always use natural gemstones. The brand’s symbol has two hidden stones that represent the connection to your authentic self. For us, jewellery is not merely a visual addition to your look, but rather, a personal item that helps you to tap into your inner strength and beauty, building the connection between your inner ’self’ and the outside world. We are about depth. The one that is clear and easy  to understand, without any underlying ritual meanings or deep sense overload. Without the ‘why’ I should wear it. Our jewellery is real and alive, designed to accompany you every day.",
+                  "fill": "#1f1f1fff",
+                  "textGrowth": "fixed-width",
+                  "width": 707,
+                  "content": "We create items, which motivate you to choose yourself above all else and discover your unique personality. Our jewellery is made of high quality silver and we always use natural gemstones. The brand’s symbol has two hidden stones that represent the connection to your authentic self.\n\nFor us, jewellery is not merely a visual addition to your look, but rather, a personal item that helps you to tap into your inner strength and beauty, building the connection between your inner ’self’ and the outside world.\n\nWe are about depth. The one that is clear and easy  to understand, without any underlying ritual meanings or deep sense overload. Without the ‘why’ I should wear it. Our jewellery is real and alive, designed to accompany you every day.",
+                  "fontFamily": "Belleza",
+                  "fontSize": 27.5863094329834,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "NfJ68",
+              "x": 25,
+              "y": 142.00015258789062,
+              "name": "Group 113",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "bYtOP",
+                  "x": 0,
+                  "y": 0,
+                  "name": "IMG_4265 1",
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "mode": "stretch"
+                  },
+                  "width": 1461.9998779296875,
+                  "height": 784.1995239257812,
+                  "stroke": "#000000ff",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner"
+                },
+                {
+                  "type": "frame",
+                  "id": "jQMz7",
+                  "x": 0,
+                  "y": 0.000823974609375,
+                  "name": "STROKE",
+                  "width": 1461.9998779296875,
+                  "height": 784.1995239257812,
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffffff",
+                    "enabled": false
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "dG4Ns",
+                      "x": 0,
+                      "y": 0,
+                      "name": "STROKE",
+                      "width": 1461.9998779296875,
+                      "height": 784.1995239257812,
+                      "stroke": "#f7f6f1ff",
+                      "strokeWidth": 16,
+                      "strokeAlignment": "inner"
+                    }
+                  ]
+                },
+                {
+                  "type": "group",
+                  "id": "E5shP",
+                  "x": 48,
+                  "y": 460.1004333496094,
+                  "name": "Group 119",
+                  "children": [
+                    {
+                      "type": "path",
+                      "id": "FOPZR",
+                      "x": 343.0940246582031,
+                      "y": 2.8429510593414307,
+                      "name": "Vector",
+                      "geometry": "M49.46191 2.36047c6.38218-1.57365 41.75009-2.36047 106.10376-2.36047l26.32648 0c39.09085 0 62.75815 0.39341 71.0018 1.18022 8.50958 0.52456 15.95545 2.62277 22.33762 6.29462 22.60357 12.85148 34.70309 33.96465 36.29864 63.33949l1.19672 16.12993-71.0018 0c-47.60044 0-72.46436 0.52455-74.59175 1.57365-3.72295 1.57365-5.98329 4.72098-6.78107 9.44193-0.79778 4.45869-1.19666 15.73653-1.19666 33.83353 0 16.26106 0.13297 26.22752 0.39888 29.89938 0.26592 3.67186 1.06371 6.16347 2.39333 7.47485 1.32962 1.57366 5.58438 2.62276 12.76433 3.14731 7.17996 0.26228 28.45392 0.3934 63.82184 0.3934l74.1929 0-1.19672 16.52335c-0.53183 11.80238-1.59552 19.93294-3.19107 24.39162-8.50958 24.12933-25.12985 39.21017-49.86081 45.2425-6.6481 1.57364-41.08528 2.36048-103.31155 2.36048-62.49219 0-97.32825-1.04911-104.50821-3.14731-24.19911-6.2946-40.15456-21.24431-47.86636-44.84909-1.86147-5.50778-2.79221-13.63832-2.79221-24.39162l0-16.12993 143.99796 0c1.86146-1.57365 4.65367-4.19639 8.37661-7.86825 0-7.60599-0.13296-19.01497-0.39888-34.22695-0.26593-15.47424-0.39889-27.14549-0.39889-35.01375-3.72295-2.88503-7.047-5.77007-9.97217-8.6551l-141.60463 0 0-16.12993c0-11.01556 0.79778-18.88382 2.39332-23.60477 3.72294-11.01556 9.70621-20.45748 17.94986-28.32575 8.50958-8.13054 18.21584-13.63832 29.11873-16.52334z",
+                      "fill": "#f7f6f1b2",
+                      "width": 331.2628173828125,
+                      "height": 276.7096252441406
+                    },
+                    {
+                      "type": "path",
+                      "id": "YJZGS",
+                      "x": 0,
+                      "y": 2.8429510593414307,
+                      "name": "Vector",
+                      "geometry": "M165.54185 4.13857c19.31322-2.75905 131.51381-4.13857 336.6018-4.13857 276.82278 0 423.9711 1.83936 441.44497 5.51807 28.50995 5.5181 53.34107 18.85343 74.49368 40.00601 22.0722 21.15257 36.3272 45.98383 42.765 74.49377 4.5984 25.75095 6.8976 63.45774 6.8976 113.1203l0 86.90949-807.01648 0-20.69271 12.41559c-22.07225 12.87548-33.10839 25.29116-33.10839 37.24694 0 2.75904 1.37952 5.0582 4.13854 6.89756 3.67871 3.67871 123.23669 28.05017 358.67401 73.11435 198.65027 37.70675 316.36883 61.61837 353.15588 71.73483 36.78711 10.11645 67.13648 28.05011 91.04805 53.80102 34.0281 37.70679 51.0422 81.85126 51.0422 132.43348 0 37.70678-10.1165 73.11438-30.3494 106.22277-19.3132 33.1084-46.90363 57.93958-82.771 74.49378l-28.96985 13.79516c-89.20868 0.91968-223.4815 1.37952-402.81848 1.37952-178.41733 0-312.69012 0.45984-402.81845 1.37952l-33.10838-16.5542c-55.18062-27.59033-82.77093-73.11432-82.77092-136.57202 0-68.97577 30.34934-118.63837 91.04802-148.98767l24.83128-11.03614 347.63788-2.75903c172.89926-1.83935 274.98343-3.21887 306.25247-4.13855 31.26898-0.91968 50.12238-4.13855 56.56006-9.65662 21.15259-14.71484 31.72888-28.05004 31.72888-40.00585 0-1.83936-0.45984-3.21888-1.37952-4.13855-2.75897-2.75904-121.39734-26.67066-355.91494-71.73484-230.83893-43.22482-358.21421-68.97577-382.12581-77.25287-19.31322-7.35739-40.00594-22.07223-62.07819-44.1445-38.62643-40.46579-57.93965-85.9898-57.93965-136.57205 0-32.18866 8.27709-64.83717 24.83128-97.94556 12.87548-23.91162 32.18869-45.06418 57.93965-63.4577 26.67064-19.31324 54.26093-31.26906 82.77092-35.86744z",
+                      "fill": "#f7f6f1b2",
+                      "width": 326.6619873046875,
+                      "height": 276.7096252441406
+                    },
+                    {
+                      "type": "path",
+                      "id": "m36Xcf",
+                      "x": 1036.767333984375,
+                      "y": 0,
+                      "name": "Vector",
+                      "geometry": "M239.42711 125.32694l0-69.94992-83.3156 0c-45.16434 0-72.37515 0.41637-81.63244 1.24912-9.25729 0.55515-18.09377 3.05336-26.50948 7.49463-5.32995 2.77579-10.94044 6.93948-16.83145 12.49106-5.891 5.55157-10.3794 10.82558-13.46516 15.82201-6.45205 11.10316-9.67804 20.81843-9.67804 29.1458l0 3.7473 231.43217 0z m-173.78454-123.24507c7.0131-1.38791 43.20069-2.08187 108.56275-2.08187 64.80103 0.27759 100.14704 1.38791 106.03803 3.33095 17.673 6.66189 30.85757 17.62626 39.55383 32.89312 4.20786 7.49464 6.73261 16.09959 7.57416 25.81486 0.84158 9.43768 1.26239 36.64043 1.26239 81.60824l0 84.10645-3.78711 9.16011c-8.13519 18.87538-21.46008 31.22763-39.97464 37.05679-5.61047 1.38791-14.44696 2.08185-26.50949 2.08185l-18.93538 0-0.42079-36.22406c-0.28052-17.76506-0.70131-28.59062-1.26236-32.47673-0.28052-3.88611-1.40261-7.91103-3.36626-12.07471-5.32997-11.10316-12.90411-19.01417-22.72244-23.73302l-9.67809-4.9964-92.57288 0c-61.71525 0-93.69498 0.83272-95.93917 2.49819-4.76891 3.05336-7.15333 17.2099-7.15333 42.46959 0 13.87895 0.70131 23.73303 2.10393 29.56219 1.68314 5.82917 5.0494 11.5195 10.09883 17.07108 7.57415 8.32736 16.97172 13.60138 28.19268 15.82202 2.80524 0.55515 4.20786 0.97153 4.20786 1.24912 0 0.55514-7.71443 0.83273-23.14324 0.83273l-27.77185 0 0-101.17757c0-67.4517 0.84157-104.5085 2.52472-111.1704 3.92733-15.54443 11.50146-28.72943 22.72241-39.55501 11.22096-11.10317 24.6861-18.45901 40.39544-22.06752z",
+                      "fill": "#f7f6f1b2",
+                      "width": 328.63372802734375,
+                      "height": 276.0523681640625
+                    },
+                    {
+                      "type": "path",
+                      "id": "v2T5L",
+                      "x": 691.04443359375,
+                      "y": 0,
+                      "name": "Vector",
+                      "geometry": "M0 377.98724l0-377.98724 133.813 0c72.6545 0 108.98174 1.37952 108.98174 4.13857-0.91968 0.91967-2.75906 1.3795-5.5181 1.3795-56.10029 8.2771-103.00381 30.80916-140.71055 67.5962-37.70676 36.7871-61.15852 82.77097-70.3553 137.95159-2.75903 19.31321-4.13854 61.61834-4.13854 126.9154l0 75.87335c1.83935 91.96772 4.13855 150.82703 6.89757 176.57801 3.67871 24.8313 12.87547 45.98382 27.59031 63.4577 11.03613 11.95581 22.53209 19.31323 34.48789 22.07227 25.75095 5.51806 133.813 8.2771 324.18614 8.2771l99.32504 0c219.8028 0 349.93708-0.91968 390.4029-2.75904 40.46582-2.75903 71.7348-11.49597 93.80707-26.21081 0.91967-0.91968 1.83933-1.83936 2.75903-2.75904 2.759-1.83935 10.1165-13.33532 22.0723-34.48791 12.8755-21.15259 24.8311-42.30512 35.8673-63.45764l16.5542-30.34937c1.8393 0 2.759 39.54608 2.759 118.63831 0 85.52997-3.6786 138.87121-11.036 160.0238-16.5542 41.38544-41.3855 71.27496-74.4939 89.66852-17.47388 10.11645-39.54614 16.5542-66.2168 19.31323-26.67059 2.75903-86.44958 4.13855-179.33697 4.13855-15.63446 0-47.82312-0.45984-96.56604-1.37952-48.74286 0-90.12836 0-124.15644 0l-387.6438-1.37951-28.96982-13.79517c-53.34126-24.8313-87.36931-62.99792-102.08414-114.49982-5.51806-20.23291-8.27709-155.88519-8.27709-406.95703z",
+                      "fill": "#f7f6f1b2",
+                      "width": 329.29107666015625,
+                      "height": 279.9959716796875
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "Uvim5",
+                  "x": 48,
+                  "y": 45.100433349609375,
+                  "name": "‘Sila’ is a jewellery brand originated from Bali. These pieces are not meant only for a special occasion, they simply live through every day with you. Trust yourself.",
+                  "fill": "#b8b8b8ff",
+                  "textGrowth": "fixed-width-height",
+                  "width": 1199,
+                  "height": 138,
+                  "content": "‘Sila’ is a jewellery brand originated from Bali. These pieces are not meant only for a special occasion, they simply live through every day with you.\n\nTrust yourself.",
+                  "fontFamily": "Belleza",
+                  "fontSize": 36,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "id": "fqOXY",
+          "x": 738.6052732467651,
+          "y": 56.126953125,
+          "name": "Group 5",
+          "children": [
+            {
+              "type": "path",
+              "id": "p16Ds",
+              "x": 0,
+              "y": 0,
+              "name": "Vector",
+              "geometry": "M5.39379 0.13604c0.62927-0.0907 4.28506-0.13604 10.96736-0.13604 9.01961 0 13.81409 0.06046 14.38343 0.18139 0.92893 0.18139 1.73799 0.61975 2.4272 1.31508 0.71917 0.69533 1.18364 1.51158 1.39339 2.44875 0.14983 0.84648 0.22474 2.08598 0.22475 3.71849l0 2.85689-26.29471 0-0.67422 0.40812c-0.71917 0.42324-1.07876 0.83137-1.07876 1.22439 0 0.09069 0.04495 0.16627 0.13485 0.22673 0.11986 0.12093 4.01537 0.92207 11.68653 2.40342 6.47254 1.23949 10.30812 2.02552 11.50674 2.35806 1.19862 0.33255 2.18748 0.92206 2.96659 1.76855 1.10872 1.2395 1.66309 2.69061 1.66308 4.35335 0 1.2395-0.32962 2.40342-0.98886 3.49175-0.62928 1.08834-1.52824 1.90459-2.69689 2.44876l-0.94392 0.45347c-2.90665 0.03023-7.28161 0.04535-13.12488 0.04535-5.8133 0-10.18826 0.01512-13.12487 0.04535l-1.07876-0.54417c-1.79793-0.90695-2.69689-2.40341-2.69689-4.48939 0-2.26737 0.98886-3.89988 2.96658-4.89752l0.80907-0.36278 11.32695-0.0907c5.63351-0.06046 8.95968-0.10581 9.9785-0.13604 1.01882-0.03023 1.63312-0.13604 1.84288-0.31743 0.68921-0.48371 1.03381-0.92206 1.03381-1.31507 0-0.06046-0.01498-0.10581-0.04495-0.13605-0.0899-0.0907-3.95544-0.87672-11.59664-2.35806-7.52134-1.42089-11.67155-2.26737-12.45066-2.53946-0.62927-0.24185-1.3035-0.72556-2.02266-1.45111-1.25855-1.33019-1.88783-2.82665-1.88783-4.4894 0-1.05811 0.26969-2.13133 0.80907-3.21966 0.41952-0.78602 1.04879-1.48135 1.88782-2.08598 0.869-0.63486 1.76796-1.02788 2.6969-1.17904z",
+              "fill": "#fffdf4ff",
+              "width": 34.7899169921875,
+              "height": 29.74789810180664
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "rectangle",
+      "id": "RNuHB",
+      "x": -3096,
+      "y": -3411,
+      "fill": {
+        "type": "image",
+        "enabled": true,
+        "url": "images/Frame%2012.png",
+        "mode": "fill"
+      },
+      "width": 1512,
+      "height": 7070
+    }
+  ],
+  "fileToken": "8c46ec94-3b64-4b8c-a71d-11235f6337ab"
+}
