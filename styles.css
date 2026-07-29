@@ -69,7 +69,7 @@ hr { border: 0; }
 .site-header-inner {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   position: relative;
 }
 
@@ -157,7 +157,8 @@ hr { border: 0; }
 
 .hero-rule-end {
   grid-column: 2 / -1;
-  grid-row: 3;
+  grid-row: 2;
+  align-self: end;               /* flush with the bottom of the wordmark row */
   justify-self: end;
   width: 54rem;
   border-top: 1px solid var(--white);
@@ -232,7 +233,7 @@ hr { border: 0; }
 }
 
 .card-price {
-  margin-top: 1.9rem;
+  margin-top: 2.5rem;
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: 2.2rem;
@@ -243,14 +244,14 @@ hr { border: 0; }
 }
 
 .card-rule {
-  margin-top: 1.9rem;
+  margin-top: 2.9rem;
   border-top: 1px solid var(--line-grey);
   width: 34.8rem;
   max-width: 100%;
 }
 
 .card-desc {
-  margin-top: 2.6rem;
+  margin-top: 2.5rem;
   width: 34.8rem;
   max-width: 100%;
   font-family: var(--font-sans);
@@ -271,16 +272,16 @@ hr { border: 0; }
 
 .meta-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  align-items: end;
+  grid-template-columns: 45rem 47.7rem auto;
+  align-items: start;
   font-size: 2.6rem;
   line-height: 1.154;
-  padding-left: 24.5rem;
+  padding-left: 28rem;
 }
 
-/* the three notes step up slightly, as drawn */
-.meta-row li:nth-child(1) { padding-top: 1.2rem; }
-.meta-row li:nth-child(2) { padding-top: 0.6rem; }
+/* the three notes step up slightly towards the right, as drawn */
+.meta-row li:nth-child(1) { margin-top: 1.2rem; }
+.meta-row li:nth-child(2) { margin-top: 0.6rem; }
 
 .about-grid {
   margin-top: 8.6rem;
@@ -373,6 +374,9 @@ hr { border: 0; }
 
 .info-cols-section { margin-top: var(--section-gap); }
 
+/* the mockup leaves a slightly larger gap before the repeated cards */
+.info-cols-section + .cards-section { margin-top: 11rem; }
+
 .info-cols {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -395,7 +399,7 @@ hr { border: 0; }
 
 /* ============================== footer ============================== */
 
-.site-footer { padding-bottom: 4rem; }
+.site-footer { padding-bottom: 8.4rem; }
 
 .footer-rule {
   margin-top: var(--section-gap);
@@ -413,8 +417,8 @@ hr { border: 0; }
   margin: 5.4rem auto 0;
   width: 54rem;
   max-width: 100%;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 21.6rem 23.3rem auto;
   font-family: var(--font-sans);
   font-size: 1.8rem;
   line-height: 1.111;
