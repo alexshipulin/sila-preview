@@ -73,7 +73,6 @@ hr { border: 0; }
   position: relative;
 }
 
-.brand,
 .main-nav a {
   font-family: var(--font-sans);
   font-weight: 400;
@@ -84,13 +83,12 @@ hr { border: 0; }
   color: var(--cream);
 }
 
+/* the mark itself is the brand link, sitting at the left edge */
+.brand { display: block; }
+
 .logo-mark {
-  position: absolute;
-  left: 50%;
-  top: -0.3rem;
-  transform: translateX(-50%);
-  width: 3.48rem;
-  height: 2.98rem;
+  width: 3.5rem;
+  height: 3rem;
 }
 
 .main-nav { display: flex; gap: 6.8rem; }
@@ -113,7 +111,7 @@ hr { border: 0; }
 
 .hero-rule {
   border-top: 1px solid var(--white);
-  margin-bottom: 6.2rem;
+  margin-bottom: 3.2rem;
 }
 
 .hero-copy p {
@@ -123,7 +121,7 @@ hr { border: 0; }
   max-width: 81.9rem;
 }
 
-.hero-copy p + p { margin-top: 1.4em; }
+.hero-copy p + p { margin-top: 3.2rem; }   /* one blank line, as in the mockup */
 
 .hero-main {
   grid-column: 2;
@@ -469,8 +467,8 @@ hr { border: 0; }
   .shell { max-width: none; }
 
   .site-header { padding-top: 24px; }
-  .logo-mark { display: none; }  /* no room between the brand and the nav */
-  .brand, .main-nav a { font-size: 15px; }
+  .logo-mark { width: 26px; height: 22px; }
+  .main-nav a { font-size: 15px; }
   .main-nav { gap: 18px; }
 
   .hero { margin-top: 32px; }
