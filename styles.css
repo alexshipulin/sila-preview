@@ -409,25 +409,27 @@ hr { border: 0; }
   margin: 10.1rem auto 0;
 }
 
+/* the three links sit in a 540px group centred under the wordmark */
 .footer-links {
-  margin-top: 5rem;
+  margin: 5.4rem auto 0;
+  width: 54rem;
+  max-width: 100%;
   display: flex;
   justify-content: space-between;
-  padding-inline: 14.3rem;
   font-family: var(--font-sans);
-  font-size: 2.6rem;
-  line-height: 1.077;
+  font-size: 1.8rem;
+  line-height: 1.111;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--cream);
 }
 
 .footer-copy {
-  margin-top: 2.9rem;
+  margin-top: 5.4rem;
   text-align: center;
   font-family: var(--font-sans);
-  font-size: 1.8rem;
-  line-height: 1.111;
+  font-size: 1.4rem;
+  line-height: 1.071;
   letter-spacing: 0.05em;
   color: var(--cream);
 }
@@ -542,13 +544,18 @@ hr { border: 0; }
   .info-col h4 { font-size: 22px; }
   .info-col p { font-size: 17px; }
 
-  .footer-logo { width: 180px; height: auto; margin-top: 48px; }
+  .footer-logo {
+    width: 180px;
+    height: auto;
+    aspect-ratio: 255 / 52;      /* the SVG has no intrinsic size of its own */
+    margin-top: 48px;
+  }
   .footer-links {
     margin-top: 32px;
-    padding-inline: 0;
-    font-size: 15px;
+    width: 100%;
+    font-size: 14px;
   }
-  .footer-copy { margin-top: 20px; font-size: 13px; }
+  .footer-copy { margin-top: 28px; font-size: 12px; }
 }
 
 @media (max-width: 480px) {
