@@ -8,7 +8,7 @@
   }
 
   // Stagger siblings inside grids (products, duo, trio) for a softer cascade.
-  document.querySelectorAll('.products, .duo, .trio').forEach(function (group) {
+  document.querySelectorAll('.cards, .photo-row, .hero-grid').forEach(function (group) {
     var i = 0;
     group.querySelectorAll('.reveal').forEach(function (el) {
       el.style.setProperty('--reveal-delay', (i * 0.12) + 's');
@@ -231,13 +231,13 @@
   }
 
   document.addEventListener('click', function (e) {
-    var card = e.target.closest('.product[data-product]');
+    var card = e.target.closest('[data-product]');
     if (card) { open(card.getAttribute('data-product'), card); return; }
     if (e.target.closest('[data-pd-close]')) close();
   });
 
   document.addEventListener('keydown', function (e) {
-    var card = e.target.closest && e.target.closest('.product[data-product]');
+    var card = e.target.closest && e.target.closest('[data-product]');
     if (card && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault();
       open(card.getAttribute('data-product'), card);

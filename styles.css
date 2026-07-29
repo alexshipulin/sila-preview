@@ -1,36 +1,50 @@
 /* ============================================================
    SILA — jewellery from Bali
-   Design source: Figma "Упаковка" / Frame 9 (1512 × 7070)
+   Design source: Figma "Упаковка" / Frame 13 (1728 × 7006)
+
+   The landing is authored at the 1728px reference width: 1rem == 10px there,
+   and the root font-size shrinks with the viewport so the whole composition
+   scales proportionally instead of reflowing. Below 900px a dedicated mobile
+   layout takes over (see the responsive section).
    ============================================================ */
 
 :root {
-  --dark: #1f1f1f;
+  --dark: #0d0d0d;               /* page background (Frame 13) */
   --cream: #fffdf4;
-  --hero-grey: #b8b8b8;
-  --stroke: #f7f6f1;             /* hero stroke + hero wordmark (Frame 12) */
-  --muted-white: rgba(255, 255, 255, 0.5);
+  --white: #ffffff;
+  --light-band: #d9d9d9;         /* about section background */
+  --ink: #1f1f1f;                /* text on the light band */
+  --wordmark: #b1b1b1;
   --line-grey: #9e9e9e;
-  --spec-line: #e5e3da;          /* spec-row rules inside the product modal */
+  --spec-line: rgba(255, 255, 255, 0.18);
+  --card-veil: rgba(0, 0, 0, 0.86);
 
-  --pad: 25px;                 /* outer image margin from the layout   */
+  --pad: 3.5rem;                 /* 35px outer gutter */
+  --gap: 2rem;                   /* 20px column gap */
+  --section-gap: 10rem;          /* 100px rhythm between sections */
+
   --font-sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-display: "Belleza", "Gill Sans", "Trebuchet MS", sans-serif;
+}
+
+html {
+  font-size: min(10px, 100vw / 172.8);
+  scroll-behavior: smooth;
 }
 
 *,
 *::before,
 *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
-
 body {
   background: var(--dark);
   color: var(--cream);
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 2.6rem;
   line-height: normal;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 img { display: block; max-width: 100%; }
@@ -40,50 +54,22 @@ a:hover { opacity: 0.55; }
 
 ul { list-style: none; }
 
+hr { border: 0; }
+
 .shell {
-  max-width: 1512px;
+  max-width: 172.8rem;
   margin-inline: auto;
-  position: relative;
-  zoom: 0.75;                  /* scale the 1512px reference content down to 75% */
+  padding-inline: var(--pad);
 }
 
 /* ============================== header ============================== */
 
-/* Dark sections are transparent so the fixed background pattern (.bg-pattern)
-   shows through everywhere the content is dark. The opaque "light zones"
-   (photos, the cream About section, the map) cover it naturally. */
-.dark-block { position: relative; }
+.site-header { padding-top: 5rem; }
 
-/* Fixed Frame 10 "SILA" wordmark pattern (30px gaps, cream #FFFDF4 @ 3%),
-   tilted 45°. Pinned to the viewport — the content scrolls over it. */
-.bg-pattern {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background: var(--dark);
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.bg-pattern::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 250vmax;
-  height: 250vmax;
-  transform: translate(-50%, -50%) rotate(45deg);
-  transform-origin: center;
-  background-image: url("assets/sila-tile.svg");
-  background-repeat: repeat;
-  background-position: center;
-}
-
-.site-header {
+.site-header-inner {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 56px var(--pad) 0 23px;
   position: relative;
 }
 
@@ -91,7 +77,8 @@ ul { list-style: none; }
 .main-nav a {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: clamp(16px, 1.46vw, 22px);
+  font-size: 2.2rem;
+  line-height: 1.09;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--cream);
@@ -100,575 +87,350 @@ ul { list-style: none; }
 .logo-mark {
   position: absolute;
   left: 50%;
-  top: 56px;
+  top: -0.3rem;
   transform: translateX(-50%);
-  width: 34.8px;
-  height: 29.75px;
+  width: 3.48rem;
+  height: 2.98rem;
 }
 
-.main-nav { display: flex; gap: clamp(24px, 4.17vw, 63px); }
+.main-nav { display: flex; gap: 6.8rem; }
 
 /* ============================== hero ============================== */
 
-.hero {
-  position: relative;
-  margin: 49px var(--pad) 0;
-  aspect-ratio: 1462 / 784;
-  overflow: hidden;
+.hero { margin-top: 5rem; }
+
+/* 819 / 539 / 259 columns from the mockup, 20px gutters */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 81.9fr 53.9fr 25.9fr;
+  grid-template-rows: 72.2rem auto;
+  column-gap: var(--gap);
+  row-gap: 2rem;
+  align-items: start;
 }
 
-.hero-photo {
+.hero-copy { grid-column: 1; grid-row: 1; }
+
+.hero-rule {
+  border-top: 1px solid var(--white);
+  margin-bottom: 6.2rem;
+}
+
+.hero-copy p {
+  font-size: 2.8rem;
+  line-height: 1.143;
+  color: var(--white);
+  max-width: 81.9rem;
+}
+
+.hero-copy p + p { margin-top: 1.4em; }
+
+.hero-main {
+  grid-column: 2;
+  grid-row: 1;
+  width: 100%;
+  height: 72.2rem;
+  object-fit: cover;
+}
+
+.hero-side {
+  grid-column: 3;
+  grid-row: 1;
+  width: 100%;
+  height: 34.6rem;
+  object-fit: cover;
+}
+
+.hero-wordmark {
+  grid-column: 1;
+  grid-row: 2;
+  width: 81.8rem;
+  height: 16.8rem;
+}
+
+.hero-small {
+  grid-column: 2;
+  grid-row: 2;
+  width: 26rem;
+  height: 16.6rem;
+  object-fit: cover;
+  align-self: end;
+}
+
+.hero-rule-end {
+  grid-column: 2 / -1;
+  grid-row: 3;
+  justify-self: end;
+  width: 54rem;
+  border-top: 1px solid var(--white);
+}
+
+/* ============================== product cards ============================== */
+
+.cards-section { margin-top: var(--section-gap); }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+}
+
+.card {
+  position: relative;
+  aspect-ratio: 540 / 721;
+  overflow: hidden;
+  isolation: isolate;
+  cursor: pointer;
+}
+
+/* photo backdrop, dimmed to 86% black as in the mockup */
+.card-bg {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 50%;
+  z-index: -2;
 }
 
-/* 16px inset stroke around the hero (Frame 12) */
-.hero::after {
+.card::before {
   content: "";
   position: absolute;
   inset: 0;
-  border: clamp(7px, 1.06vw, 16px) solid var(--stroke);
-  pointer-events: none;
+  background: var(--card-veil);
+  z-index: -1;
 }
 
-.hero-text {
-  position: absolute;
-  left: 3.28%;
-  top: 5.74%;
-  max-width: 77.7%;
-  font-size: clamp(15px, 1.85vw, 28px);
-  color: var(--hero-grey);
-}
-
-.hero-text p + p { margin-top: 1.2em; }
-
-/* ============================== products ============================== */
-
-.products {
-  margin: 22px 37px 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-}
-
-.product-img {
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-}
-
-.product-img img {
+/* ring renders sit flush to the top; each has its own height from the mockup */
+.card-ring {
   width: 100%;
-  height: 100%;
   object-fit: cover;
+  object-position: 50% 100%;
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.product:hover .product-img img { transform: scale(1.04); }
+/* heights as a share of the 721px card, so they hold at any scale */
+.card-ring--signet  { height: 63.52%; }
+.card-ring--lattice { height: 67.68%; }
+.card-ring--rhythm  { height: 69.21%; }
 
-.product-info {
-  margin-top: -19px;             /* names sit inside the ring photo's inner padding */
-  padding: 0 16% 0 20.9%;
-  position: relative;
+.card:hover .card-ring { transform: scale(1.04); }
+
+.card-info {
+  position: absolute;
+  left: 8.89%;                   /* 48px of the 540px card */
+  right: 8.89%;
+  top: 56.59%;                   /* 408px of the 721px card */
 }
 
-.product h3 {
+.card-info h3 {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: clamp(20px, 2.38vw, 36px);
-  line-height: 1.02;
+  font-size: 3.6rem;
+  line-height: 1.083;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--cream);
 }
 
-.price {
-  margin-top: 16px;
+.card-price {
+  margin-top: 1.9rem;
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: clamp(14px, 1.46vw, 22px);
+  font-size: 2.2rem;
+  line-height: 1.09;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--cream);
 }
 
-.rule {
-  margin-top: 16px;
-  border: 0;
+.card-rule {
+  margin-top: 1.9rem;
   border-top: 1px solid var(--line-grey);
+  width: 34.8rem;
+  max-width: 100%;
 }
 
-.desc {
-  margin-top: 21px;
-  font-size: clamp(13px, 1.06vw, 16px);
-  color: var(--muted-white);
+.card-desc {
+  margin-top: 2.6rem;
+  width: 34.8rem;
+  max-width: 100%;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.0625;
+  color: rgba(255, 255, 255, 0.5);
 }
 
-/* ============================== lifestyle duo ============================== */
-
-.duo {
-  margin: 165px var(--pad) 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 26px;
-}
-
-.duo img {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-}
-
-/* ============================== about (cream) ============================== */
+/* ============================== about (light band) ============================== */
 
 .about {
-  background: var(--cream);
-  color: var(--dark);
-  padding: 68px 0 113px;
+  margin-top: var(--section-gap);
+  padding: 8rem 0 8rem;
+  background: var(--light-band);
+  color: var(--ink);
 }
 
 .meta-row {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 24px 150px;
-  font-size: clamp(15px, 1.72vw, 26px);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: end;
+  font-size: 2.6rem;
+  line-height: 1.154;
+  padding-left: 24.5rem;
 }
 
+/* the three notes step up slightly, as drawn */
+.meta-row li:nth-child(1) { padding-top: 1.2rem; }
+.meta-row li:nth-child(2) { padding-top: 0.6rem; }
+
 .about-grid {
-  margin: 97px var(--pad) 0;
+  margin-top: 8.6rem;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 26px;
+  grid-template-columns: 67.9fr 81.9fr;
+  column-gap: 16rem;
+  align-items: start;
 }
 
 .about-photo {
   width: 100%;
-  height: 100%;
-  aspect-ratio: 718 / 808;
+  aspect-ratio: 679 / 771;
   object-fit: cover;
 }
 
-.about-copy { border-top: 1px solid var(--dark); }
+.about-rule {
+  border-top: 1px solid var(--ink);
+  margin-bottom: 10.9rem;
+}
 
 .about-copy h2 {
-  margin-top: 81px;
   font-weight: 400;
-  font-size: clamp(34px, 3.97vw, 60px);
-  line-height: 0.92;
-  max-width: 8.2em;
+  font-size: 6rem;
+  line-height: 0.917;
+  max-width: 42.3rem;            /* keeps the three-line break from the mockup */
 }
 
 .about-copy .prose {
-  margin-top: 82px;
-  max-width: 707px;
-  font-size: clamp(18px, 1.83vw, 27.6px);
+  margin-top: 8.5rem;
+  font-size: 2.7rem;
+  line-height: 1.148;
 }
 
-.prose p + p { margin-top: 1.2em; }
+.prose p + p { margin-top: 1.15em; }
 
-/* ============================== lifestyle trio ============================== */
+/* ============================== lifestyle rows ============================== */
 
-.trio {
-  margin: 90px var(--pad) 0;
+.photo-row {
+  margin-top: var(--section-gap);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
+  gap: var(--gap);
 }
 
-.trio img {
+.photo-row img {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 540 / 722;
   object-fit: cover;
 }
 
 /* ============================== facts ============================== */
 
+.facts { margin-top: var(--section-gap); }
+
 .fact {
-  margin: 150px var(--pad) 0;
   display: grid;
-  grid-template-columns: minmax(140px, 495px) 250px minmax(0, 1fr);
-  min-height: 250px;
+  grid-template-columns: 53.8fr 26fr 81.5fr;
+  column-gap: var(--gap);
+  align-items: start;
 }
 
-.fact-label { font-size: clamp(15px, 1.72vw, 26px); }
+.fact-label {
+  font-size: 2.7rem;
+  line-height: 1.148;
+  color: var(--white);
+}
 
 .fact-img {
-  width: 250px;
-  height: 250px;
-  object-fit: fill;            /* matches the squashed fill in the layout */
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: fill;              /* squashed fill, as in the mockup */
 }
 
 .fact-text {
-  padding-left: clamp(24px, 2.98vw, 45px);
-  max-width: 551px;
-  font-size: clamp(15px, 1.72vw, 26px);
+  font-size: 2.7rem;
+  line-height: 1.148;
+  color: var(--white);
 }
+
+.fact-text p + p { margin-top: 1.15em; }
 
 .fact-divider {
-  margin: 63px 0 57px var(--pad);
-  width: min(745px, calc(50% - 11px));
-  border: 0;
-  border-top: 1px solid var(--dark);
+  margin: 5rem 0 5rem;
+  width: 81.7rem;
+  max-width: 100%;
+  border-top: 1px solid var(--white);
 }
 
-.fact-divider + .fact { margin-top: 0; }
+/* ============================== payment & delivery ============================== */
 
-/* ============================== footer (dark) ============================== */
-
-.footer {
-  color: var(--cream);
-  padding: 126px 0 16px;
-}
-
-/* footer is a full-width composition in the mockup — render it at 100%, not the
-   25%-reduced scale used for the upper sections */
-.footer .shell { zoom: 1; }
-
-.footer-quote {
-  margin: 0 133px;
-  max-width: 1276px;
-  font-size: clamp(16px, 1.72vw, 26px);
-}
-
-.products--compact { margin-top: 48px; }
-
-.map-strip {
-  margin: 136px var(--pad) 0;
-  aspect-ratio: 1462 / 410;
-  background: #f2f2f2;
-}
-
-.map-strip img {
-  width: 100%;
-  height: 100%;
-  object-fit: fill;              /* the map artwork is pre-distorted for this strip */
-}
+.info-cols-section { margin-top: var(--section-gap); }
 
 .info-cols {
-  margin: 65px 65px 0 31px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 72px;
-  scroll-margin-top: 40px;
+  gap: var(--gap);
 }
 
-.info-cols h4 {
+.info-col h4 {
   font-weight: 400;
-  font-size: clamp(20px, 1.98vw, 30px);
-  margin-bottom: 40px;           /* blank line between heading and body, as in the mockup */
-}
-
-.info-cols p {
-  font-size: clamp(16px, 1.72vw, 26px);
-}
-
-.giant-logo {
-  margin: 76px var(--pad) 0;
-  aspect-ratio: 1462 / 299.8;
-}
-
-.giant-logo img { width: 100%; height: 100%; }
-
-.footer-bottom {
-  margin-top: 69px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-items: center;
-  font-size: clamp(13px, 1.72vw, 26px);
-  text-transform: uppercase;
-}
-
-/* ============================== product modal ============================== */
-
-/* Frame 14 "Product — Gallery": a 1429 × 1488 sheet on the 1512 canvas. Like
-   .shell, it is authored at reference size and zoomed down to 75%. */
-
-.product[data-product] { cursor: pointer; }
-
-.pd {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: flex;
-  justify-content: center;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 24px 0;
-}
-
-.pd[hidden] { display: none; }
-
-.pd-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(31, 31, 31, 0.62);
-  backdrop-filter: blur(2px);
-  opacity: 0;
-  transition: opacity 0.45s ease;
-}
-
-.pd-dialog {
-  position: relative;
-  margin: auto;                  /* safe centering: never clips a tall sheet */
-  width: 100%;
-  max-width: 1512px;             /* same column as .shell, so nothing peeks out behind */
-  zoom: 0.75;
-  padding: 96px 146px 85px;
-  background: var(--cream);
-  color: var(--dark);
-  font-family: var(--font-display);
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.pd.is-open .pd-backdrop { opacity: 1; }
-.pd.is-open .pd-dialog { opacity: 1; transform: none; }
-
-.pd-close {
-  position: absolute;
-  top: 38px;
-  right: 51px;
-  padding: 16px;
-  border: 0;
-  background: none;
-  font-family: var(--font-sans);
-  font-size: 22px;
-  line-height: 1;
-  color: var(--dark);
-  cursor: pointer;
-  transition: opacity 0.35s ease;
-}
-
-.pd-close:hover { opacity: 0.55; }
-
-/* ---------- upper half: gallery + info ---------- */
-
-/* 580 : 540 of the design, kept as ratios so the sheet can breathe with the page */
-.pd-top {
-  display: grid;
-  grid-template-columns: 58fr 54fr;
-  gap: 100px;
-}
-
-.pd-gallery { display: grid; gap: 6px; align-content: start; }
-
-.pd-hero img,
-.pd-thumbs img {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-}
-
-.pd-thumbs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-.pd-info { display: flex; flex-direction: column; padding-top: 20px; }
-
-.pd-title {
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-size: 48px;
-  line-height: 1;
-  letter-spacing: 0.0375em;
-}
-
-.pd-price {
-  margin-top: 28px;
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-size: 22px;
-  letter-spacing: 0.05em;
-}
-
-.pd-rule {
-  margin-top: 33px;
-  border: 0;
-  border-top: 1px solid var(--dark);
-}
-
-.pd-desc { margin-top: 28px; font-size: 20px; }
-
-.pd-specs {
-  margin-top: 24px;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  font-size: 18px;
-}
-
-.pd-specs dt,
-.pd-specs dd {
-  display: flex;
-  align-items: center;
-  height: 48px;
-  border-bottom: 1px solid var(--spec-line);
-}
-
-.pd-specs dt { color: var(--line-grey); }
-
-/* size select + Buy sit at the bottom of the column, level with the photos */
-.pd-select { position: relative; margin-top: auto; }
-
-.pd-select::after {
-  content: "\25BE";
-  position: absolute;
-  top: 50%;
-  right: 18px;
-  transform: translateY(-50%);
-  pointer-events: none;
-  font-size: 18px;
-}
-
-.pd-size {
-  appearance: none;
-  width: 100%;
-  height: 56px;
-  padding: 0 44px 0 18px;
-  border: 1px solid var(--dark);
-  border-radius: 0;
-  background: none;
-  font-family: var(--font-display);
-  font-size: 18px;
-  color: var(--dark);
-  cursor: pointer;
-}
-
-.pd-size:invalid { color: var(--line-grey); }
-
-.pd-buy,
-.pd-confirm {
-  height: 60px;
-  border: 0;
-  background: var(--dark);
+  font-size: 3rem;
+  line-height: 1.167;
   color: var(--cream);
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-size: 20px;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  transition: opacity 0.35s ease;
 }
 
-.pd-buy { margin-top: 28px; }
-.pd-buy:hover,
-.pd-confirm:hover { opacity: 0.85; }
-
-/* ---------- lower half: "Complete your order", collapsed until Buy ---------- */
-
-.pd-order {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+.info-col p {
+  font-size: 2.6rem;
+  line-height: 1.154;
+  color: var(--cream);
 }
 
-.pd.is-expanded .pd-order { grid-template-rows: 1fr; }
+/* ============================== footer ============================== */
 
-/* hidden rather than merely clipped, so the form is not tabbable while folded */
-.pd-order-inner { overflow: hidden; visibility: hidden; transition: visibility 0s 0.85s; }
-.pd.is-expanded .pd-order-inner { visibility: visible; transition: visibility 0s; }
+.site-footer { padding-bottom: 4rem; }
 
-.pd-order-rule {
-  margin-top: 70px;
-  border: 0;
-  border-top: 1px solid var(--line-grey);
+.footer-rule {
+  margin-top: var(--section-gap);
+  border-top: 1px solid var(--white);
 }
 
-.pd-order-grid {
-  margin-top: 62px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 140px;
+.footer-logo {
+  width: 25.5rem;
+  height: 5.2rem;
+  margin: 10.1rem auto 0;
 }
 
-.pd-order-left { display: flex; flex-direction: column; justify-content: space-between; }
-
-.pd-cap { font-size: 16px; color: var(--line-grey); }
-
-.pd-qty {
-  margin-top: 11px;
+.footer-links {
+  margin-top: 5rem;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  height: 44px;
-  font-size: 18px;
-}
-
-.pd-stepper { display: flex; }
-
-.pd-step,
-.pd-count {
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--dark);
-  background: none;
-  font-family: var(--font-display);
-  font-size: 18px;
-  color: var(--dark);
-}
-
-.pd-step { cursor: pointer; transition: opacity 0.35s ease; }
-.pd-step:hover { opacity: 0.55; }
-
-.pd-accept {
+  padding-inline: 14.3rem;
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 2.6rem;
+  line-height: 1.077;
   letter-spacing: 0.05em;
-  color: var(--line-grey);
+  text-transform: uppercase;
+  color: var(--cream);
 }
 
-.pd-methods { margin-top: 6px; font-size: 18px; }
-
-.pd-order-right {
-  display: grid;
-  gap: 16px;
-  align-content: start;
-  padding-top: 31px;             /* lines the name field up with the quantity row */
+.footer-copy {
+  margin-top: 2.9rem;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 1.8rem;
+  line-height: 1.111;
+  letter-spacing: 0.05em;
+  color: var(--cream);
 }
-
-.pd-field {
-  height: 56px;
-  padding: 0 18px;
-  border: 1px solid var(--dark);
-  border-radius: 0;
-  background: none;
-  font-family: var(--font-display);
-  font-size: 18px;
-  color: var(--dark);
-}
-
-.pd-field::placeholder { color: var(--line-grey); opacity: 1; }
-.pd-field.is-missing { border-color: #b4483c; }
-
-.pd-thanks { font-size: 18px; color: var(--line-grey); }
-
-.pd-close:focus-visible,
-.pd-size:focus-visible,
-.pd-field:focus-visible,
-.pd-step:focus-visible,
-.pd-buy:focus-visible,
-.pd-confirm:focus-visible,
-.product[data-product]:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
-
-/* content of the order block rises in as the block unfolds */
-.pd-rise {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: var(--reveal-delay, 0s);
-}
-
-.pd-rise.in { opacity: 1; transform: none; }
-
-/* Freeze the page behind the modal. Pinning the body (rather than hiding
-   html's overflow) keeps the background exactly where the reader left it. */
-html.pd-lock { scrollbar-gutter: stable; }
-html.pd-lock body { position: fixed; left: 0; right: 0; width: 100%; }
 
 /* ============================== reveal animations ============================== */
 
@@ -688,7 +450,502 @@ html.pd-lock body { position: fixed; left: 0; right: 0; width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .product-img img { transition: none; }
+  .card-ring { transition: none; }
+}
+
+/* ============================== responsive ============================== */
+
+@media (max-width: 900px) {
+  html { font-size: 10px; }      /* back to real pixels for the mobile layout */
+
+  :root {
+    --pad: 16px;
+    --gap: 12px;
+    --section-gap: 64px;
+  }
+
+  .shell { max-width: none; }
+
+  .site-header { padding-top: 24px; }
+  .logo-mark { display: none; }  /* no room between the brand and the nav */
+  .brand, .main-nav a { font-size: 15px; }
+  .main-nav { gap: 18px; }
+
+  .hero { margin-top: 32px; }
+
+  /* single flow column — every hero item gets its own auto row */
+  .hero-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: none;
+    row-gap: 12px;
+  }
+  .hero-grid > * { grid-row: auto; }
+
+  .hero-copy { grid-column: 1 / -1; }
+  .hero-rule { margin-bottom: 24px; }
+  .hero-copy p { font-size: 18px; max-width: none; }
+
+  .hero-main {
+    grid-column: 1 / -1;
+    height: auto;
+    aspect-ratio: 539 / 722;
+  }
+  .hero-side {
+    grid-column: 1;
+    height: auto;
+    aspect-ratio: 259 / 346;
+  }
+  .hero-small {
+    grid-column: 2;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 260 / 166;
+    align-self: start;
+  }
+  .hero-wordmark {
+    grid-column: 1 / -1;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 818 / 168;
+  }
+  .hero-rule-end { display: none; }
+
+  .cards { grid-template-columns: 1fr; gap: 24px; }
+  .card { max-width: 520px; margin-inline: auto; width: 100%; }
+  .card-info h3 { font-size: 26px; }
+  .card-price { margin-top: 10px; font-size: 16px; }
+  .card-rule { margin-top: 12px; width: auto; }
+  .card-desc { margin-top: 14px; width: auto; font-size: 13px; }
+
+  .about { padding: 48px 0; }
+  .meta-row {
+    padding-left: 0;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    font-size: 17px;
+  }
+  .meta-row li { padding-top: 0 !important; }
+
+  .about-grid { margin-top: 32px; grid-template-columns: 1fr; row-gap: 28px; }
+  .about-rule { margin-bottom: 24px; }
+  .about-copy h2 { font-size: 34px; }
+  .about-copy .prose { margin-top: 28px; font-size: 18px; }
+
+  .photo-row { grid-template-columns: 1fr; }
+
+  .fact { grid-template-columns: 1fr; row-gap: 16px; }
+  .fact-label, .fact-text { font-size: 18px; }
+  .fact-img { width: min(250px, 60%); }
+  .fact-divider { margin: 40px 0; width: auto; }
+
+  .info-cols { grid-template-columns: 1fr; gap: 32px; }
+  .info-col h4 { font-size: 22px; }
+  .info-col p { font-size: 17px; }
+
+  .footer-logo { width: 180px; height: auto; margin-top: 48px; }
+  .footer-links {
+    margin-top: 32px;
+    padding-inline: 0;
+    font-size: 15px;
+  }
+  .footer-copy { margin-top: 20px; font-size: 13px; }
+}
+
+@media (max-width: 480px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-side, .hero-small { grid-column: 1; }
+  .footer-links { font-size: 13px; }
+}
+/* ===================== product modal (Frame 14) — unchanged ===================== */
+
+
+
+
+.pd {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 24px 0;
+}
+
+
+
+.pd[hidden] { display: none; }
+
+
+
+.pd-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 31, 31, 0.62);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+
+
+.pd-dialog {
+  position: relative;
+  margin: auto;                  /* safe centering: never clips a tall sheet */
+  width: 100%;
+  max-width: 1512px;             /* same column as .shell, so nothing peeks out behind */
+  zoom: 0.75;
+  padding: 96px 146px 85px;
+  background: var(--cream);
+  color: var(--dark);
+  font-family: var(--font-display);
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+
+.pd.is-open .pd-backdrop { opacity: 1; }
+
+
+.pd.is-open .pd-dialog { opacity: 1; transform: none; }
+
+
+
+.pd-close {
+  position: absolute;
+  top: 38px;
+  right: 51px;
+  padding: 16px;
+  border: 0;
+  background: none;
+  font-family: var(--font-sans);
+  font-size: 22px;
+  line-height: 1;
+  color: var(--dark);
+  cursor: pointer;
+  transition: opacity 0.35s ease;
+}
+
+
+
+.pd-close:hover { opacity: 0.55; }
+
+
+
+/* ---------- upper half: gallery + info ---------- */
+
+/* 580 : 540 of the design, kept as ratios so the sheet can breathe with the page */
+.pd-top {
+  display: grid;
+  grid-template-columns: 58fr 54fr;
+  gap: 100px;
+}
+
+
+
+.pd-gallery { display: grid; gap: 6px; align-content: start; }
+
+
+
+.pd-hero img,
+.pd-thumbs img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+
+
+.pd-thumbs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+
+
+.pd-info { display: flex; flex-direction: column; padding-top: 20px; }
+
+
+
+.pd-title {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 1;
+  letter-spacing: 0.0375em;
+}
+
+
+
+.pd-price {
+  margin-top: 28px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: 0.05em;
+}
+
+
+
+.pd-rule {
+  margin-top: 33px;
+  border: 0;
+  border-top: 1px solid var(--dark);
+}
+
+
+
+.pd-desc { margin-top: 28px; font-size: 20px; }
+
+
+
+.pd-specs {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  font-size: 18px;
+}
+
+
+
+.pd-specs dt,
+.pd-specs dd {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  border-bottom: 1px solid var(--spec-line);
+}
+
+
+
+.pd-specs dt { color: var(--line-grey); }
+
+
+
+/* size select + Buy sit at the bottom of the column, level with the photos */
+.pd-select { position: relative; margin-top: auto; }
+
+
+
+.pd-select::after {
+  content: "\25BE";
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 18px;
+}
+
+
+
+.pd-size {
+  appearance: none;
+  width: 100%;
+  height: 56px;
+  padding: 0 44px 0 18px;
+  border: 1px solid var(--dark);
+  border-radius: 0;
+  background: none;
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--dark);
+  cursor: pointer;
+}
+
+
+
+.pd-size:invalid { color: var(--line-grey); }
+
+
+
+.pd-buy,
+.pd-confirm {
+  height: 60px;
+  border: 0;
+  background: var(--dark);
+  color: var(--cream);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: opacity 0.35s ease;
+}
+
+
+
+.pd-buy { margin-top: 28px; }
+
+
+.pd-buy:hover,
+.pd-confirm:hover { opacity: 0.85; }
+
+
+
+/* ---------- lower half: "Complete your order", collapsed until Buy ---------- */
+
+.pd-order {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+
+.pd.is-expanded .pd-order { grid-template-rows: 1fr; }
+
+
+
+/* hidden rather than merely clipped, so the form is not tabbable while folded */
+.pd-order-inner { overflow: hidden; visibility: hidden; transition: visibility 0s 0.85s; }
+
+
+.pd.is-expanded .pd-order-inner { visibility: visible; transition: visibility 0s; }
+
+
+
+.pd-order-rule {
+  margin-top: 70px;
+  border: 0;
+  border-top: 1px solid var(--line-grey);
+}
+
+
+
+.pd-order-grid {
+  margin-top: 62px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 140px;
+}
+
+
+
+.pd-order-left { display: flex; flex-direction: column; justify-content: space-between; }
+
+
+
+.pd-cap { font-size: 16px; color: var(--line-grey); }
+
+
+
+.pd-qty {
+  margin-top: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  font-size: 18px;
+}
+
+
+
+.pd-stepper { display: flex; }
+
+
+
+.pd-step,
+.pd-count {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--dark);
+  background: none;
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--dark);
+}
+
+
+
+.pd-step { cursor: pointer; transition: opacity 0.35s ease; }
+
+
+.pd-step:hover { opacity: 0.55; }
+
+
+
+.pd-accept {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  color: var(--line-grey);
+}
+
+
+
+.pd-methods { margin-top: 6px; font-size: 18px; }
+
+
+
+.pd-order-right {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  padding-top: 31px;             /* lines the name field up with the quantity row */
+}
+
+
+
+.pd-field {
+  height: 56px;
+  padding: 0 18px;
+  border: 1px solid var(--dark);
+  border-radius: 0;
+  background: none;
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--dark);
+}
+
+
+
+.pd-field::placeholder { color: var(--line-grey); opacity: 1; }
+
+
+.pd-field.is-missing { border-color: #b4483c; }
+
+
+
+.pd-thanks { font-size: 18px; color: var(--line-grey); }
+
+
+
+.pd-close:focus-visible,
+.pd-size:focus-visible,
+.pd-field:focus-visible,
+.pd-step:focus-visible,
+.pd-buy:focus-visible,
+.pd-confirm:focus-visible,
+.product[data-product]:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+
+
+/* content of the order block rises in as the block unfolds */
+.pd-rise {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0s);
+}
+
+
+
+.pd-rise.in { opacity: 1; transform: none; }
+
+
+
+/* Freeze the page behind the modal. Pinning the body (rather than hiding
+   html's overflow) keeps the background exactly where the reader left it. */
+html.pd-lock { scrollbar-gutter: stable; }
+
+
+html.pd-lock body { position: fixed; left: 0; right: 0; width: 100%; }
+@media (prefers-reduced-motion: reduce) {
   .pd-backdrop,
   .pd-dialog,
   .pd-order,
@@ -696,8 +953,6 @@ html.pd-lock body { position: fixed; left: 0; right: 0; width: 100%; }
   .pd-dialog { transform: none; }
   .pd-rise { opacity: 1; transform: none; transition: none; }
 }
-
-/* ============================== responsive ============================== */
 
 /* Below this the sheet is narrower than the 1512 reference, so its margins and
    gutters follow the viewport. The vw values equal 146px / 100px / 140px at
@@ -708,64 +963,9 @@ html.pd-lock body { position: fixed; left: 0; right: 0; width: 100%; }
   .pd-order-grid { gap: 12.35vw; }
 }
 
+
+/* modal on tablet & mobile */
 @media (max-width: 900px) {
-  :root { --pad: 16px; }
-
-  .shell { zoom: 1; }          /* full-size content on tablet & mobile */
-
-  .dark-block { padding-bottom: 0; }
-
-  .site-header { padding: 24px var(--pad) 0; }
-  .logo-mark { top: 26px; width: 26px; height: 22px; }
-
-  .hero { margin-top: 32px; aspect-ratio: 3 / 4; }
-  .hero-text { max-width: 92%; }
-
-  .products {
-    margin: 40px var(--pad) 0;
-    grid-template-columns: 1fr;
-    gap: 56px;
-  }
-  .product { max-width: 520px; margin-inline: auto; width: 100%; }
-  .product-info { margin-top: -12px; padding: 0 8%; }
-
-  .duo { margin-top: 64px; gap: 12px; }
-
-  .about { padding: 56px 0 80px; }
-  .meta-row { gap: 8px 32px; padding: 0 var(--pad); }
-
-  .about-grid { margin-top: 48px; grid-template-columns: 1fr; gap: 32px; }
-  .about-photo { height: auto; }
-  .about-copy h2 { margin-top: 32px; }
-  .about-copy .prose { margin-top: 32px; }
-
-  .trio { margin-top: 56px; grid-template-columns: 1fr; gap: 12px; }
-
-  .fact {
-    margin: 72px var(--pad) 0;
-    grid-template-columns: 1fr;
-    gap: 20px;
-    min-height: 0;
-  }
-  .fact-img { width: min(250px, 60%); height: auto; aspect-ratio: 1 / 1; }
-  .fact-text { padding-left: 0; }
-  .fact-divider { margin: 48px var(--pad) 40px; width: auto; }
-  .fact-divider + .fact { margin-top: 0; }
-
-  .footer { padding-top: 64px; }
-  .footer-quote { margin: 0 var(--pad); }
-  .products--compact { margin-top: 40px; }
-  .products--compact .product-info { margin-top: -8px; }
-
-  .map-strip { margin-top: 64px; }
-
-  .info-cols { margin: 48px var(--pad) 0; grid-template-columns: 1fr; gap: 40px; }
-
-  .giant-logo { margin-top: 56px; }
-
-  .footer-bottom { margin-top: 40px; padding-bottom: 8px; }
-
-  /* product modal: full-size, single column sheet */
   .pd { padding: 0; }
 
   .pd-dialog {
@@ -795,9 +995,4 @@ html.pd-lock body { position: fixed; left: 0; right: 0; width: 100%; }
   .pd-order-left { display: contents; }
   .pd-order-left > .pd-rise:last-child { order: 3; }
   .pd-order-right { order: 2; padding-top: 0; }
-}
-
-@media (max-width: 480px) {
-  .duo { grid-template-columns: 1fr; }
-  .main-nav { gap: 18px; }
 }
