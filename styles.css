@@ -64,12 +64,12 @@ hr { border: 0; }
 
 /* ============================== header ============================== */
 
-.site-header { padding-top: 5rem; }
+.site-header { padding-top: 4.8rem; }
 
 .site-header-inner {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
 }
 
@@ -90,9 +90,10 @@ hr { border: 0; }
 .logo-mark {
   width: 3.5rem;
   height: 3rem;
+  margin-top: 0.2rem;
 }
 
-.main-nav { display: flex; align-items: center; gap: 6.8rem; }
+.main-nav { display: flex; align-items: flex-start; gap: 3.6rem; }
 
 /* no link behind it yet — styled like the rest, just not clickable */
 .nav-pending { cursor: default; }
@@ -202,13 +203,8 @@ hr { border: 0; }
 .card:hover .card-bg,
 .card:focus-within .card-bg { filter: grayscale(0); }
 
-/* the veil thins a little so the colour actually reads through */
-.card::before {
-  transition: background-color 0.6s ease;
-}
-
-.card:hover::before,
-.card:focus-within::before { background: rgba(0, 0, 0, 0.62); }
+/* the veil stays at 86% — the mockup's hovered card gets its colour back
+   without the dimming changing */
 
 .card::before {
   content: "";
@@ -264,7 +260,7 @@ hr { border: 0; }
 .card-rule {
   margin-top: 2.9rem;
   border-top: 1px solid var(--line-grey);
-  width: 34.8rem;
+  width: 44.4rem;
   max-width: 100%;
 }
 
@@ -280,25 +276,39 @@ hr { border: 0; }
 }
 
 .card-explore {
-  margin-top: 3.2rem;
-  padding: 1.4rem 3.2rem;
-  border: 1px solid var(--cream);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 7.2rem;
+  padding: 0;
+  border: 0;
   background: transparent;
-  color: var(--cream);
+  color: var(--white);
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 1.8rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-size: 1.6rem;
+  line-height: 1.0625;
   cursor: pointer;
-  transition: background-color 0.35s ease, color 0.35s ease;
 }
 
-.card-explore:hover,
-.card-explore:focus-visible {
-  background: var(--cream);
-  color: var(--dark);
+.card-arrow {
+  width: 15.7rem;
+  height: 0.8rem;
+  flex: none;
+  overflow: visible;
+  fill: none;
+  stroke: var(--line-grey);
+  stroke-width: 1;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.4s ease;
 }
+
+.card-explore:hover .card-arrow,
+.card-explore:focus-visible .card-arrow {
+  stroke: var(--white);
+  transform: translateX(0.8rem);
+}
+
+.card-explore:focus-visible { outline: 1px solid var(--white); outline-offset: 0.6rem; }
 
 /* ============================== about (light band) ============================== */
 
@@ -337,6 +347,7 @@ hr { border: 0; }
 }
 
 .about-rule {
+  margin-top: 0.4rem;
   border-top: 1px solid var(--ink);
   margin-bottom: 11.7rem;
 }
@@ -557,13 +568,10 @@ hr { border: 0; }
   .cards { grid-template-columns: 1fr; gap: 24px; }
   .card { max-width: 520px; margin-inline: auto; width: 100%; }
   /* the block is taller here (the button joins it), so it starts higher up */
-  .card-info { top: 44%; }
+  .card-info { top: 48%; }
   .card-info h3 { font-size: 26px; }
-  .card-explore {
-    margin-top: 18px;
-    padding: 11px 22px;
-    font-size: 13px;
-  }
+  .card-explore { margin-top: 26px; font-size: 14px; }
+  .card-arrow { width: 96px; height: 8px; }
   .card-price { margin-top: 10px; font-size: 16px; }
   .card-rule { margin-top: 12px; width: auto; }
   .card-desc { margin-top: 14px; width: auto; font-size: 13px; }
