@@ -203,8 +203,11 @@ hr { border: 0; }
 .card:hover .card-bg,
 .card:focus-within .card-bg { filter: grayscale(0); }
 
-/* the veil stays at 86% — the mockup's hovered card gets its colour back
-   without the dimming changing */
+/* hovering also lifts the veil from 86% to 70%, as drawn on the signet card */
+.card::before { transition: background-color 0.6s ease; }
+
+.card:hover::before,
+.card:focus-within::before { background: rgba(0, 0, 0, 0.7); }
 
 .card::before {
   content: "";
@@ -429,21 +432,22 @@ hr { border: 0; }
 
 .info-cols {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--gap);
+  grid-template-columns: 55.9fr 56.2fr;
+  column-gap: 25.7rem;
+  padding-inline: 17.5rem;       /* .shell's 35 + the mockup's 140 → columns at 175 / 991 */
 }
 
 .info-col h4 {
   font-weight: 400;
   font-size: 3rem;
   line-height: 1.167;
-  margin-bottom: 3.4rem;         /* blank line between heading and body */
+  margin-bottom: 2.8rem;         /* blank line between heading and body */
   color: var(--cream);
 }
 
 .info-col p {
-  font-size: 2.4rem;
-  line-height: 1.167;
+  font-size: 2.2rem;
+  line-height: 1.182;
   color: var(--cream);
 }
 
@@ -597,8 +601,8 @@ hr { border: 0; }
   .fact-img { width: min(250px, 60%); }
   .fact-divider { margin: 40px 0; width: auto; }
 
-  .info-cols { grid-template-columns: 1fr; gap: 32px; }
-  .info-col h4 { font-size: 22px; }
+  .info-cols { grid-template-columns: 1fr; gap: 32px; padding-inline: var(--pad); }
+  .info-col h4 { font-size: 22px; margin-bottom: 16px; }
   .info-col p { font-size: 17px; }
 
   .footer-logo {
@@ -610,6 +614,8 @@ hr { border: 0; }
   .footer-links {
     margin-top: 32px;
     width: 100%;
+    grid-template-columns: repeat(3, auto);
+    justify-content: space-between;
     font-size: 14px;
   }
   .footer-copy { margin-top: 28px; font-size: 12px; }
