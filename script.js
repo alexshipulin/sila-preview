@@ -230,19 +230,19 @@
     }
   }
 
+  // Anywhere on a card opens it; the Explore button is the keyboard-reachable
+  // trigger, so Enter/Space are handled natively by the button itself.
   document.addEventListener('click', function (e) {
     var card = e.target.closest('[data-product]');
-    if (card) { open(card.getAttribute('data-product'), card); return; }
+    if (card) {
+      var trigger = e.target.closest('.card-explore') || card;
+      open(card.getAttribute('data-product'), trigger);
+      return;
+    }
     if (e.target.closest('[data-pd-close]')) close();
   });
 
   document.addEventListener('keydown', function (e) {
-    var card = e.target.closest && e.target.closest('[data-product]');
-    if (card && (e.key === 'Enter' || e.key === ' ')) {
-      e.preventDefault();
-      open(card.getAttribute('data-product'), card);
-      return;
-    }
     if (modal.hidden) return;
     if (e.key === 'Escape') { close(); return; }
     if (e.key !== 'Tab') return;

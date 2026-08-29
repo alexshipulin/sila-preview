@@ -73,7 +73,8 @@ hr { border: 0; }
   position: relative;
 }
 
-.main-nav a {
+.main-nav a,
+.nav-pending {
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: 2.2rem;
@@ -91,7 +92,10 @@ hr { border: 0; }
   height: 3rem;
 }
 
-.main-nav { display: flex; gap: 6.8rem; }
+.main-nav { display: flex; align-items: center; gap: 6.8rem; }
+
+/* no link behind it yet — styled like the rest, just not clickable */
+.nav-pending { cursor: default; }
 
 /* ============================== hero ============================== */
 
@@ -182,7 +186,8 @@ hr { border: 0; }
   cursor: pointer;
 }
 
-/* photo backdrop, dimmed to 86% black as in the mockup */
+/* photo backdrop, dimmed to 86% black as in the mockup; desaturated until the
+   card is hovered, when the photo comes back to full colour */
 .card-bg {
   position: absolute;
   inset: 0;
@@ -190,7 +195,20 @@ hr { border: 0; }
   height: 100%;
   object-fit: cover;
   z-index: -2;
+  filter: grayscale(1);
+  transition: filter 0.6s ease;
 }
+
+.card:hover .card-bg,
+.card:focus-within .card-bg { filter: grayscale(0); }
+
+/* the veil thins a little so the colour actually reads through */
+.card::before {
+  transition: background-color 0.6s ease;
+}
+
+.card:hover::before,
+.card:focus-within::before { background: rgba(0, 0, 0, 0.62); }
 
 .card::before {
   content: "";
@@ -259,6 +277,27 @@ hr { border: 0; }
   font-size: 1.6rem;
   line-height: 1.0625;
   color: rgba(255, 255, 255, 0.5);
+}
+
+.card-explore {
+  margin-top: 3.2rem;
+  padding: 1.4rem 3.2rem;
+  border: 1px solid var(--cream);
+  background: transparent;
+  color: var(--cream);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 1.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+.card-explore:hover,
+.card-explore:focus-visible {
+  background: var(--cream);
+  color: var(--dark);
 }
 
 /* ============================== about (light band) ============================== */
@@ -517,7 +556,14 @@ hr { border: 0; }
 
   .cards { grid-template-columns: 1fr; gap: 24px; }
   .card { max-width: 520px; margin-inline: auto; width: 100%; }
+  /* the block is taller here (the button joins it), so it starts higher up */
+  .card-info { top: 44%; }
   .card-info h3 { font-size: 26px; }
+  .card-explore {
+    margin-top: 18px;
+    padding: 11px 22px;
+    font-size: 13px;
+  }
   .card-price { margin-top: 10px; font-size: 16px; }
   .card-rule { margin-top: 12px; width: auto; }
   .card-desc { margin-top: 14px; width: auto; font-size: 13px; }
