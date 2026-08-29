@@ -281,10 +281,12 @@ hr { border: 0; }
 .card-explore {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-top: 7.2rem;
-  padding: 0;
-  border: 0;
+  justify-content: center;
+  width: 44.4rem;
+  max-width: 100%;
+  height: 5.8rem;
+  margin-top: 3.1rem;
+  border: 1px solid var(--line-grey);
   background: transparent;
   color: var(--white);
   font-family: var(--font-sans);
@@ -292,26 +294,18 @@ hr { border: 0; }
   font-size: 1.6rem;
   line-height: 1.0625;
   cursor: pointer;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-.card-arrow {
-  width: 15.7rem;
-  height: 0.8rem;
-  flex: none;
-  overflow: visible;
-  fill: none;
-  stroke: var(--line-grey);
-  stroke-width: 1;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.4s ease;
+/* hovering the card (or the button itself) fills it, as drawn on the signet card */
+.card:hover .card-explore,
+.card:focus-within .card-explore,
+.card-explore:hover {
+  background: var(--white);
+  color: #000000;
 }
 
-.card-explore:hover .card-arrow,
-.card-explore:focus-visible .card-arrow {
-  stroke: var(--white);
-  transform: translateX(0.8rem);
-}
-
-.card-explore:focus-visible { outline: 1px solid var(--white); outline-offset: 0.6rem; }
+.card-explore:focus-visible { outline: 1px solid var(--white); outline-offset: 0.4rem; }
 
 /* ============================== about (light band) ============================== */
 
@@ -574,8 +568,12 @@ hr { border: 0; }
   /* the block is taller here (the button joins it), so it starts higher up */
   .card-info { top: 48%; }
   .card-info h3 { font-size: 26px; }
-  .card-explore { margin-top: 26px; font-size: 14px; }
-  .card-arrow { width: 96px; height: 8px; }
+  .card-explore {
+    margin-top: 20px;
+    width: 100%;
+    height: 46px;
+    font-size: 13px;
+  }
   .card-price { margin-top: 10px; font-size: 16px; }
   .card-rule { margin-top: 12px; width: auto; }
   .card-desc { margin-top: 14px; width: auto; font-size: 13px; }
