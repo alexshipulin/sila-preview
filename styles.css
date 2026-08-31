@@ -671,14 +671,14 @@ hr { border: 0; }
 
 .pd-close {
   position: fixed;
-  top: 46px;
-  right: 81px;
+  top: 38px;
+  right: 72px;
   z-index: 1;
   border: 0;
   background: transparent;
   color: var(--ink);
   font-family: var(--font-sans);
-  font-size: 22px;
+  font-size: 36px;
   line-height: 1;
   cursor: pointer;
   padding: 8px;
@@ -686,6 +686,7 @@ hr { border: 0; }
 }
 
 .pd-close:hover { opacity: 0.55; }
+.pd-close:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
 
 /* ---------- left column: gallery + note ---------- */
 
@@ -739,7 +740,6 @@ hr { border: 0; }
 }
 
 .pd-note p + p { margin-top: 1.2em; }
-.pd-note span { color: var(--ink); }
 
 /* ---------- right column: details + order form ---------- */
 
@@ -944,8 +944,14 @@ hr { border: 0; }
   .pd-dialog { padding: 56px 16px 40px; align-items: flex-start; }
   .pd-inner { grid-template-columns: 1fr; row-gap: 32px; }
 
-  .pd-close { top: 12px; right: 10px; }
-  .pd-note { margin-top: 28px; font-size: 15px; }
+  /* the delivery note drops below the order form on a phone */
+  .pd-left { display: contents; }
+  .pd-hero { order: 1; }
+  .pd-thumbs { order: 2; gap: 6px; margin-top: 6px; }
+  .pd-right { order: 3; }
+  .pd-note { order: 4; margin-top: 0; font-size: 15px; }
+
+  .pd-close { top: 12px; right: 10px; font-size: 30px; }
 
   .pd-title { font-size: 32px; }
   .pd-price { margin-top: 14px; font-size: 17px; }
