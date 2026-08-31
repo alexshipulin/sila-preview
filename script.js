@@ -28,68 +28,65 @@
   reveals.forEach(function (el) { observer.observe(el); });
 })();
 
-// Product detail modal (Frame 14). Opens collapsed; "Buy" unfolds the order block.
+// Product detail modal (Frame 14) + full-screen image viewer.
 (function () {
   var modal = document.getElementById('product-modal');
+  var lightbox = document.getElementById('lightbox');
   if (!modal) return;
 
-  var SPECS_STONE = ['Stone', 'Zircon'];
   var SIZES = ['6', '7', '8', '9', '10'];
 
   var PRODUCTS = {
-    rhythm: {
-      title: 'Rhythm Ring',
-      price: '2 300 000 IDR',
-      desc: 'A silver ring shaped by repeated vertical forms, creating a clean architectural rhythm. Minimal from afar, detailed up close. Designed to become a daily piece with character — structured, calm, and strong.',
-      specs: [['Material', 'Silver 925'], ['Stone', '—'], ['Sizes', '6–10 adjustable'], ['Weight', '~6 g'], ['Made in', 'Bali']],
-      sizes: SIZES,
-      images: ['assets/detail-rhythm-1.jpg', 'assets/detail-rhythm-2.jpg', 'assets/detail-rhythm-3.jpg']
+    signet: {
+      title: 'Signet Ring',
+      price: '3 000 000 IDR',
+      desc: 'A smooth silver signet ring with a warm zircon stone at the center. Its rounded form feels calm and grounded, while the stone adds a quiet point of light. Inside, two small stones symbolize a connection with yourself.',
+      specs: [['Material', 'Silver 925'], ['Plating', 'Rhodium Nano'], ['Stone', 'Zircon'], ['Made in', 'Bali']],
+      images: ['assets/ring-signet.png', 'assets/detail-signet-1.jpg', 'assets/detail-signet-2.jpg', 'assets/detail-signet-3.jpg']
     },
     lattice: {
       title: 'Lattice Ring',
-      price: '2 500 000 IDR',
+      price: '2 500 000 IDR',
       desc: 'A sculptural silver ring built from small rounded elements, creating a soft open structure around the finger. Light-catching, tactile, and bold without feeling heavy. A piece for everyday presence — noticeable, but never loud.',
-      specs: [['Material', 'Silver 925'], SPECS_STONE, ['Sizes', '6–10'], ['Made in', 'Bali']],
-      sizes: SIZES,
-      images: ['assets/detail-lattice-1.jpg', 'assets/detail-lattice-2.jpg', 'assets/detail-lattice-3.jpg']
+      specs: [['Material', 'Silver 925'], ['Plating', 'Rhodium Nano'], ['Stone', '—'], ['Made in', 'Bali']],
+      images: ['assets/ring-lattice.png', 'assets/detail-lattice-1.jpg', 'assets/detail-lattice-2.jpg', 'assets/detail-lattice-3.jpg']
     },
-    signet: {
-      title: 'Signet Ring',
-      price: '3 000 000 IDR',
-      desc: 'A smooth silver signet ring with a warm zircon stone at the center. Its rounded form feels calm and grounded, while the stone adds a quiet point of light. Inside, two small stones symbolize a connection with yourself.',
-      specs: [['Material', 'Silver 925'], SPECS_STONE, ['Sizes', '6–10'], ['Made in', 'Bali']],
-      sizes: SIZES,
-      images: ['assets/detail-signet-1.jpg', 'assets/detail-signet-2.jpg', 'assets/detail-signet-3.jpg']
+    rhythm: {
+      title: 'Rhythm Ring',
+      price: '2 300 000 IDR',
+      desc: 'A silver ring shaped by repeated vertical forms, creating a clean architectural rhythm. Minimal from afar, detailed up close. Designed to become a daily piece with character — structured, calm, and strong.',
+      specs: [['Material', 'Silver 925'], ['Plating', 'Rhodium Nano'], ['Stone', '—'], ['Made in', 'Bali']],
+      images: ['assets/ring-rhythm.png', 'assets/detail-rhythm-1.jpg', 'assets/detail-rhythm-2.jpg', 'assets/detail-rhythm-3.jpg']
     }
   };
-
-  // Cascade order for the unfolding order block: quantity, the three fields,
-  // the confirm button, and finally the payment note in the bottom-left.
-  var RISE_DELAYS = [0, 0.24, 0.08, 0.14, 0.2, 0.28];
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var dialog = modal.querySelector('.pd-dialog');
   var closeBtn = modal.querySelector('.pd-close');
-  var heroImg = modal.querySelector('.pd-hero img');
-  var thumbImgs = modal.querySelectorAll('.pd-thumbs img');
+  var heroBtn = modal.querySelector('.pd-hero');
+  var heroImg = heroBtn.querySelector('img');
+  var thumbBtns = Array.prototype.slice.call(modal.querySelectorAll('.pd-thumb'));
   var titleEl = modal.querySelector('.pd-title');
   var priceEl = modal.querySelector('.pd-price');
   var descEl = modal.querySelector('.pd-desc');
   var specsEl = modal.querySelector('.pd-specs');
   var sizeEl = modal.querySelector('.pd-size');
-  var buyBtn = modal.querySelector('.pd-buy');
-  var orderEl = modal.querySelector('.pd-order');
-  var form = modal.querySelector('.pd-order-right');
+  var form = modal.querySelector('.pd-form');
   var confirmBtn = modal.querySelector('.pd-confirm');
   var thanksEl = modal.querySelector('.pd-thanks');
   var countEl = modal.querySelector('.pd-count');
-  var rises = modal.querySelectorAll('.pd-rise');
   var fields = form.querySelectorAll('.pd-field');
+
+  var lbImg = lightbox && lightbox.querySelector('.lb-img');
+  var lbClose = lightbox && lightbox.querySelector('.lb-close');
+  var lbNext = lightbox && lightbox.querySelector('.lb-next');
 
   var lastTrigger = null;
   var qty = 1;
   var savedScroll = 0;
+  var current = null;      // active product
+  var shown = 0;           // index of the image in the hero
 
   function lockPage() {
     savedScroll = window.scrollY || document.documentElement.scrollTop || 0;
@@ -104,19 +101,31 @@
     catch (e) { window.scrollTo(0, savedScroll); }
   }
 
+  function show(index) {
+    if (!current) return;
+    shown = (index + current.images.length) % current.images.length;
+    heroImg.src = current.images[shown];
+    heroImg.alt = current.title;
+    thumbBtns.forEach(function (btn, i) { btn.classList.toggle('is-active', i === shown); });
+    if (lightbox && !lightbox.hidden) lbImg.src = current.images[shown];
+  }
+
   function fill(product) {
+    current = product;
     titleEl.textContent = product.title;
     priceEl.textContent = product.price;
     descEl.textContent = product.desc;
 
     specsEl.textContent = '';
     product.specs.forEach(function (pair) {
+      var row = document.createElement('div');
       var dt = document.createElement('dt');
       var dd = document.createElement('dd');
       dt.textContent = pair[0];
       dd.textContent = pair[1];
-      specsEl.appendChild(dt);
-      specsEl.appendChild(dd);
+      row.appendChild(dt);
+      row.appendChild(dd);
+      specsEl.appendChild(row);
     });
 
     sizeEl.textContent = '';
@@ -127,19 +136,20 @@
     placeholder.selected = true;
     placeholder.textContent = 'Select size';
     sizeEl.appendChild(placeholder);
-    product.sizes.forEach(function (size) {
+    SIZES.forEach(function (size) {
       var option = document.createElement('option');
       option.value = size;
       option.textContent = size;
       sizeEl.appendChild(option);
     });
 
-    heroImg.src = product.images[0];
-    heroImg.alt = product.title;
-    thumbImgs.forEach(function (img, i) {
-      img.src = product.images[i + 1];
+    thumbBtns.forEach(function (btn, i) {
+      var img = btn.querySelector('img');
+      img.src = product.images[i];
       img.alt = '';
     });
+
+    show(0);
   }
 
   function setQty(value) {
@@ -147,10 +157,7 @@
     countEl.textContent = qty;
   }
 
-  function collapse() {
-    modal.classList.remove('is-expanded');
-    buyBtn.setAttribute('aria-expanded', 'false');
-    rises.forEach(function (el) { el.classList.remove('in'); });
+  function reset() {
     fields.forEach(function (field) {
       field.value = '';
       field.disabled = false;
@@ -161,34 +168,13 @@
     setQty(1);
   }
 
-  function expand() {
-    if (!modal.classList.contains('is-expanded')) {
-      modal.classList.add('is-expanded');
-      buyBtn.setAttribute('aria-expanded', 'true');
-      rises.forEach(function (el, i) {
-        el.style.setProperty('--reveal-delay', (RISE_DELAYS[i] !== undefined ? RISE_DELAYS[i] : i * 0.08) + 's');
-        el.classList.add('in');
-      });
-    }
-    // the order block is the bottom of the sheet once open — follow it down
-    var follow = function () {
-      if (modal.scrollTo) modal.scrollTo({ top: modal.scrollHeight, behavior: reduce ? 'auto' : 'smooth' });
-      else modal.scrollTop = modal.scrollHeight;
-    };
-    follow();
-    if (!reduce) window.setTimeout(follow, 900);
-    window.setTimeout(function () {
-      fields[0].focus({ preventScroll: true });
-    }, reduce ? 0 : 1000);
-  }
-
   function open(slug, trigger) {
     var product = PRODUCTS[slug];
     if (!product) return;
 
     lastTrigger = trigger || null;
     fill(product);
-    collapse();
+    reset();
 
     modal.hidden = false;
     modal.scrollTop = 0;
@@ -207,6 +193,7 @@
 
   function close() {
     if (modal.hidden) return;
+    closeLightbox();
     modal.classList.remove('is-open');
 
     var settled = false;
@@ -230,29 +217,61 @@
     }
   }
 
-  // Anywhere on a card opens it; the Explore button is the keyboard-reachable
-  // trigger, so Enter/Space are handled natively by the button itself.
+  function openLightbox() {
+    if (!lightbox || !current) return;
+    lbImg.src = current.images[shown];
+    lbImg.alt = current.title;
+    lightbox.hidden = false;
+    if (reduce) {
+      lightbox.classList.add('is-open');
+    } else {
+      requestAnimationFrame(function () { lightbox.classList.add('is-open'); });
+    }
+    lbClose.focus({ preventScroll: true });
+  }
+
+  function closeLightbox() {
+    if (!lightbox || lightbox.hidden) return;
+    lightbox.classList.remove('is-open');
+    window.setTimeout(function () { lightbox.hidden = true; }, reduce ? 0 : 400);
+    heroBtn.focus({ preventScroll: true });
+  }
+
+  // ---- events ----
+
   document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-pd-close]')) { close(); return; }
+
     var card = e.target.closest('[data-product]');
-    if (card) {
-      var trigger = e.target.closest('.card-explore') || card;
-      open(card.getAttribute('data-product'), trigger);
+    if (card && modal.hidden) {
+      open(card.getAttribute('data-product'), e.target.closest('.card-explore') || card);
       return;
     }
-    if (e.target.closest('[data-pd-close]')) close();
+
+    if (e.target.closest('.pd-hero')) { openLightbox(); return; }
+
+    var thumb = e.target.closest('.pd-thumb');
+    if (thumb) { show(thumbBtns.indexOf(thumb)); return; }
+
+    if (e.target.closest('.lb-close')) { closeLightbox(); return; }
+    if (e.target.closest('.lb-next')) { show(shown + 1); return; }
+    if (lightbox && !lightbox.hidden && e.target === lightbox) closeLightbox();
   });
 
   document.addEventListener('keydown', function (e) {
+    if (lightbox && !lightbox.hidden) {
+      if (e.key === 'Escape') { closeLightbox(); return; }
+      if (e.key === 'ArrowRight') { show(shown + 1); return; }
+      if (e.key === 'ArrowLeft') { show(shown - 1); return; }
+      return;
+    }
     if (modal.hidden) return;
     if (e.key === 'Escape') { close(); return; }
     if (e.key !== 'Tab') return;
 
-    // keep focus inside the dialog
-    var expanded = modal.classList.contains('is-expanded');
-    var focusable = dialog.querySelectorAll('button, select, input, [href]');
+    var focusable = dialog.querySelectorAll('button, select, input');
     var visible = Array.prototype.filter.call(focusable, function (el) {
-      if (el.disabled || el.hidden) return false;
-      return expanded || !el.closest('.pd-order');
+      return !el.disabled && !el.hidden;
     });
     if (!visible.length) return;
     var first = visible[0];
@@ -260,8 +279,6 @@
     if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   });
-
-  buyBtn.addEventListener('click', expand);
 
   modal.querySelectorAll('.pd-step').forEach(function (btn) {
     btn.addEventListener('click', function () {

@@ -619,48 +619,37 @@ hr { border: 0; }
   .hero-side, .hero-small { grid-column: 1; }
   .footer-links { font-size: 13px; }
 }
-/* ===================== product modal (Frame 14) — unchanged ===================== */
+/* ===================== product modal (Frame 14) ===================== */
 
-
-
-
+/* Authored on a 1429 x 1427 sheet; scaled down to fit any viewport and centred. */
 .pd {
   position: fixed;
   inset: 0;
   z-index: 50;
-  display: flex;
-  justify-content: center;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 24px 0;
 }
 
-
-
 .pd[hidden] { display: none; }
-
-
 
 .pd-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(31, 31, 31, 0.62);
-  backdrop-filter: blur(2px);
+  background: var(--cream);
   opacity: 0;
-  transition: opacity 0.45s ease;
+  transition: opacity 0.5s ease;
 }
 
-
-
+/* full-screen sheet; the 1429px content block is centred inside it */
 .pd-dialog {
   position: relative;
-  margin: auto;                  /* safe centering: never clips a tall sheet */
-  width: 100%;
-  max-width: 1512px;             /* same column as .shell, so nothing peeks out behind */
-  zoom: 0.75;
-  padding: 96px 146px 85px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 55px;
   background: var(--cream);
-  color: var(--dark);
+  color: var(--ink);
   font-family: var(--font-display);
   opacity: 0;
   transform: translateY(28px);
@@ -668,165 +657,210 @@ hr { border: 0; }
               transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-
+.pd-inner {
+  width: 1265px;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: 660fr 540fr;
+  column-gap: 65px;
+  align-items: start;
+}
 
 .pd.is-open .pd-backdrop { opacity: 1; }
-
-
 .pd.is-open .pd-dialog { opacity: 1; transform: none; }
 
-
-
 .pd-close {
-  position: absolute;
-  top: 38px;
-  right: 51px;
-  padding: 16px;
+  position: fixed;
+  top: 46px;
+  right: 81px;
+  z-index: 1;
   border: 0;
-  background: none;
+  background: transparent;
+  color: var(--ink);
   font-family: var(--font-sans);
   font-size: 22px;
   line-height: 1;
-  color: var(--dark);
   cursor: pointer;
+  padding: 8px;
   transition: opacity 0.35s ease;
 }
 
-
-
 .pd-close:hover { opacity: 0.55; }
 
+/* ---------- left column: gallery + note ---------- */
 
+.pd-left { display: flex; flex-direction: column; align-self: start; }
 
-/* ---------- upper half: gallery + info ---------- */
-
-/* 580 : 540 of the design, kept as ratios so the sheet can breathe with the page */
-.pd-top {
-  display: grid;
-  grid-template-columns: 58fr 54fr;
-  gap: 100px;
-}
-
-
-
-.pd-gallery { display: grid; gap: 6px; align-content: start; }
-
-
-
-.pd-hero img,
-.pd-thumbs img {
+.pd-hero {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+  display: block;
   width: 100%;
   aspect-ratio: 1 / 1;
-  object-fit: cover;
 }
 
+.pd-hero, .pd-thumb { background: #f4f2ea; }
 
+.pd-hero img,
+.pd-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
-.pd-thumbs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.pd-thumbs {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
 
+.pd-thumb {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  aspect-ratio: 1 / 1;
+  opacity: 0.75;
+  transition: opacity 0.35s ease;
+}
 
+.pd-thumb:hover,
+.pd-thumb.is-active { opacity: 1; }
 
-.pd-info { display: flex; flex-direction: column; padding-top: 20px; }
+.pd-note {
+  margin-top: 116px;
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--line-grey);
+}
 
+.pd-note p + p { margin-top: 1.2em; }
+.pd-note span { color: var(--ink); }
 
+/* ---------- right column: details + order form ---------- */
+
+.pd-right { display: flex; flex-direction: column; align-self: start; }
 
 .pd-title {
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: 48px;
-  line-height: 1;
+  line-height: 1.08;
   letter-spacing: 0.0375em;
+  text-transform: uppercase;
 }
 
-
-
 .pd-price {
-  margin-top: 28px;
+  margin-top: 24px;
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: 22px;
+  line-height: 1.09;
   letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
-
-
 
 .pd-rule {
-  margin-top: 33px;
+  margin-top: 34px;
   border: 0;
-  border-top: 1px solid var(--dark);
+  border-top: 1px solid var(--ink);
 }
 
+.pd-specs { margin-top: 33px; }
 
-
-.pd-desc { margin-top: 28px; font-size: 20px; }
-
-
-
-.pd-specs {
-  margin-top: 24px;
-  display: grid;
-  grid-template-columns: 1fr auto;
+.pd-specs div {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e3da;
   font-size: 18px;
 }
 
+.pd-specs dt { color: var(--line-grey); }
+.pd-specs dd { color: var(--ink); }
 
-
-.pd-specs dt,
-.pd-specs dd {
-  display: flex;
-  align-items: center;
-  height: 48px;
-  border-bottom: 1px solid var(--spec-line);
+.pd-desc {
+  margin-top: 44px;
+  font-size: 20px;
+  line-height: 1.15;
 }
 
+.pd-form { padding-top: 225px; }
 
+.pd-row {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-.pd-specs dt { color: var(--line-grey); }
+.pd-row + .pd-row { margin-top: 16px; }
 
+.pd-label { font-size: 18px; }
 
-
-/* size select + Buy sit at the bottom of the column, level with the photos */
-.pd-select { position: relative; margin-top: auto; }
-
-
+.pd-select { position: relative; width: 270px; }
 
 .pd-select::after {
   content: "\25BE";
   position: absolute;
-  top: 50%;
   right: 18px;
+  top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
   font-size: 18px;
 }
 
-
-
-.pd-size {
-  appearance: none;
+.pd-size,
+.pd-field {
   width: 100%;
   height: 56px;
-  padding: 0 44px 0 18px;
-  border: 1px solid var(--dark);
+  padding: 0 18px;
+  border: 1px solid var(--ink);
   border-radius: 0;
-  background: none;
+  background: transparent;
+  color: var(--ink);
   font-family: var(--font-display);
   font-size: 18px;
-  color: var(--dark);
-  cursor: pointer;
+  appearance: none;
 }
 
+.pd-size:invalid,
+.pd-field::placeholder { color: var(--line-grey); }
 
+.pd-field { margin-top: 16px; }
+.pd-field:first-of-type { margin-top: 100px; }
+.pd-field.is-missing { border-color: #b4534f; }
 
-.pd-size:invalid { color: var(--line-grey); }
+.pd-stepper { display: flex; }
 
+.pd-step,
+.pd-count {
+  height: 56px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.pd-step { width: 44px; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease; }
+.pd-step:hover { background: var(--ink); color: var(--cream); }
+.pd-count { width: 182px; border-inline: 0; }
 
-.pd-buy,
 .pd-confirm {
+  margin-top: 16px;
+  width: 100%;
   height: 60px;
   border: 0;
-  background: var(--dark);
+  background: var(--ink);
   color: var(--cream);
   font-family: var(--font-sans);
   font-weight: 400;
@@ -836,226 +870,96 @@ hr { border: 0; }
   transition: opacity 0.35s ease;
 }
 
-
-
-.pd-buy { margin-top: 28px; }
-
-
-.pd-buy:hover,
 .pd-confirm:hover { opacity: 0.85; }
 
-
-
-/* ---------- lower half: "Complete your order", collapsed until Buy ---------- */
-
-.pd-order {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-
-
-.pd.is-expanded .pd-order { grid-template-rows: 1fr; }
-
-
-
-/* hidden rather than merely clipped, so the form is not tabbable while folded */
-.pd-order-inner { overflow: hidden; visibility: hidden; transition: visibility 0s 0.85s; }
-
-
-.pd.is-expanded .pd-order-inner { visibility: visible; transition: visibility 0s; }
-
-
-
-.pd-order-rule {
-  margin-top: 70px;
-  border: 0;
-  border-top: 1px solid var(--line-grey);
-}
-
-
-
-.pd-order-grid {
-  margin-top: 62px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 140px;
-}
-
-
-
-.pd-order-left { display: flex; flex-direction: column; justify-content: space-between; }
-
-
-
-.pd-cap { font-size: 16px; color: var(--line-grey); }
-
-
-
-.pd-qty {
-  margin-top: 11px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 44px;
+.pd-thanks {
+  margin-top: 16px;
+  text-align: center;
   font-size: 18px;
+  color: var(--ink);
 }
 
+/* ===================== full-screen image viewer ===================== */
 
+.lb {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 40px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
 
-.pd-stepper { display: flex; }
+.lb[hidden] { display: none; }
+.lb.is-open { opacity: 1; }
 
+.lb-img {
+  max-width: min(720px, 92vw);
+  max-height: 72vh;
+  object-fit: contain;
+}
 
+.lb-controls { display: flex; gap: 12px; }
 
-.pd-step,
-.pd-count {
-  width: 44px;
-  height: 44px;
+.lb-btn {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #d8d8d8;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #1f1f1f;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--dark);
-  background: none;
-  font-family: var(--font-display);
-  font-size: 18px;
-  color: var(--dark);
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.lb-btn:hover { background: #1f1f1f; color: #ffffff; }
 
-
-.pd-step { cursor: pointer; transition: opacity 0.35s ease; }
-
-
-.pd-step:hover { opacity: 0.55; }
-
-
-
-.pd-accept {
-  font-family: var(--font-sans);
-  font-size: 16px;
-  letter-spacing: 0.05em;
-  color: var(--line-grey);
-}
-
-
-
-.pd-methods { margin-top: 6px; font-size: 18px; }
-
-
-
-.pd-order-right {
-  display: grid;
-  gap: 16px;
-  align-content: start;
-  padding-top: 31px;             /* lines the name field up with the quantity row */
-}
-
-
-
-.pd-field {
-  height: 56px;
-  padding: 0 18px;
-  border: 1px solid var(--dark);
-  border-radius: 0;
-  background: none;
-  font-family: var(--font-display);
-  font-size: 18px;
-  color: var(--dark);
-}
-
-
-
-.pd-field::placeholder { color: var(--line-grey); opacity: 1; }
-
-
-.pd-field.is-missing { border-color: #b4483c; }
-
-
-
-.pd-thanks { font-size: 18px; color: var(--line-grey); }
-
-
-
-.pd-close:focus-visible,
-.pd-size:focus-visible,
-.pd-field:focus-visible,
-.pd-step:focus-visible,
-.pd-buy:focus-visible,
-.pd-confirm:focus-visible,
-.product[data-product]:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
-
-
-
-/* content of the order block rises in as the block unfolds */
-.pd-rise {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: var(--reveal-delay, 0s);
-}
-
-
-
-.pd-rise.in { opacity: 1; transform: none; }
-
-
-
-/* Freeze the page behind the modal. Pinning the body (rather than hiding
-   html's overflow) keeps the background exactly where the reader left it. */
-html.pd-lock { scrollbar-gutter: stable; }
-
-
-html.pd-lock body { position: fixed; left: 0; right: 0; width: 100%; }
 @media (prefers-reduced-motion: reduce) {
-  .pd-backdrop,
-  .pd-dialog,
-  .pd-order,
-  .pd-order-inner { transition: none; }
+  .pd-backdrop, .pd-dialog, .lb { transition: none; }
   .pd-dialog { transform: none; }
-  .pd-rise { opacity: 1; transform: none; transition: none; }
 }
 
-/* Below this the sheet is narrower than the 1512 reference, so its margins and
-   gutters follow the viewport. The vw values equal 146px / 100px / 140px at
-   exactly 1134px, so nothing jumps as the breakpoint is crossed. */
-@media (max-width: 1134px) {
-  .pd-dialog { padding-inline: 12.88vw; }
-  .pd-top { gap: 8.82vw; }
-  .pd-order-grid { gap: 12.35vw; }
+/* the sheet is authored at 1429px — below that it scales with the viewport */
+@media (max-width: 1477px) {
+  .pd-dialog { padding: 3.7vw; }
+  .pd-inner { column-gap: 4.4vw; }
+  .pd-close { top: 2.7vw; right: 4vw; }
 }
 
-
-/* modal on tablet & mobile */
 @media (max-width: 900px) {
   .pd { padding: 0; }
 
-  .pd-dialog {
-    zoom: 1;
-    max-width: none;             /* full-bleed sheet, like the rest of the mobile layout */
-    padding: 64px var(--pad) 48px;
-  }
+  .pd-dialog { padding: 56px 16px 40px; align-items: flex-start; }
+  .pd-inner { grid-template-columns: 1fr; row-gap: 32px; }
 
-  .pd-close { top: 10px; right: 0; }
+  .pd-close { top: 12px; right: 10px; }
+  .pd-note { margin-top: 28px; font-size: 15px; }
 
-  .pd-top { grid-template-columns: 1fr; gap: 28px; }
-  .pd-info { padding-top: 0; }
   .pd-title { font-size: 32px; }
-  .pd-price { margin-top: 16px; font-size: 18px; }
-  .pd-rule { margin-top: 20px; }
-  .pd-desc { margin-top: 18px; font-size: 17px; }
-  .pd-specs { margin-top: 16px; font-size: 16px; }
-  .pd-specs dt,
-  .pd-specs dd { height: 44px; }
-  .pd-select { margin-top: 28px; }
-  .pd-buy { margin-top: 16px; }
+  .pd-price { margin-top: 14px; font-size: 17px; }
+  .pd-rule { margin-top: 22px; }
+  .pd-specs { margin-top: 20px; }
+  .pd-specs div { height: 44px; font-size: 15px; }
+  .pd-desc { margin-top: 24px; font-size: 16px; }
+  .pd-form { padding-top: 28px; }
+  .pd-select { width: 60%; }
+  .pd-label { font-size: 16px; }
 
-  .pd-order-rule { margin-top: 40px; }
-  .pd-order-grid { margin-top: 32px; grid-template-columns: 1fr; gap: 28px; }
-
-  /* hoist the two left-hand groups so payment info lands after the form */
-  .pd-order-left { display: contents; }
-  .pd-order-left > .pd-rise:last-child { order: 3; }
-  .pd-order-right { order: 2; padding-top: 0; }
+  .lb { gap: 24px; padding: 20px; }
+  .lb-img { max-height: 66vh; }
 }
+
+html.pd-lock { overflow: hidden; }
+html.pd-lock body { position: fixed; left: 0; right: 0; width: 100%; }

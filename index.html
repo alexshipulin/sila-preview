@@ -234,63 +234,71 @@
     <div class="pd-dialog" role="dialog" aria-modal="true" aria-labelledby="pd-title">
       <button class="pd-close" type="button" aria-label="Close" data-pd-close>&#10005;</button>
 
-      <div class="pd-top">
-        <div class="pd-gallery">
-          <div class="pd-hero"><img alt=""></div>
-          <div class="pd-thumbs">
-            <img alt="">
-            <img alt="">
-          </div>
+      <div class="pd-inner">
+      <div class="pd-left">
+        <button class="pd-hero" type="button" aria-label="Open full-size image">
+          <img alt="">
+        </button>
+
+        <div class="pd-thumbs">
+          <button class="pd-thumb" type="button" aria-label="Show image 1"><img alt=""></button>
+          <button class="pd-thumb" type="button" aria-label="Show image 2"><img alt=""></button>
+          <button class="pd-thumb" type="button" aria-label="Show image 3"><img alt=""></button>
+          <button class="pd-thumb" type="button" aria-label="Show image 4"><img alt=""></button>
         </div>
 
-        <div class="pd-info">
-          <h2 class="pd-title" id="pd-title"></h2>
-          <p class="pd-price"></p>
-          <hr class="pd-rule">
-          <p class="pd-desc"></p>
-          <dl class="pd-specs"></dl>
-          <div class="pd-select">
-            <select class="pd-size" aria-label="Ring size"></select>
-          </div>
-          <button class="pd-buy" type="button" aria-expanded="false" aria-controls="pd-order">Buy</button>
+        <div class="pd-note">
+          <p><span>Delivery</span><br>
+          Bali only for now &mdash; and always free.<br>
+          Canggu, Ubud, Uluwatu or somewhere quieter down the coast: just tell us where you are, and we&rsquo;ll bring your ring to you, wrapped with care.</p>
+          <p><span>Payment</span><br>
+          Card online, bank transfer, Wise or PayPal.<br>
+          Need something else? Write to us &mdash; we&rsquo;ll find a way.</p>
         </div>
       </div>
 
-      <!-- Collapsed until "Buy" is pressed -->
-      <div class="pd-order" id="pd-order">
-        <div class="pd-order-inner">
-          <hr class="pd-order-rule">
+      <div class="pd-right">
+        <h2 class="pd-title" id="pd-title"></h2>
+        <p class="pd-price"></p>
+        <hr class="pd-rule">
+        <dl class="pd-specs"></dl>
+        <p class="pd-desc"></p>
 
-          <div class="pd-order-grid">
-            <div class="pd-order-left">
-              <div class="pd-rise">
-                <p class="pd-cap">Complete your order</p>
-                <div class="pd-qty">
-                  <span class="pd-qty-label">Quantity</span>
-                  <div class="pd-stepper">
-                    <button class="pd-step" type="button" data-step="-1" aria-label="Decrease quantity">&minus;</button>
-                    <span class="pd-count" aria-live="polite">1</span>
-                    <button class="pd-step" type="button" data-step="1" aria-label="Increase quantity">+</button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="pd-rise">
-                <p class="pd-accept">We accept</p>
-                <p class="pd-methods">Card transfer &nbsp; &middot; &nbsp; PayPal &nbsp; &middot; &nbsp; Wise &nbsp; &middot; &nbsp; Crypto</p>
-              </div>
+        <form class="pd-form" novalidate>
+          <div class="pd-row">
+            <span class="pd-label">Size</span>
+            <div class="pd-select">
+              <select class="pd-size" aria-label="Ring size"></select>
             </div>
-
-            <form class="pd-order-right" novalidate>
-              <input class="pd-field pd-rise" type="text" name="name" placeholder="Your name" autocomplete="name">
-              <input class="pd-field pd-rise" type="tel" name="phone" placeholder="+62 ..." autocomplete="tel">
-              <input class="pd-field pd-rise" type="text" name="extra" placeholder="Additional contact information">
-              <button class="pd-confirm pd-rise" type="submit">Confirm order</button>
-              <p class="pd-thanks" role="status" hidden>Thank you &mdash; we&rsquo;ll be in touch</p>
-            </form>
           </div>
-        </div>
+
+          <div class="pd-row">
+            <span class="pd-label">Quantity</span>
+            <div class="pd-stepper">
+              <button class="pd-step" type="button" data-step="-1" aria-label="Decrease quantity">&minus;</button>
+              <span class="pd-count" aria-live="polite">1</span>
+              <button class="pd-step" type="button" data-step="1" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+
+          <input class="pd-field" type="text" name="name" placeholder="Your name" autocomplete="name">
+          <input class="pd-field" type="tel" name="phone" placeholder="+62 ..." autocomplete="tel">
+          <input class="pd-field" type="text" name="extra" placeholder="Additional contact information">
+
+          <button class="pd-confirm" type="submit">Confirm order</button>
+          <p class="pd-thanks" role="status" hidden>Thank you &mdash; we&rsquo;ll be in touch</p>
+        </form>
       </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ full-screen image viewer ============ -->
+  <div class="lb" id="lightbox" hidden>
+    <img class="lb-img" alt="">
+    <div class="lb-controls">
+      <button class="lb-btn lb-close" type="button" aria-label="Close viewer">&#10005;</button>
+      <button class="lb-btn lb-next" type="button" aria-label="Next image">&rsaquo;</button>
     </div>
   </div>
 

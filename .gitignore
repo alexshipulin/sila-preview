@@ -4,3 +4,6 @@ sila
 .figma-token
 *.token
 .godaddy-token
+.stripe*
+.env
+.env.*
