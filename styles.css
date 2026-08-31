@@ -879,6 +879,183 @@ hr { border: 0; }
   color: var(--ink);
 }
 
+/* ===================== contact sheet (Pen: "Contact — Sila") =====================
+   Same full-screen shell as the product modal; 1429 x 1136 sheet, content block
+   1265 wide (660 photo + 65 gutter + 540 details), footnotes on a shared baseline. */
+
+.nav-contact {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 2.2rem;
+  line-height: 1.09;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--cream);
+  cursor: pointer;
+  transition: opacity 0.35s ease;
+}
+
+.nav-contact:hover { opacity: 0.55; }
+
+/* the contact sheet draws a larger, thinner close mark than the product modal */
+.ct .pd-close {
+  top: 14px;
+  right: 76px;
+  font-size: 80px;
+  font-weight: 100;
+}
+
+.ct-inner {
+  width: 1265px;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: 660fr 540fr;
+  column-gap: 65px;
+  row-gap: 28px;
+  align-items: start;
+}
+
+.ct-photo {
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+  aspect-ratio: 660 / 801;
+  object-fit: cover;
+}
+
+.ct-right {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ct-note  { grid-column: 1; grid-row: 2; }
+.ct-legal { grid-column: 2; grid-row: 2; }
+
+.ct-title {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 1.08;
+  letter-spacing: 0.0375em;
+  color: var(--ink);
+}
+
+.ct-intro {
+  margin-top: 16px;
+  font-size: 20px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.ct-divider {
+  margin-top: 44px;
+  border: 0;
+  border-top: 1px solid var(--ink);
+}
+
+.ct-label {
+  margin-top: 44px;
+  padding-bottom: 16px;
+  font-size: 18px;
+  letter-spacing: 0.055em;
+  color: var(--line-grey);
+}
+
+.ct-rows div {
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e3da;
+}
+
+.ct-rows dt {
+  font-size: 18px;
+  color: var(--line-grey);
+}
+
+.ct-rows dd {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.ct-rows a { transition: opacity 0.3s ease; }
+.ct-rows a:hover { opacity: 0.55; }
+
+.ct-whatsapp {
+  margin-top: 44px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-sans);
+  font-size: 20px;
+  letter-spacing: 0.055em;
+  transition: opacity 0.35s ease;
+}
+
+.ct-whatsapp:hover { opacity: 0.85; }
+
+.ct-docs a {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e3da;
+  font-size: 20px;
+  color: var(--ink);
+  transition: opacity 0.3s ease;
+}
+
+.ct-docs a:hover { opacity: 0.55; }
+.ct-docs span { font-size: 18px; color: var(--line-grey); }
+
+.ct-note {
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--line-grey);
+}
+
+.ct-legal {
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--line-grey);
+}
+
+@media (max-width: 900px) {
+  .nav-contact { font-size: 15px; }
+
+  /* the oversized close mark would sit on top of the photo here */
+  .ct .pd-close { top: 6px; right: 8px; font-size: 40px; }
+
+  .ct-inner { grid-template-columns: 1fr; row-gap: 24px; }
+  .ct-photo, .ct-right, .ct-note, .ct-legal { grid-column: 1; }
+  .ct-photo  { grid-row: 1; }
+  .ct-right  { grid-row: 2; }
+  .ct-note   { grid-row: 3; }
+  .ct-legal  { grid-row: 4; }
+
+  .ct-title { font-size: 32px; }
+  .ct-intro { margin-top: 12px; font-size: 17px; }
+  .ct-divider { margin-top: 28px; }
+  .ct-label { margin-top: 28px; padding-bottom: 12px; font-size: 16px; }
+  .ct-rows div { height: 54px; }
+  .ct-rows dt { font-size: 16px; }
+  .ct-rows dd { font-size: 17px; }
+  .ct-whatsapp { margin-top: 28px; height: 54px; font-size: 17px; }
+  .ct-docs a { height: 54px; font-size: 17px; }
+  .ct-note { font-size: 15px; }
+  .ct-legal { font-size: 14px; }
+}
+
 /* ===================== full-screen image viewer ===================== */
 
 .lb {

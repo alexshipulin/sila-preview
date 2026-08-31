@@ -7128,6 +7128,438 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "PRA6w",
+      "x": 3275,
+      "y": -6544,
+      "name": "Contact — Sila",
+      "clip": true,
+      "width": 1429,
+      "height": 1136,
+      "fill": "#fffdf4",
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "mPdHF",
+          "x": 55,
+          "y": 116,
+          "name": "studio image",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "hf_20260727_155141_539d5019-d93e-4d24-a145-7a40ee3e090b.png",
+            "mode": "fill"
+          },
+          "width": 660,
+          "height": 801
+        },
+        {
+          "type": "text",
+          "id": "scPWc",
+          "x": 1327,
+          "y": 6,
+          "name": "close",
+          "fill": "#1f1f1f",
+          "content": "✕",
+          "fontFamily": "Archivo",
+          "fontSize": 80,
+          "fontWeight": "100"
+        },
+        {
+          "type": "frame",
+          "id": "IsKOl",
+          "x": 780,
+          "y": 116,
+          "name": "details",
+          "width": 540,
+          "layout": "vertical",
+          "gap": 44,
+          "children": [
+            {
+              "type": "frame",
+              "id": "AxxGy",
+              "name": "header",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "W3w7G",
+                  "name": "title",
+                  "fill": "#1f1f1f",
+                  "content": "Contact",
+                  "fontFamily": "Archivo",
+                  "fontSize": 48,
+                  "fontWeight": "normal",
+                  "letterSpacing": 1.8
+                },
+                {
+                  "type": "text",
+                  "id": "eGakB",
+                  "name": "intro",
+                  "fill": "#1f1f1f",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Questions about an order, sizing, or a bespoke piece? Message us directly — we usually reply within a day.",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Belleza",
+                  "fontSize": 20,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "id": "jV7zx",
+              "name": "divider",
+              "fill": "#1f1f1f",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "p44Ia",
+              "name": "Reach us",
+              "width": "fill_container",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "h3koQB",
+                  "name": "label",
+                  "width": "fill_container",
+                  "padding": [
+                    0,
+                    0,
+                    16,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "LDq3U",
+                      "name": "t",
+                      "fill": "#9e9e9e",
+                      "content": "Reach us",
+                      "fontFamily": "Belleza",
+                      "fontSize": 18,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "uycnB",
+                  "name": "WhatsApp",
+                  "width": "fill_container",
+                  "height": 62,
+                  "stroke": "#e5e3da",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "strokeAlignment": "inner",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qdJwN",
+                      "name": "k",
+                      "fill": "#9e9e9e",
+                      "content": "WhatsApp",
+                      "fontFamily": "Belleza",
+                      "fontSize": 18,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "LCPsx",
+                      "name": "v",
+                      "fill": "#1f1f1f",
+                      "content": "+62 812 3456 7890",
+                      "fontFamily": "Archivo",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "xfTnT",
+                  "name": "Email",
+                  "width": "fill_container",
+                  "height": 62,
+                  "stroke": "#e5e3da",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "strokeAlignment": "inner",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Z9tble",
+                      "name": "k",
+                      "fill": "#9e9e9e",
+                      "content": "Email",
+                      "fontFamily": "Belleza",
+                      "fontSize": 18,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Mv53b",
+                      "name": "v",
+                      "fill": "#1f1f1f",
+                      "content": "hello@sila.studio",
+                      "fontFamily": "Archivo",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "cxJ0T",
+                  "name": "Legal entity",
+                  "width": "fill_container",
+                  "height": 62,
+                  "stroke": "#e5e3da",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "strokeAlignment": "inner",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "zItrN",
+                      "name": "k",
+                      "fill": "#9e9e9e",
+                      "content": "Legal entity",
+                      "fontFamily": "Belleza",
+                      "fontSize": 18,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "j2536",
+                      "name": "v",
+                      "fill": "#1f1f1f",
+                      "content": "PT Sila Nusantara",
+                      "fontFamily": "Archivo",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "danh5",
+              "name": "whatsapp",
+              "width": "fill_container",
+              "height": 60,
+              "fill": "#1f1f1f",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Ew5HE",
+                  "name": "t",
+                  "fill": "#fffdf4",
+                  "content": "Message us on WhatsApp",
+                  "fontFamily": "Archivo",
+                  "fontSize": 20,
+                  "fontWeight": "normal",
+                  "letterSpacing": 1.1
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "SaU6q",
+              "name": "Documents",
+              "width": "fill_container",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "CwydO",
+                  "name": "label",
+                  "width": "fill_container",
+                  "padding": [
+                    0,
+                    0,
+                    16,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "CHUes",
+                      "name": "t",
+                      "fill": "#9e9e9e",
+                      "content": "Documents",
+                      "fontFamily": "Belleza",
+                      "fontSize": 18,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "rbZFj",
+                  "name": "Return & Exchange Policy",
+                  "width": "fill_container",
+                  "height": 60,
+                  "stroke": "#e5e3da",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "strokeAlignment": "inner",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "avwm3",
+                      "name": "t",
+                      "fill": "#1f1f1f",
+                      "content": "Return & Exchange Policy",
+                      "fontFamily": "Belleza",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "mXprI",
+                      "name": "a",
+                      "fill": "#9e9e9e",
+                      "content": "↗",
+                      "fontFamily": "Belleza",
+                      "fontSize": 18,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "SlANW",
+                  "name": "Terms of Service",
+                  "width": "fill_container",
+                  "height": 60,
+                  "stroke": "#e5e3da",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "strokeAlignment": "inner",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Nm4bk",
+                      "name": "t",
+                      "fill": "#1f1f1f",
+                      "content": "Terms of Service",
+                      "fontFamily": "Belleza",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "m3cS9",
+                      "name": "a",
+                      "fill": "#9e9e9e",
+                      "content": "↗",
+                      "fontFamily": "Belleza",
+                      "fontSize": 18,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "AO4cy",
+                  "name": "Privacy Policy",
+                  "width": "fill_container",
+                  "height": 60,
+                  "stroke": "#e5e3da",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "strokeAlignment": "inner",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "AkogM",
+                      "name": "t",
+                      "fill": "#1f1f1f",
+                      "content": "Privacy Policy",
+                      "fontFamily": "Belleza",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "fDSg8",
+                      "name": "a",
+                      "fill": "#9e9e9e",
+                      "content": "↗",
+                      "fontFamily": "Belleza",
+                      "fontSize": 18,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "nTBYW",
+          "x": 55,
+          "y": 945,
+          "name": "studio note",
+          "fill": "#9e9e9e",
+          "textGrowth": "fixed-width",
+          "width": 660,
+          "content": "The studio\nJl. Raya Ubud No. 8, Gianyar, Bali 80571\nOpen Mon–Sat, 10:00–18:00 WITA · visits by appointment",
+          "lineHeight": 1.4,
+          "fontFamily": "Belleza",
+          "fontSize": 18,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "xfSrJ",
+          "x": 780,
+          "y": 945,
+          "name": "legal footer",
+          "fill": "#9e9e9e",
+          "textGrowth": "fixed-width",
+          "width": 540,
+          "content": "© 2025 PT Sila Nusantara · Business Reg. 00.000.000.0-000.000\nGianyar, Bali, Indonesia",
+          "lineHeight": 1.4,
+          "fontFamily": "Belleza",
+          "fontSize": 16,
+          "fontWeight": "normal"
+        }
+      ]
     }
   ],
   "variables": {
