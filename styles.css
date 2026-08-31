@@ -187,8 +187,8 @@ hr { border: 0; }
   cursor: pointer;
 }
 
-/* photo backdrop, dimmed to 70% black; desaturated until the card is hovered,
-   when the photo comes back to full colour under a lighter 50% veil */
+/* photo backdrop, dimmed to 70% black. The photos are greyscale in the mockup,
+   so hovering only lifts the veil — there is no colour to bring back. */
 .card-bg {
   position: absolute;
   inset: 0;
@@ -196,12 +196,7 @@ hr { border: 0; }
   height: 100%;
   object-fit: cover;
   z-index: -2;
-  filter: grayscale(1);
-  transition: filter 0.6s ease;
 }
-
-.card:hover .card-bg,
-.card:focus-within .card-bg { filter: grayscale(0); }
 
 /* hovering also lifts the veil from 70% to 50%, as drawn on the signet card */
 .card::before { transition: background-color 0.6s ease; }
