@@ -1345,6 +1345,65 @@ hr { border: 0; }
 
 .sz-apps a:hover { opacity: 0.55; }
 
+/* the conversion table, in the same hand as the legal tables */
+.sz-table-wrap {
+  margin-top: 48px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.sz-table-wrap::-webkit-scrollbar { display: none; }
+
+.sz-table {
+  width: 100%;
+  /* fixed, or the two long headers eat the width and the codes bunch up right */
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.sz-table th,
+.sz-table td {
+  padding: 14px 20px 14px 0;
+  border-bottom: 1px solid #e5e3da;
+  text-align: left;
+}
+
+.sz-table th {
+  padding-bottom: 16px;
+  border-bottom-color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.055em;
+  color: var(--line-grey);
+  vertical-align: bottom;
+}
+
+/* the unit rides with its header but stays quiet */
+.sz-table th span { white-space: nowrap; }
+
+.sz-table th:nth-child(1), .sz-table td:nth-child(1) { width: 24%; }
+.sz-table th:nth-child(2), .sz-table td:nth-child(2) { width: 20%; }
+.sz-table th:nth-child(n+3), .sz-table td:nth-child(n+3) { width: 14%; }
+
+/* the last column has nothing to its right to make room for */
+.sz-table th:last-child,
+.sz-table td:last-child { padding-right: 0; }
+
+.sz-table tbody tr:last-child th,
+.sz-table tbody tr:last-child td { border-bottom: 0; }
+
+.sz-note {
+  margin-top: 28px;
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--line-grey);
+}
+
 @media (max-width: 900px) {
   .pd-sizeguide { font-size: 13px; margin-top: 10px; }
   .pd-sizeguide + .pd-row { margin-top: 18px; }
@@ -1358,6 +1417,18 @@ hr { border: 0; }
   /* 19px of text is not a tap target; the box grows, the text stays put */
   .sz-apps { margin-top: 8px; gap: 28px; }
   .sz-apps a { min-height: 44px; font-size: 17px; }
+
+  .sz-table-wrap { margin-top: 32px; }
+  .sz-table { font-size: 14px; }
+  .sz-table th, .sz-table td { padding: 10px 10px 10px 0; }
+  /* "Circumference" needs more room here, and the codes have slack to give */
+  .sz-table th:nth-child(1), .sz-table td:nth-child(1) { width: 28%; }
+  .sz-table th:nth-child(2), .sz-table td:nth-child(2) { width: 20%; }
+  .sz-table th:nth-child(n+3), .sz-table td:nth-child(n+3) { width: 13%; }
+  .sz-table th { font-size: 12px; letter-spacing: 0.04em; }
+  /* the unit drops to its own line so the header column stays narrow */
+  .sz-table th span { display: block; }
+  .sz-note { margin-top: 22px; font-size: 15px; }
 }
 
 /* ===================== full-screen image viewer ===================== */
