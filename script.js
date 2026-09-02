@@ -42,21 +42,24 @@
       price: '3 000 000 IDR',
       desc: 'A smooth silver signet ring with a warm zircon stone at the center. Its rounded form feels calm and grounded, while the stone adds a quiet point of light. Inside, two small stones symbolize a connection with yourself.',
       specs: [['Material', 'Silver 925'], ['Plating', 'Rhodium Nano'], ['Stone', 'Zircon'], ['Made in', 'Bali']],
-      images: ['assets/ring-signet.png', 'assets/detail-signet-1.jpg', 'assets/detail-signet-2.jpg', 'assets/detail-signet-3.jpg']
+      images: ['assets/signet-1.jpg', 'assets/signet-2.jpg', 'assets/signet-3.jpg', 'assets/signet-4.jpg'],
+      thumbs: ['assets/signet-1-t.jpg', 'assets/signet-2-t.jpg', 'assets/signet-3-t.jpg', 'assets/signet-4-t.jpg']
     },
     lattice: {
       title: 'Lattice Ring',
       price: '2 500 000 IDR',
       desc: 'A sculptural silver ring built from small rounded elements, creating a soft open structure around the finger. Light-catching, tactile, and bold without feeling heavy. A piece for everyday presence — noticeable, but never loud.',
       specs: [['Material', 'Silver 925'], ['Plating', 'Rhodium Nano'], ['Stone', '—'], ['Made in', 'Bali']],
-      images: ['assets/ring-lattice.png', 'assets/detail-lattice-1.jpg', 'assets/detail-lattice-2.jpg', 'assets/detail-lattice-3.jpg']
+      images: ['assets/lattice-1.jpg', 'assets/lattice-2.jpg', 'assets/lattice-3.jpg', 'assets/lattice-4.jpg'],
+      thumbs: ['assets/lattice-1-t.jpg', 'assets/lattice-2-t.jpg', 'assets/lattice-3-t.jpg', 'assets/lattice-4-t.jpg']
     },
     rhythm: {
       title: 'Rhythm Ring',
       price: '2 300 000 IDR',
       desc: 'A silver ring shaped by repeated vertical forms, creating a clean architectural rhythm. Minimal from afar, detailed up close. Designed to become a daily piece with character — structured, calm, and strong.',
       specs: [['Material', 'Silver 925'], ['Plating', 'Rhodium Nano'], ['Stone', '—'], ['Made in', 'Bali']],
-      images: ['assets/ring-rhythm.png', 'assets/detail-rhythm-1.jpg', 'assets/detail-rhythm-2.jpg', 'assets/detail-rhythm-3.jpg']
+      images: ['assets/rhythm-1.jpg', 'assets/rhythm-2.jpg', 'assets/rhythm-3.jpg', 'assets/rhythm-4.jpg'],
+      thumbs: ['assets/rhythm-1-t.jpg', 'assets/rhythm-2-t.jpg', 'assets/rhythm-3-t.jpg', 'assets/rhythm-4-t.jpg']
     }
   };
 
@@ -145,7 +148,7 @@
 
     thumbBtns.forEach(function (btn, i) {
       var img = btn.querySelector('img');
-      img.src = product.images[i];
+      img.src = product.thumbs[i];
       img.alt = '';
     });
 

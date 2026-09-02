@@ -470,6 +470,23 @@ hr { border: 0; }
   color: var(--cream);
 }
 
+/* the Contact entry is a button so it can open the sheet; make it read as a link */
+.footer-links button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: opacity 0.35s ease;
+}
+
+.footer-links a:hover,
+.footer-links button:hover { opacity: 0.65; }
+
 .footer-copy {
   margin-top: 5.4rem;
   text-align: center;
@@ -820,10 +837,10 @@ hr { border: 0; }
   cursor: zoom-in;
   display: block;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 4;
 }
 
-.pd-hero, .pd-thumb { background: #f4f2ea; }
+.pd-hero, .pd-thumb { background: var(--cream); }
 
 .pd-hero img,
 .pd-thumb img {
@@ -845,7 +862,7 @@ hr { border: 0; }
   border: 0;
   background: transparent;
   cursor: pointer;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 4;
   opacity: 0.75;
   transition: opacity 0.35s ease;
 }
@@ -1198,8 +1215,8 @@ hr { border: 0; }
 .lb.is-open { opacity: 1; }
 
 .lb-img {
-  max-width: min(720px, 92vw);
-  max-height: 72vh;
+  max-width: min(780px, 92vw);
+  max-height: calc(100vh - 180px);
   object-fit: contain;
 }
 
@@ -1262,7 +1279,7 @@ hr { border: 0; }
   .pd-label { font-size: 16px; }
 
   .lb { gap: 24px; padding: 20px; }
-  .lb-img { max-height: 66vh; }
+  .lb-img { max-height: calc(100vh - 150px); }
 }
 
 html.pd-lock { overflow: hidden; }
