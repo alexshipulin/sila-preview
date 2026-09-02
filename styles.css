@@ -22,6 +22,7 @@
   --pad: 3.5rem;                 /* 35px outer gutter */
   --gap: 2rem;                   /* 20px column gap */
   --section-gap: 10rem;          /* 100px rhythm between sections */
+  --anchor-offset: 8rem;         /* air left above a section jumped to from the nav */
 
   --font-sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-display: "Belleza", "Gill Sans", "Trebuchet MS", sans-serif;
@@ -168,6 +169,11 @@ hr { border: 0; }
   width: 54rem;
   border-top: 1px solid var(--white);
 }
+
+/* a jump from the nav should land the section below the header, not flush to
+   the top edge of the window */
+#rings,
+#delivery { scroll-margin-top: var(--anchor-offset); }
 
 /* ============================== product cards ============================== */
 
@@ -527,12 +533,17 @@ hr { border: 0; }
     --pad: 16px;
     --gap: 12px;
     --section-gap: 64px;
+    --hero-air: 40px;            /* air on both sides of the SILA wordmark */
+    --sheet-close: 44px;         /* tap target of the sheet close mark */
+    --sheet-air: 16px;           /* and the air above and below it */
+    --anchor-offset: 28px;       /* breathing room when jumping to a section */
   }
 
   .shell { max-width: none; }
 
-  .site-header { padding-top: 24px; }
-  .logo-mark { width: 26px; height: 22px; }
+  .site-header { padding-top: 20px; }
+  .site-header-inner { align-items: center; }
+  .logo-mark { width: 26px; height: 22px; margin-top: 0; }
   .main-nav a { font-size: 15px; }
   .main-nav { gap: 18px; }
 
@@ -555,25 +566,22 @@ hr { border: 0; }
     height: auto;
     aspect-ratio: 539 / 722;
   }
-  .hero-side {
-    grid-column: 1;
-    height: auto;
-    aspect-ratio: 259 / 346;
-  }
-  .hero-small {
-    grid-column: 2;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 260 / 166;
-    align-self: start;
-  }
+  /* only the colour frame survives here — the collage needs the desktop width */
+  .hero-side,
+  .hero-small { display: none; }
+
   .hero-wordmark {
     grid-column: 1 / -1;
     width: 100%;
     height: auto;
     aspect-ratio: 818 / 168;
+    /* the row gap already contributes 12px, so this lands on --hero-air */
+    margin-top: calc(var(--hero-air) - 12px);
   }
   .hero-rule-end { display: none; }
+
+  /* the wordmark gets the same air below it as above */
+  .cards-section { margin-top: var(--hero-air); }
 
   .cards { grid-template-columns: 1fr; gap: 24px; }
   .card { max-width: 520px; margin-inline: auto; width: 100%; }
@@ -597,14 +605,36 @@ hr { border: 0; }
     gap: 6px;
     font-size: 17px;
   }
-  .meta-row li { padding-top: 0 !important; }
+  .meta-row li,
+  .meta-row li:nth-child(1),
+  .meta-row li:nth-child(2) { padding-top: 0 !important; margin-top: 0; }
 
   .about-grid { margin-top: 32px; grid-template-columns: 1fr; row-gap: 28px; }
   .about-rule { margin-bottom: 24px; }
   .about-copy h2 { font-size: 34px; }
   .about-copy .prose { margin-top: 28px; font-size: 18px; }
 
-  .photo-row { grid-template-columns: 1fr; }
+  /* a swipeable strip: the next frame peeks in at the right edge so it reads
+     as "there is more here" without a caption saying so */
+  .photo-row {
+    display: flex;
+    grid-template-columns: none;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    scroll-padding-inline: var(--pad);
+  }
+  .photo-row::-webkit-scrollbar { display: none; }
+  /* min-width:0 is what stops the flex item from snapping back to full width */
+  .photo-row img {
+    flex: none;
+    width: 80%;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
 
   .fact { grid-template-columns: 1fr; row-gap: 16px; }
   .fact-label, .fact-text { font-size: 18px; }
@@ -633,7 +663,6 @@ hr { border: 0; }
 
 @media (max-width: 480px) {
   .hero-grid { grid-template-columns: 1fr; }
-  .hero-side, .hero-small { grid-column: 1; }
   .footer-links { font-size: 13px; }
 }
 /* ===================== legal pages ===================== */
@@ -1154,7 +1183,12 @@ hr { border: 0; }
 }
 
 .ct-docs a:hover { opacity: 0.55; }
-.ct-docs span { font-size: 18px; color: var(--line-grey); }
+.ct-arrow {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: var(--line-grey);
+}
 
 .ct-note {
   font-size: 18px;
@@ -1170,9 +1204,6 @@ hr { border: 0; }
 
 @media (max-width: 900px) {
   .nav-contact { font-size: 15px; }
-
-  /* the oversized close mark would sit on top of the photo here */
-  .ct .pd-close { top: 6px; right: 8px; font-size: 40px; }
 
   .ct-inner { grid-template-columns: 1fr; row-gap: 24px; }
   .ct-photo, .ct-right, .ct-note, .ct-legal { grid-column: 1; }
@@ -1256,7 +1287,12 @@ hr { border: 0; }
 @media (max-width: 900px) {
   .pd { padding: 0; }
 
-  .pd-dialog { padding: 56px 16px 40px; align-items: flex-start; }
+  /* the close mark is a fixed square, and the sheet reserves exactly as much
+     room below it as there is above it */
+  .pd-dialog {
+    padding: calc(var(--sheet-air) * 2 + var(--sheet-close)) 16px 40px;
+    align-items: flex-start;
+  }
   .pd-inner { grid-template-columns: 1fr; row-gap: 32px; }
 
   /* the delivery note drops below the order form on a phone */
@@ -1266,7 +1302,19 @@ hr { border: 0; }
   .pd-right { order: 3; }
   .pd-note { order: 4; margin-top: 0; font-size: 15px; }
 
-  .pd-close { top: 12px; right: 10px; font-size: 30px; }
+  /* .ct .pd-close carries a desktop override, so match its specificity here */
+  .pd .pd-close {
+    top: var(--sheet-air);
+    right: 4px;
+    width: var(--sheet-close);
+    height: var(--sheet-close);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: 400;
+  }
 
   .pd-title { font-size: 32px; }
   .pd-price { margin-top: 14px; font-size: 17px; }
@@ -1275,8 +1323,15 @@ hr { border: 0; }
   .pd-specs div { height: 44px; font-size: 15px; }
   .pd-desc { margin-top: 24px; font-size: 16px; }
   .pd-form { padding-top: 28px; }
-  .pd-select { width: 60%; }
   .pd-label { font-size: 16px; }
+
+  /* size and quantity are one control each — give them the same footprint */
+  .pd-select,
+  .pd-stepper { width: 62%; }
+  .pd-count { width: auto; flex: 1; }
+
+  /* the gallery already fills the screen here, so there is nothing to zoom into */
+  .pd-hero { cursor: default; }
 
   .lb { gap: 24px; padding: 20px; }
   .lb-img { max-height: calc(100vh - 150px); }

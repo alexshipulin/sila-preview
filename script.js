@@ -1,3 +1,7 @@
+// Open at the top. Browsers otherwise restore the last scroll position on a
+// reload, which drops the visitor mid-page with the header out of sight.
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
 // Reveal-on-scroll: elements with .reveal fade in as they enter the viewport.
 (function () {
   var reveals = document.querySelectorAll('.reveal');
@@ -220,8 +224,12 @@
     }
   }
 
+  // on a phone the gallery is already the width of the screen, so a zoom view
+  // would only repeat what is on it — the mobile layout kicks in at 900px
+  function canZoom() { return window.matchMedia('(min-width: 901px)').matches; }
+
   function openLightbox() {
-    if (!lightbox || !current) return;
+    if (!lightbox || !current || !canZoom()) return;
     lbImg.src = current.images[shown];
     lbImg.alt = current.title;
     lightbox.hidden = false;
