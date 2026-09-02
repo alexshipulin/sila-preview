@@ -2,6 +2,22 @@
 // reload, which drops the visitor mid-page with the header out of sight.
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
+// The hash is only a scroll target here — there is one page. Left in the URL it
+// turns into a sticky bookmark, so the next visit opens at the rings instead of
+// at the top. Wipe it once the jump has been made, keeping the position.
+(function () {
+  function dropHash() {
+    if (!location.hash) return;
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a[href^="#"]')) window.setTimeout(dropHash, 1000);
+  });
+
+  window.addEventListener('load', function () { window.setTimeout(dropHash, 1000); });
+})();
+
 // Reveal-on-scroll: elements with .reveal fade in as they enter the viewport.
 (function () {
   var reveals = document.querySelectorAll('.reveal');

@@ -261,10 +261,16 @@ hr { border: 0; }
   color: var(--cream);
 }
 
-/* USD is the price; the local figure rides alongside it for reference */
+/* USD is the price and sits at the left; the local figure closes the line at
+   the right, same size, quieter colour */
+.card-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.2rem;
+}
+
 .price-alt {
-  margin-left: 1.2rem;
-  font-size: 1.6rem;
   color: rgba(255, 255, 255, 0.5);
   white-space: nowrap;
 }
@@ -549,7 +555,7 @@ hr { border: 0; }
 
   .shell { max-width: none; }
 
-  .site-header { padding-top: 20px; }
+  .site-header { padding-top: 32px; }   /* matches .hero margin-top below it */
   .site-header-inner { align-items: center; }
   .logo-mark { width: 26px; height: 22px; margin-top: 0; }
   .main-nav a { font-size: 15px; }
@@ -603,7 +609,6 @@ hr { border: 0; }
     font-size: 13px;
   }
   .card-price { margin-top: 10px; font-size: 16px; }
-  .price-alt { margin-left: 8px; font-size: 12px; }
   .card-rule { margin-top: 12px; width: auto; }
   .card-desc { margin-top: 14px; width: auto; font-size: 13px; }
 
@@ -630,8 +635,7 @@ hr { border: 0; }
     grid-template-columns: none;
     gap: 10px;
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
     scrollbar-width: none;
     overscroll-behavior-x: contain;
     scroll-padding-inline: var(--pad);
@@ -941,11 +945,14 @@ hr { border: 0; }
 }
 
 /* on the cream sheet the reference figure takes the sheet's quiet grey */
-.pd-price .price-alt {
-  margin-left: 12px;
-  font-size: 16px;
-  color: var(--line-grey);
+.pd-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
 }
+
+.pd-price .price-alt { color: var(--line-grey); }
 
 .pd-rule {
   margin-top: 34px;
@@ -1334,7 +1341,6 @@ hr { border: 0; }
 
   .pd-title { font-size: 32px; }
   .pd-price { margin-top: 14px; font-size: 17px; }
-  .pd-price .price-alt { margin-left: 8px; font-size: 13px; }
   .pd-rule { margin-top: 22px; }
   .pd-specs { margin-top: 20px; }
   .pd-specs div { height: 44px; font-size: 15px; }

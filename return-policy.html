@@ -103,5 +103,11 @@
     </div>
   </footer>
 
+  <script>
+    /* a re-opened tab otherwise restores its old scroll position and the page
+       comes up with the header out of view */
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  </script>
+
 </body>
 </html>
