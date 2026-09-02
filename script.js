@@ -43,7 +43,8 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   var PRODUCTS = {
     signet: {
       title: 'Signet Ring',
-      price: '3 000 000 IDR',
+      price: '$209',
+      priceAlt: '3\u00a0790\u00a0000\u00a0IDR',
       desc: 'A smooth silver signet ring with a warm zircon stone at the center. Its rounded form feels calm and grounded, while the stone adds a quiet point of light. Inside, two small stones symbolize a connection with yourself.',
       specs: [['Material', 'Silver 925'], ['Plating', 'Rhodium Nano'], ['Stone', 'Zircon'], ['Made in', 'Bali']],
       images: ['assets/signet-1.jpg', 'assets/signet-2.jpg', 'assets/signet-3.jpg', 'assets/signet-4.jpg'],
@@ -51,7 +52,8 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     },
     lattice: {
       title: 'Lattice Ring',
-      price: '2 500 000 IDR',
+      price: '$199',
+      priceAlt: '3\u00a0590\u00a0000\u00a0IDR',
       desc: 'A sculptural silver ring built from small rounded elements, creating a soft open structure around the finger. Light-catching, tactile, and bold without feeling heavy. A piece for everyday presence — noticeable, but never loud.',
       specs: [['Material', 'Silver 925'], ['Plating', 'Rhodium Nano'], ['Stone', '—'], ['Made in', 'Bali']],
       images: ['assets/lattice-1.jpg', 'assets/lattice-2.jpg', 'assets/lattice-3.jpg', 'assets/lattice-4.jpg'],
@@ -59,7 +61,8 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     },
     rhythm: {
       title: 'Rhythm Ring',
-      price: '2 300 000 IDR',
+      price: '$239',
+      priceAlt: '4\u00a0290\u00a0000\u00a0IDR',
       desc: 'A silver ring shaped by repeated vertical forms, creating a clean architectural rhythm. Minimal from afar, detailed up close. Designed to become a daily piece with character — structured, calm, and strong.',
       specs: [['Material', 'Silver 925'], ['Plating', 'Rhodium Nano'], ['Stone', '—'], ['Made in', 'Bali']],
       images: ['assets/rhythm-1.jpg', 'assets/rhythm-2.jpg', 'assets/rhythm-3.jpg', 'assets/rhythm-4.jpg'],
@@ -121,6 +124,10 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     current = product;
     titleEl.textContent = product.title;
     priceEl.textContent = product.price;
+    var alt = document.createElement('span');
+    alt.className = 'price-alt';
+    alt.textContent = product.priceAlt;
+    priceEl.appendChild(alt);
     descEl.textContent = product.desc;
 
     specsEl.textContent = '';

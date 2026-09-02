@@ -261,6 +261,14 @@ hr { border: 0; }
   color: var(--cream);
 }
 
+/* USD is the price; the local figure rides alongside it for reference */
+.price-alt {
+  margin-left: 1.2rem;
+  font-size: 1.6rem;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+}
+
 .card-rule {
   margin-top: 2.9rem;
   border-top: 1px solid var(--line-grey);
@@ -595,6 +603,7 @@ hr { border: 0; }
     font-size: 13px;
   }
   .card-price { margin-top: 10px; font-size: 16px; }
+  .price-alt { margin-left: 8px; font-size: 12px; }
   .card-rule { margin-top: 12px; width: auto; }
   .card-desc { margin-top: 14px; width: auto; font-size: 13px; }
 
@@ -929,6 +938,13 @@ hr { border: 0; }
   line-height: 1.09;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+}
+
+/* on the cream sheet the reference figure takes the sheet's quiet grey */
+.pd-price .price-alt {
+  margin-left: 12px;
+  font-size: 16px;
+  color: var(--line-grey);
 }
 
 .pd-rule {
@@ -1318,6 +1334,7 @@ hr { border: 0; }
 
   .pd-title { font-size: 32px; }
   .pd-price { margin-top: 14px; font-size: 17px; }
+  .pd-price .price-alt { margin-left: 8px; font-size: 13px; }
   .pd-rule { margin-top: 22px; }
   .pd-specs { margin-top: 20px; }
   .pd-specs div { height: 44px; font-size: 15px; }
