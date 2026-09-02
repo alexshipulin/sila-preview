@@ -293,6 +293,8 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   });
 
   document.addEventListener('keydown', function (e) {
+    // the size guide opens on top of this sheet and owns the keyboard then
+    if (document.documentElement.classList.contains('sz-open')) return;
     if (lightbox && !lightbox.hidden) {
       if (e.key === 'Escape') { closeLightbox(); return; }
       if (e.key === 'ArrowRight') { show(shown + 1); return; }
@@ -398,6 +400,98 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   document.addEventListener('click', function (e) {
     if (e.target.closest('[data-ct-close]')) { close(); return; }
     var btn = e.target.closest('.nav-contact');
+    if (btn) { open(btn); }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (sheet.hidden) return;
+    if (e.key === 'Escape') { close(); return; }
+    if (e.key !== 'Tab') return;
+
+    var focusable = dialog.querySelectorAll('button, a[href]');
+    var visible = Array.prototype.filter.call(focusable, function (el) { return !el.hidden; });
+    if (!visible.length) return;
+    var first = visible[0];
+    var last = visible[visible.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+})();
+
+
+// Ring size guide. Opens over the product sheet, which already holds the page
+// lock, so this one only takes the lock if nobody else has it.
+(function () {
+  var sheet = document.getElementById('size-modal');
+  if (!sheet) return;
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var dialog = sheet.querySelector('.pd-dialog');
+  var closeBtn = sheet.querySelector('.pd-close');
+  var trigger = null;
+  var savedScroll = 0;
+  var tookLock = false;
+
+  function open(from) {
+    trigger = from || null;
+
+    if (!document.documentElement.classList.contains('pd-lock')) {
+      savedScroll = window.scrollY || document.documentElement.scrollTop || 0;
+      document.body.style.top = -savedScroll + 'px';
+      document.documentElement.classList.add('pd-lock');
+      tookLock = true;
+    }
+    document.documentElement.classList.add('sz-open');
+
+    sheet.hidden = false;
+    sheet.scrollTop = 0;
+
+    if (reduce) {
+      sheet.classList.add('is-open');
+    } else {
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { sheet.classList.add('is-open'); });
+      });
+    }
+    closeBtn.focus({ preventScroll: true });
+  }
+
+  function close() {
+    if (sheet.hidden) return;
+    sheet.classList.remove('is-open');
+
+    var settled = false;
+    var finish = function () {
+      if (settled) return;
+      settled = true;
+      dialog.removeEventListener('transitionend', onEnd);
+      sheet.hidden = true;
+      document.documentElement.classList.remove('sz-open');
+
+      if (tookLock) {
+        tookLock = false;
+        document.documentElement.classList.remove('pd-lock');
+        document.body.style.top = '';
+        try { window.scrollTo({ top: savedScroll, behavior: 'instant' }); }
+        catch (err) { window.scrollTo(0, savedScroll); }
+      }
+      if (trigger) trigger.focus({ preventScroll: true });
+    };
+    var onEnd = function (e) {
+      if (e.target === dialog && e.propertyName === 'opacity') finish();
+    };
+
+    if (reduce) {
+      finish();
+    } else {
+      dialog.addEventListener('transitionend', onEnd);
+      window.setTimeout(finish, 800);
+    }
+  }
+
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-sz-close]')) { close(); return; }
+    var btn = e.target.closest('.pd-sizeguide');
     if (btn) { open(btn); }
   });
 

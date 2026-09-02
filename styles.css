@@ -1248,6 +1248,117 @@ hr { border: 0; }
   .ct-legal { font-size: 14px; }
 }
 
+/* ===================== ring size guide ===================== */
+
+/* the small link that sits under the size selector */
+.pd-sizeguide {
+  display: block;
+  margin: 12px 0 0 auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--line-grey);
+  font-family: var(--font-display);
+  font-size: 17px;
+  line-height: 1;
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+  text-decoration-thickness: 1px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.pd-sizeguide:hover { color: var(--ink); }
+.pd-sizeguide:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+
+/* the row after it keeps the rhythm the adjacency selector used to give it */
+.pd-sizeguide + .pd-row { margin-top: 22px; }
+
+/* the guide opens over the product sheet, so it sits above it */
+.sz { z-index: 70; }
+
+.sz-inner {
+  width: 720px;
+  max-width: 100%;
+}
+
+.sz-title {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 1.08;
+  letter-spacing: 0.0375em;
+  color: var(--ink);
+}
+
+.sz-steps {
+  margin-top: 48px;
+  list-style: none;
+  counter-reset: step;
+}
+
+.sz-steps li {
+  counter-increment: step;
+  padding-top: 32px;
+  border-top: 1px solid #e5e3da;
+}
+
+.sz-steps li + li { margin-top: 32px; }
+
+.sz-steps h3 {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+/* the number rides in the margin of its heading */
+.sz-steps h3::before {
+  content: counter(step) ".";
+  margin-right: 12px;
+  color: var(--line-grey);
+}
+
+.sz-steps p {
+  margin-top: 14px;
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--line-grey);
+}
+
+.sz-apps {
+  margin-top: 26px;
+  display: flex;
+  gap: 40px;
+}
+
+.sz-apps a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 18px;
+  color: var(--ink);
+  transition: opacity 0.3s ease;
+}
+
+.sz-apps a:hover { opacity: 0.55; }
+
+@media (max-width: 900px) {
+  .pd-sizeguide { font-size: 15px; margin-top: 10px; }
+  .pd-sizeguide + .pd-row { margin-top: 18px; }
+
+  .sz-title { font-size: 32px; }
+  .sz-steps { margin-top: 32px; }
+  .sz-steps li { padding-top: 24px; }
+  .sz-steps li + li { margin-top: 24px; }
+  .sz-steps h3 { font-size: 19px; }
+  .sz-steps p { margin-top: 12px; font-size: 17px; }
+  .sz-apps { margin-top: 20px; gap: 28px; }
+  .sz-apps a { font-size: 17px; }
+}
+
 /* ===================== full-screen image viewer ===================== */
 
 .lb {
