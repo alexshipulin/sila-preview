@@ -1259,7 +1259,7 @@ hr { border: 0; }
   background: none;
   color: var(--line-grey);
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1;
   text-decoration: underline;
   text-underline-offset: 0.35em;
@@ -1346,7 +1346,7 @@ hr { border: 0; }
 .sz-apps a:hover { opacity: 0.55; }
 
 @media (max-width: 900px) {
-  .pd-sizeguide { font-size: 15px; margin-top: 10px; }
+  .pd-sizeguide { font-size: 13px; margin-top: 10px; }
   .pd-sizeguide + .pd-row { margin-top: 18px; }
 
   .sz-title { font-size: 32px; }
@@ -1355,8 +1355,9 @@ hr { border: 0; }
   .sz-steps li + li { margin-top: 24px; }
   .sz-steps h3 { font-size: 19px; }
   .sz-steps p { margin-top: 12px; font-size: 17px; }
-  .sz-apps { margin-top: 20px; gap: 28px; }
-  .sz-apps a { font-size: 17px; }
+  /* 19px of text is not a tap target; the box grows, the text stays put */
+  .sz-apps { margin-top: 8px; gap: 28px; }
+  .sz-apps a { min-height: 44px; font-size: 17px; }
 }
 
 /* ===================== full-screen image viewer ===================== */
