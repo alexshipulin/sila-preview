@@ -635,11 +635,20 @@ hr { border: 0; }
     grid-template-columns: none;
     gap: 10px;
     overflow-x: auto;
+    /* declaring one axis turns the other from visible into auto, which made the
+       strip a vertical scroller too — this is what let the frames be dragged
+       up and down inside it */
+    overflow-y: hidden;
     scroll-snap-type: x proximity;
     scrollbar-width: none;
     overscroll-behavior-x: contain;
     scroll-padding-inline: var(--pad);
   }
+
+  /* and this is what gave it something to scroll: a frame parked off to the
+     right never meets the observer, so it holds .reveal's 28px translate and
+     the strip inherits 28px of vertical overflow. Fade them in instead. */
+  .photo-row .reveal { transform: none; }
   .photo-row::-webkit-scrollbar { display: none; }
   /* min-width:0 is what stops the flex item from snapping back to full width */
   .photo-row img {
