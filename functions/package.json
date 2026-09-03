@@ -1,0 +1,11 @@
+{
+  "name": "sila-functions",
+  "description": "Creates Stripe Checkout Sessions for silabrand.store",
+  "main": "index.js",
+  "engines": { "node": "22" },
+  "dependencies": {
+    "firebase-functions": "^6.1.0",
+    "stripe": "^17.0.0"
+  },
+  "private": true
+}
