@@ -17,3 +17,8 @@ sila
 .env.*
 hf_*.png
 ring2-3_black_stone.png
+
+# Separate video-generation workspace living in this folder: 55MB of source
+# renders and its own fal.ai tooling, nothing the site loads. The repo is
+# public, so it stays out of it.
+VidGen/
