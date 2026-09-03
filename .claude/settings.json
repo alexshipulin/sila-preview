@@ -7,7 +7,50 @@
       "Bash(git log:*)",
       "Bash(git show:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Read(memory/**)",
+      "Edit(memory/**)",
+      "Write(memory/**)",
+      "Bash(node .claude/scripts/validate-memory.js:*)",
+      "Bash(node .claude/scripts/session-context.js:*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/scripts/validate-memory.js --quiet || true"
+          },
+          {
+            "type": "command",
+            "command": "node .claude/scripts/session-context.js || true"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "manual|auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Перед сжатием контекста сбрось в журнал памяти (memory/journal/) все несохранённые решения, завершённые задачи и риски текущей сессии.'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/scripts/stop-reminder.js"
+          }
+        ]
+      }
     ]
   }
 }
