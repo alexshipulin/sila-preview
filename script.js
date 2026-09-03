@@ -54,7 +54,23 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   var lightbox = document.getElementById('lightbox');
   if (!modal) return;
 
+  var API = 'https://europe-central2-silabrand.cloudfunctions.net';
+
+  // sizes we make, used until the live stock arrives so the picker is never
+  // empty; the server is the authority on what can actually be bought
   var SIZES = ['6', '7', '8', '9', '10'];
+
+  var catalogue = null;          // { rings: { lattice: { sizes: [...] } } }
+  var cataloguePromise = null;
+
+  function loadCatalogue() {
+    if (cataloguePromise) return cataloguePromise;
+    cataloguePromise = fetch(API + '/getCatalog')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { catalogue = d && d.rings ? d.rings : null; return catalogue; })
+      .catch(function () { return null; });      // fall back to SIZES
+    return cataloguePromise;
+  }
 
   var PRODUCTS = {
     signet: {
@@ -97,7 +113,10 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   var priceEl = modal.querySelector('.pd-price');
   var descEl = modal.querySelector('.pd-desc');
   var specsEl = modal.querySelector('.pd-specs');
-  var sizeEl = modal.querySelector('.pd-size');
+  var sizeBtn = modal.querySelector('.pd-size');
+  var sizeValueEl = modal.querySelector('.pd-size-value');
+  var sizeListEl = modal.querySelector('.pd-sizes');
+  var sizeInput = modal.querySelector('.pd-size-input');
   var form = modal.querySelector('.pd-form');
   var confirmBtn = modal.querySelector('.pd-confirm');
   var thanksEl = modal.querySelector('.pd-thanks');
@@ -112,6 +131,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   var qty = 1;
   var savedScroll = 0;
   var current = null;      // active product
+  var currentKey = null;   // its catalogue key
   var shown = 0;           // index of the image in the hero
 
   function lockPage() {
@@ -136,6 +156,99 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     if (lightbox && !lightbox.hidden) lbImg.src = current.images[shown];
   }
 
+
+  // ---- size picker ----------------------------------------------------------
+  // Built by hand rather than as a <select>, because a sold-out size has to
+  // read as struck through and the OS draws a native option list itself — on
+  // iOS a wheel picker that ignores the styling altogether.
+
+  var chosenSize = '';
+
+  function sizesFor(key) {
+    var ring = catalogue && catalogue[key];
+    if (ring && ring.sizes && ring.sizes.length) return ring.sizes;
+    return SIZES.map(function (size) { return { size: size, inStock: true }; });
+  }
+
+  function setSize(value) {
+    chosenSize = value || '';
+    sizeInput.value = chosenSize;
+    sizeValueEl.textContent = chosenSize ? 'US ' + chosenSize : 'Select size';
+    sizeBtn.classList.toggle('is-empty', !chosenSize);
+    if (chosenSize) sizeBtn.classList.remove('is-missing');
+    sizeListEl.querySelectorAll('li').forEach(function (li) {
+      li.setAttribute('aria-selected', String(li.dataset.size === chosenSize));
+    });
+  }
+
+  function renderSizes() {
+    // whether this pass is drawing real stock or the fallback list
+    var live = !!(catalogue && catalogue[currentKey]);
+
+    sizeListEl.textContent = '';
+    sizesFor(currentKey).forEach(function (entry) {
+      var li = document.createElement('li');
+      li.setAttribute('role', 'option');
+      li.dataset.size = entry.size;
+      li.setAttribute('aria-selected', 'false');
+
+      var label = document.createElement('span');
+      label.textContent = 'US ' + entry.size;
+      li.appendChild(label);
+
+      if (!entry.inStock) {
+        li.setAttribute('aria-disabled', 'true');
+        var tag = document.createElement('span');
+        tag.className = 'pd-size-tag';
+        tag.textContent = 'Sold out';
+        li.appendChild(tag);
+      }
+      sizeListEl.appendChild(li);
+    });
+    setSize('');
+
+    // Drawn from the fallback, so ask for the real stock and redraw once.
+    // Guarded on `live`: without it the second pass would subscribe again to an
+    // already-resolved promise and call itself forever.
+    if (live) return;
+    loadCatalogue().then(function (rings) {
+      if (!rings || !rings[currentKey]) return;
+      if (modal.hidden || !sizeListEl.hidden || chosenSize) return;
+      renderSizes();
+    });
+  }
+
+  function openSizes() {
+    if (!sizeListEl.hidden) return;
+    sizeListEl.hidden = false;
+    sizeBtn.setAttribute('aria-expanded', 'true');
+    var sel = sizeListEl.querySelector('li[aria-selected="true"]') ||
+              sizeListEl.querySelector('li:not([aria-disabled])');
+    if (sel) sel.classList.add('is-active');
+  }
+
+  function closeSizes() {
+    if (sizeListEl.hidden) return;
+    sizeListEl.hidden = true;
+    sizeBtn.setAttribute('aria-expanded', 'false');
+    sizeListEl.querySelectorAll('.is-active').forEach(function (li) {
+      li.classList.remove('is-active');
+    });
+  }
+
+  function moveActive(step) {
+    var items = Array.prototype.filter.call(
+      sizeListEl.querySelectorAll('li'),
+      function (li) { return li.getAttribute('aria-disabled') !== 'true'; }
+    );
+    if (!items.length) return;
+    var here = items.indexOf(sizeListEl.querySelector('li.is-active'));
+    var next = items[(here + step + items.length) % items.length] || items[0];
+    items.forEach(function (li) { li.classList.remove('is-active'); });
+    next.classList.add('is-active');
+    next.scrollIntoView({ block: 'nearest' });
+  }
+
   function fill(product) {
     current = product;
     titleEl.textContent = product.title;
@@ -158,20 +271,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       specsEl.appendChild(row);
     });
 
-    sizeEl.textContent = '';
-    sizeEl.required = true;
-    var placeholder = document.createElement('option');
-    placeholder.value = '';
-    placeholder.disabled = true;
-    placeholder.selected = true;
-    placeholder.textContent = 'Select size';
-    sizeEl.appendChild(placeholder);
-    SIZES.forEach(function (size) {
-      var option = document.createElement('option');
-      option.value = size;
-      option.textContent = size;
-      sizeEl.appendChild(option);
-    });
+    renderSizes();
 
     thumbBtns.forEach(function (btn, i) {
       var img = btn.querySelector('img');
@@ -203,6 +303,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     if (!product) return;
 
     lastTrigger = trigger || null;
+    currentKey = slug;
     fill(product);
     reset();
 
@@ -223,6 +324,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
   function close() {
     if (modal.hidden) return;
+    closeSizes();
     closeLightbox();
     modal.classList.remove('is-open');
 
@@ -282,6 +384,25 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       return;
     }
 
+    var sizeToggle = e.target.closest('.pd-size');
+    if (sizeToggle) {
+      sizeListEl.hidden ? openSizes() : closeSizes();
+      return;
+    }
+
+    var sizeOption = e.target.closest('.pd-sizes li');
+    if (sizeOption) {
+      if (sizeOption.getAttribute('aria-disabled') !== 'true') {
+        setSize(sizeOption.dataset.size);
+        closeSizes();
+        sizeBtn.focus({ preventScroll: true });
+      }
+      return;
+    }
+
+    // a click anywhere else closes the list
+    if (!sizeListEl.hidden) closeSizes();
+
     if (e.target.closest('.pd-hero')) { openLightbox(); return; }
 
     var thumb = e.target.closest('.pd-thumb');
@@ -295,6 +416,23 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   document.addEventListener('keydown', function (e) {
     // the size guide opens on top of this sheet and owns the keyboard then
     if (document.documentElement.classList.contains('sz-open')) return;
+
+    if (!sizeListEl.hidden) {
+      if (e.key === 'Escape') { e.stopPropagation(); closeSizes(); sizeBtn.focus(); return; }
+      if (e.key === 'ArrowDown') { e.preventDefault(); moveActive(1); return; }
+      if (e.key === 'ArrowUp') { e.preventDefault(); moveActive(-1); return; }
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        var active = sizeListEl.querySelector('li.is-active');
+        if (active) { setSize(active.dataset.size); closeSizes(); sizeBtn.focus(); }
+        return;
+      }
+    } else if (document.activeElement === sizeBtn &&
+               (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault();
+      openSizes();
+      return;
+    }
     if (lightbox && !lightbox.hidden) {
       if (e.key === 'Escape') { closeLightbox(); return; }
       if (e.key === 'ArrowRight') { show(shown + 1); return; }
@@ -305,7 +443,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     if (e.key === 'Escape') { close(); return; }
     if (e.key !== 'Tab') return;
 
-    var focusable = dialog.querySelectorAll('button, select, input');
+    var focusable = dialog.querySelectorAll('button, input:not([type="hidden"])');
     var visible = Array.prototype.filter.call(focusable, function (el) {
       return !el.disabled && !el.hidden;
     });
@@ -326,12 +464,20 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var missing = false;
+    if (!chosenSize) {
+      sizeBtn.classList.add('is-missing');
+      missing = true;
+    }
     Array.prototype.slice.call(fields, 0, 2).forEach(function (field) {
       var empty = !field.value.trim();
       field.classList.toggle('is-missing', empty);
       if (empty) missing = true;
     });
-    if (missing) { form.querySelector('.is-missing').focus(); return; }
+    if (missing) {
+      var firstBad = form.querySelector('.is-missing');
+      if (firstBad) firstBad.focus({ preventScroll: false });
+      return;
+    }
 
     fields.forEach(function (field) { field.disabled = true; });
     confirmBtn.hidden = true;

@@ -1030,8 +1030,80 @@ hr { border: 0; }
   appearance: none;
 }
 
-.pd-size:invalid,
 .pd-field::placeholder { color: var(--line-grey); }
+
+/* ---- size picker ----------------------------------------------------------
+   A native <select> cannot show a sold-out size struck through: the list is
+   drawn by the OS, and on iOS it is a wheel picker that ignores CSS on options
+   entirely. So the control is ours, dressed as the field it replaces. */
+
+.pd-size {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pd-size.is-empty .pd-size-value { color: var(--line-grey); }
+.pd-size:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
+.pd-size.is-missing { border-color: #b4534f; }
+
+.pd-sizes {
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 0;
+  right: 0;
+  z-index: 2;
+  max-height: 264px;
+  overflow-y: auto;
+  border: 1px solid var(--ink);
+  background: var(--cream);
+  list-style: none;
+}
+
+.pd-sizes[hidden] { display: none; }
+
+.pd-sizes li {
+  height: 52px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 18px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pd-sizes li + li { border-top: 1px solid #e5e3da; }
+.pd-sizes li:hover,
+.pd-sizes li.is-active { background: #f1eee2; }
+.pd-sizes li[aria-selected="true"] { font-family: var(--font-sans); }
+
+/* the whole point: a size we do not have is struck through and cannot be picked.
+   The line goes on the size itself, not the row — Chrome draws an ancestor's
+   strike straight through an inline-block child, so the tag would get it too. */
+.pd-sizes li[aria-disabled="true"] {
+  color: var(--line-grey);
+  cursor: not-allowed;
+}
+
+.pd-sizes li[aria-disabled="true"] > span:first-child {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+.pd-sizes li[aria-disabled="true"]:hover { background: transparent; }
+
+.pd-sizes .pd-size-tag {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--line-grey);
+}
 
 .pd-field { margin-top: 16px; }
 .pd-field:first-of-type { margin-top: 100px; }
@@ -1545,6 +1617,8 @@ hr { border: 0; }
   /* size and quantity are one control each — give them the same footprint */
   .pd-select,
   .pd-stepper { width: 62%; }
+  .pd-sizes li { height: 48px; padding: 0 14px; font-size: 17px; }
+  .pd-sizes .pd-size-tag { font-size: 12px; }
   .pd-count { width: auto; flex: 1; }
 
   /* the gallery already fills the screen here, so there is nothing to zoom into */

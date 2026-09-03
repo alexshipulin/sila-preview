@@ -22,3 +22,7 @@ ring2-3_black_stone.png
 # renders and its own fal.ai tooling, nothing the site loads. The repo is
 # public, so it stays out of it.
 VidGen/
+
+# Рабочие папки с исходниками, не часть сайта
+Кольца/
+каталог/

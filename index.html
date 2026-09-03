@@ -268,7 +268,11 @@
           <div class="pd-row">
             <span class="pd-label">Size</span>
             <div class="pd-select">
-              <select class="pd-size" aria-label="Ring size"></select>
+              <button class="pd-size" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span class="pd-size-value">Select size</span>
+              </button>
+              <ul class="pd-sizes" role="listbox" aria-label="Ring size" hidden></ul>
+              <input class="pd-size-input" type="hidden" name="size" value="">
             </div>
           </div>
           <button class="pd-sizeguide" type="button" aria-haspopup="dialog">Find Your Ring Size</button>
