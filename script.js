@@ -113,8 +113,6 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   var priceEl = modal.querySelector('.pd-price');
   var descEl = modal.querySelector('.pd-desc');
   var specsEl = modal.querySelector('.pd-specs');
-  var sizeBtn = modal.querySelector('.pd-size');
-  var sizeValueEl = modal.querySelector('.pd-size-value');
   var sizeListEl = modal.querySelector('.pd-sizes');
   var sizeInput = modal.querySelector('.pd-size-input');
   var form = modal.querySelector('.pd-form');
@@ -158,95 +156,70 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
 
   // ---- size picker ----------------------------------------------------------
-  // Built by hand rather than as a <select>, because a sold-out size has to
-  // read as struck through and the OS draws a native option list itself — on
-  // iOS a wheel picker that ignores the styling altogether.
+  // Every size is a button, visible at a glance, one of them chosen. Arrow keys
+  // move within the group and only the chosen button is a tab stop, which is
+  // how a radio group is expected to behave.
 
   var chosenSize = '';
 
+  function sizeButtons() {
+    return Array.prototype.slice.call(sizeListEl.querySelectorAll('.pd-size'));
+  }
+
   function sizesFor(key) {
     var ring = catalogue && catalogue[key];
-    if (ring && ring.sizes && ring.sizes.length) return ring.sizes;
-    return SIZES.map(function (size) { return { size: size, inStock: true }; });
+    if (ring && ring.sizes && ring.sizes.length) {
+      return ring.sizes.map(function (entry) { return entry.size; });
+    }
+    return SIZES;
   }
 
   function setSize(value) {
     chosenSize = value || '';
     sizeInput.value = chosenSize;
-    sizeValueEl.textContent = chosenSize ? 'US ' + chosenSize : 'Select size';
-    sizeBtn.classList.toggle('is-empty', !chosenSize);
-    if (chosenSize) sizeBtn.classList.remove('is-missing');
-    sizeListEl.querySelectorAll('li').forEach(function (li) {
-      li.setAttribute('aria-selected', String(li.dataset.size === chosenSize));
+    if (chosenSize) sizeListEl.classList.remove('is-missing');
+    sizeButtons().forEach(function (btn, i) {
+      var on = btn.dataset.size === chosenSize;
+      btn.setAttribute('aria-checked', String(on));
+      // one tab stop for the group: the chosen size, or the first button
+      btn.tabIndex = (chosenSize ? on : i === 0) ? 0 : -1;
     });
   }
 
   function renderSizes() {
-    // whether this pass is drawing real stock or the fallback list
     var live = !!(catalogue && catalogue[currentKey]);
 
     sizeListEl.textContent = '';
-    sizesFor(currentKey).forEach(function (entry) {
-      var li = document.createElement('li');
-      li.setAttribute('role', 'option');
-      li.dataset.size = entry.size;
-      li.setAttribute('aria-selected', 'false');
-
-      var label = document.createElement('span');
-      label.textContent = 'US ' + entry.size;
-      li.appendChild(label);
-
-      if (!entry.inStock) {
-        li.setAttribute('aria-disabled', 'true');
-        var tag = document.createElement('span');
-        tag.className = 'pd-size-tag';
-        tag.textContent = 'Sold out';
-        li.appendChild(tag);
-      }
-      sizeListEl.appendChild(li);
+    sizesFor(currentKey).forEach(function (size) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pd-size';
+      btn.setAttribute('role', 'radio');
+      btn.setAttribute('aria-checked', 'false');
+      btn.dataset.size = size;
+      btn.textContent = size;
+      sizeListEl.appendChild(btn);
     });
     setSize('');
 
-    // Drawn from the fallback, so ask for the real stock and redraw once.
+    // Drawn from the fallback, so ask for the real list and redraw once.
     // Guarded on `live`: without it the second pass would subscribe again to an
     // already-resolved promise and call itself forever.
     if (live) return;
     loadCatalogue().then(function (rings) {
       if (!rings || !rings[currentKey]) return;
-      if (modal.hidden || !sizeListEl.hidden || chosenSize) return;
+      if (modal.hidden || chosenSize) return;
       renderSizes();
     });
   }
 
-  function openSizes() {
-    if (!sizeListEl.hidden) return;
-    sizeListEl.hidden = false;
-    sizeBtn.setAttribute('aria-expanded', 'true');
-    var sel = sizeListEl.querySelector('li[aria-selected="true"]') ||
-              sizeListEl.querySelector('li:not([aria-disabled])');
-    if (sel) sel.classList.add('is-active');
-  }
-
-  function closeSizes() {
-    if (sizeListEl.hidden) return;
-    sizeListEl.hidden = true;
-    sizeBtn.setAttribute('aria-expanded', 'false');
-    sizeListEl.querySelectorAll('.is-active').forEach(function (li) {
-      li.classList.remove('is-active');
-    });
-  }
-
-  function moveActive(step) {
-    var items = Array.prototype.filter.call(
-      sizeListEl.querySelectorAll('li'),
-      function (li) { return li.getAttribute('aria-disabled') !== 'true'; }
-    );
-    if (!items.length) return;
-    var here = items.indexOf(sizeListEl.querySelector('li.is-active'));
-    var next = items[(here + step + items.length) % items.length] || items[0];
-    items.forEach(function (li) { li.classList.remove('is-active'); });
-    next.classList.add('is-active');
-    next.scrollIntoView({ block: 'nearest' });
+  function moveSize(step) {
+    var btns = sizeButtons();
+    if (!btns.length) return;
+    var here = btns.indexOf(document.activeElement);
+    var next = btns[(here + step + btns.length) % btns.length];
+    setSize(next.dataset.size);
+    next.focus();
   }
 
   function fill(product) {
@@ -324,7 +297,6 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
   function close() {
     if (modal.hidden) return;
-    closeSizes();
     closeLightbox();
     modal.classList.remove('is-open');
 
@@ -384,24 +356,8 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       return;
     }
 
-    var sizeToggle = e.target.closest('.pd-size');
-    if (sizeToggle) {
-      sizeListEl.hidden ? openSizes() : closeSizes();
-      return;
-    }
-
-    var sizeOption = e.target.closest('.pd-sizes li');
-    if (sizeOption) {
-      if (sizeOption.getAttribute('aria-disabled') !== 'true') {
-        setSize(sizeOption.dataset.size);
-        closeSizes();
-        sizeBtn.focus({ preventScroll: true });
-      }
-      return;
-    }
-
-    // a click anywhere else closes the list
-    if (!sizeListEl.hidden) closeSizes();
+    var sizeBtn = e.target.closest('.pd-size');
+    if (sizeBtn) { setSize(sizeBtn.dataset.size); return; }
 
     if (e.target.closest('.pd-hero')) { openLightbox(); return; }
 
@@ -417,21 +373,9 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     // the size guide opens on top of this sheet and owns the keyboard then
     if (document.documentElement.classList.contains('sz-open')) return;
 
-    if (!sizeListEl.hidden) {
-      if (e.key === 'Escape') { e.stopPropagation(); closeSizes(); sizeBtn.focus(); return; }
-      if (e.key === 'ArrowDown') { e.preventDefault(); moveActive(1); return; }
-      if (e.key === 'ArrowUp') { e.preventDefault(); moveActive(-1); return; }
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        var active = sizeListEl.querySelector('li.is-active');
-        if (active) { setSize(active.dataset.size); closeSizes(); sizeBtn.focus(); }
-        return;
-      }
-    } else if (document.activeElement === sizeBtn &&
-               (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ')) {
-      e.preventDefault();
-      openSizes();
-      return;
+    if (document.activeElement && document.activeElement.classList.contains('pd-size')) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); moveSize(1); return; }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); moveSize(-1); return; }
     }
     if (lightbox && !lightbox.hidden) {
       if (e.key === 'Escape') { closeLightbox(); return; }
@@ -465,7 +409,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     e.preventDefault();
     var missing = false;
     if (!chosenSize) {
-      sizeBtn.classList.add('is-missing');
+      sizeListEl.classList.add('is-missing');
       missing = true;
     }
     Array.prototype.slice.call(fields, 0, 2).forEach(function (field) {

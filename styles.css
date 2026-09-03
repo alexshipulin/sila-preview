@@ -1004,19 +1004,6 @@ hr { border: 0; }
 
 .pd-label { font-size: 18px; }
 
-.pd-select { position: relative; width: 270px; }
-
-.pd-select::after {
-  content: "\25BE";
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  font-size: 18px;
-}
-
-.pd-size,
 .pd-field {
   width: 100%;
   height: 56px;
@@ -1033,77 +1020,46 @@ hr { border: 0; }
 .pd-field::placeholder { color: var(--line-grey); }
 
 /* ---- size picker ----------------------------------------------------------
-   A native <select> cannot show a sold-out size struck through: the list is
-   drawn by the OS, and on iOS it is a wheel picker that ignores CSS on options
-   entirely. So the control is ours, dressed as the field it replaces. */
-
-.pd-size {
-  display: flex;
-  align-items: center;
-  text-align: left;
-  cursor: pointer;
-}
-
-.pd-size.is-empty .pd-size-value { color: var(--line-grey); }
-.pd-size:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
-.pd-size.is-missing { border-color: #b4534f; }
+   Every size on show as its own button, one of them chosen. The row of five
+   fills the same column the stepper below it occupies, so Size and Quantity
+   line up on both edges. */
 
 .pd-sizes {
-  position: absolute;
-  top: calc(100% - 1px);
-  left: 0;
-  right: 0;
-  z-index: 2;
-  max-height: 264px;
-  overflow-y: auto;
-  border: 1px solid var(--ink);
-  background: var(--cream);
-  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  width: 270px;
 }
 
-.pd-sizes[hidden] { display: none; }
-
-.pd-sizes li {
-  height: 52px;
-  padding: 0 18px;
+.pd-size {
+  height: 48px;
+  padding: 0;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 17px;
+  line-height: 1;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  font-size: 18px;
-  color: var(--ink);
+  justify-content: center;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-.pd-sizes li + li { border-top: 1px solid #e5e3da; }
-.pd-sizes li:hover,
-.pd-sizes li.is-active { background: #f1eee2; }
-.pd-sizes li[aria-selected="true"] { font-family: var(--font-sans); }
+.pd-size:hover { background: #f1eee2; }
 
-/* the whole point: a size we do not have is struck through and cannot be picked.
-   The line goes on the size itself, not the row — Chrome draws an ancestor's
-   strike straight through an inline-block child, so the tag would get it too. */
-.pd-sizes li[aria-disabled="true"] {
-  color: var(--line-grey);
-  cursor: not-allowed;
+.pd-size[aria-checked="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--cream);
 }
 
-.pd-sizes li[aria-disabled="true"] > span:first-child {
-  text-decoration: line-through;
-  text-decoration-thickness: 1px;
-}
+.pd-size:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
 
-.pd-sizes li[aria-disabled="true"]:hover { background: transparent; }
-
-.pd-sizes .pd-size-tag {
-  font-family: var(--font-sans);
-  font-size: 13px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--line-grey);
-}
+/* the whole group is what is missing, so the mark goes on every button */
+.pd-sizes.is-missing .pd-size { border-color: #b4534f; }
 
 .pd-field { margin-top: 16px; }
 .pd-field:first-of-type { margin-top: 100px; }
@@ -1615,10 +1571,9 @@ hr { border: 0; }
   .pd-label { font-size: 16px; }
 
   /* size and quantity are one control each — give them the same footprint */
-  .pd-select,
+  .pd-sizes,
   .pd-stepper { width: 62%; }
-  .pd-sizes li { height: 48px; padding: 0 14px; font-size: 17px; }
-  .pd-sizes .pd-size-tag { font-size: 12px; }
+  .pd-size { height: 44px; font-size: 16px; }
   .pd-count { width: auto; flex: 1; }
 
   /* the gallery already fills the screen here, so there is nothing to zoom into */
