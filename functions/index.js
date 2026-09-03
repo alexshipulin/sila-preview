@@ -43,7 +43,9 @@ exports.createCheckout = onRequest(
 
     try {
       const params = buildSession(req.body || {}, site);
-      const stripe = Stripe(STRIPE_SECRET_KEY.value(), { apiVersion: '2024-06-20' });
+      // .trim(): a key pasted or piped in almost always carries a newline, and
+      // Stripe rejects the Authorization header outright if it does
+      const stripe = Stripe(STRIPE_SECRET_KEY.value().trim(), { apiVersion: '2024-06-20' });
       const session = await stripe.checkout.sessions.create(params);
 
       logger.info('checkout created', {
