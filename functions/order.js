@@ -34,14 +34,23 @@ class OrderError extends Error {
   }
 }
 
-/** Validates the order and returns exactly what Stripe should be told. */
-function buildSession(input, origin) {
+/**
+ * Validates the order and returns exactly what Stripe should be told.
+ *
+ * `stock` comes from Firestore and is checked here rather than trusted from
+ * the page, so a stale tab or a crafted request cannot buy a size that has
+ * run out between the page loading and the button being pressed.
+ */
+function buildSession(input, origin, stock = {}) {
   const product = CATALOG[input.model];
   if (!product) throw new OrderError('Unknown ring', 'model');
 
   const size = clean(input.size, 8);
   if (!product.sizes.includes(size)) {
-    throw new OrderError('That size is not available right now', 'size');
+    throw new OrderError('We do not make that size', 'size');
+  }
+  if ((stock[input.model] || {})[size] === false) {
+    throw new OrderError('That size has just sold out', 'size');
   }
 
   const name = clean(input.name, LIMITS.name);
