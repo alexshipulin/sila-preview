@@ -9,10 +9,13 @@
        The code itself is printed and can never be changed; this line is
        what it really points at.
 
-       Replace only the address after "url=". Keep the "0;" and the quotes.
+       Replace only the address after "url=". Keep the "1;" and the quotes.
        No double quotes inside the address; write & as &amp;
-       Then press "Commit changes" — it is live in about a minute. -->
-  <meta http-equiv="refresh" content="0; url=https://www.instagram.com/sila_thebrand">
+       Then press "Commit changes" — it is live in about a minute.
+
+       An instagram.com profile address is handed to the Instagram app
+       automatically; anything else is opened in the browser as it is. -->
+  <meta http-equiv="refresh" content="1; url=https://www.instagram.com/sila_thebrand">
   <!-- ================= END OF THE ONLY LINE TO EDIT ================= -->
 
   <title>SILA</title>
@@ -30,7 +33,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1.25rem;
+      gap: 1.75rem;
       padding: 2rem 1.5rem;
       box-sizing: border-box;
       background: #fffdf4;
@@ -38,21 +41,64 @@
       font: 300 1rem/1.5 system-ui, -apple-system, sans-serif;
       text-align: center;
     }
-    p { margin: 0; }
-    a { color: inherit; }
+    p { margin: 0; letter-spacing: 0.02em; }
+    a {
+      display: inline-block;
+      padding: 0.9rem 2rem;
+      border: 1px solid #1a1a1a;
+      color: inherit;
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
   </style>
 </head>
 <body>
   <p>Taking you to SILA&hellip;</p>
-  <p><a id="fallback" href="/">Tap here if nothing happens</a></p>
+  <p><a id="open" href="/">Open Instagram</a></p>
 
-  <!-- The fallback link takes its address from the meta tag above, so that tag
-       stays the only place to edit. Without JavaScript the meta refresh has
-       already fired; the link then still points at the shop, never a dead end. -->
   <script>
-    var meta = document.querySelector('meta[http-equiv="refresh"]');
-    var target = meta && meta.content.match(/url=(.+)/i);
-    if (target) document.getElementById('fallback').href = target[1].trim();
+    (function () {
+      var meta = document.querySelector('meta[http-equiv="refresh"]');
+      var found = meta && meta.content.match(/url=(.+)/i);
+      if (!found) return;
+      var web = found[1].trim();
+
+      document.getElementById('open').href = web;
+
+      // From here the script owns the navigation, so the meta refresh must not
+      // fire later and drag the browser back on top of the app.
+      meta.parentNode.removeChild(meta);
+
+      // A logged-out browser only sometimes gets to see an Instagram profile —
+      // the phone's session lives in the app, not in Safari. And a redirect,
+      // unlike a tap, never hands an https link to the app: iOS requires the
+      // user gesture. So the app is asked for by its own scheme instead.
+      var profile = web.match(/^https?:\/\/(?:www\.)?instagram\.com\/([A-Za-z0-9._]+)\/?$/i);
+      var android = /Android/.test(navigator.userAgent);
+      var ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
+
+      if (!profile || !(android || ios)) {
+        location.replace(web);
+        return;
+      }
+
+      if (android) {
+        // the intent carries its own fallback, so a phone without the app
+        // lands on the web profile rather than on an error
+        location.replace('intent://instagram.com/_u/' + profile[1] +
+          '#Intent;package=com.instagram.android;scheme=https;S.browser_fallback_url=' +
+          encodeURIComponent(web) + ';end');
+        return;
+      }
+
+      // iOS: if the app took over, the page is hidden and we leave it alone.
+      setTimeout(function () {
+        if (!document.hidden) location.replace(web);
+      }, 1500);
+      location.replace('instagram://user?username=' + profile[1]);
+    })();
   </script>
 </body>
 </html>
