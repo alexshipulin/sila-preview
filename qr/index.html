@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ===================== THE ONLY LINE TO EDIT =====================
+       Where the QR code printed on the ring boxes sends people.
+       The code itself is printed and can never be changed; this line is
+       what it really points at.
+
+       Replace only the address after "url=". Keep the "0;" and the quotes.
+       No double quotes inside the address; write & as &amp;
+       Then press "Commit changes" — it is live in about a minute. -->
+  <meta http-equiv="refresh" content="0; url=https://instagram.com/sila_thebrand">
+  <!-- ================= END OF THE ONLY LINE TO EDIT ================= -->
+
+  <title>SILA</title>
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="../assets/favicon-64.png">
+  <style>
+    /* Deliberately no stylesheet and no web fonts: the page is on screen for a
+       fraction of a second, and every blocking request is white screen. */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      padding: 2rem 1.5rem;
+      box-sizing: border-box;
+      background: #fffdf4;
+      color: #1a1a1a;
+      font: 300 1rem/1.5 system-ui, -apple-system, sans-serif;
+      text-align: center;
+    }
+    p { margin: 0; }
+    a { color: inherit; }
+  </style>
+</head>
+<body>
+  <p>Taking you to SILA&hellip;</p>
+  <p><a id="fallback" href="/">Tap here if nothing happens</a></p>
+
+  <!-- The fallback link takes its address from the meta tag above, so that tag
+       stays the only place to edit. Without JavaScript the meta refresh has
+       already fired; the link then still points at the shop, never a dead end. -->
+  <script>
+    var meta = document.querySelector('meta[http-equiv="refresh"]');
+    var target = meta && meta.content.match(/url=(.+)/i);
+    if (target) document.getElementById('fallback').href = target[1].trim();
+  </script>
+</body>
+</html>
