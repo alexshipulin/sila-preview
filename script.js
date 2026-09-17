@@ -77,7 +77,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       title: 'Signet Ring',
       price: '$209',
       priceAlt: '3\u00a0790\u00a0000\u00a0IDR',
-      desc: 'A smooth silver signet ring with a warm zircon stone at the center. Its rounded form feels calm and grounded, while the stone adds a quiet point of light. Inside, two small stones symbolize a connection with yourself.',
+      desc: 'A smooth silver signet ring with a black zircon stone at the center. Its rounded form feels calm and grounded, while the stone adds a quiet point of light. Inside, two small stones symbolize a connection with yourself.',
       specs: [['Material', 'Silver 925'], ['Plating', 'Rhodium Nano'], ['Stone', 'Zircon'], ['Made in', 'Bali']],
       images: ['assets/signet-1.jpg', 'assets/signet-2.jpg', 'assets/signet-3.jpg', 'assets/signet-4.jpg'],
       thumbs: ['assets/signet-1-t.jpg', 'assets/signet-2-t.jpg', 'assets/signet-3-t.jpg', 'assets/signet-4-t.jpg']
