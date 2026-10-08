@@ -177,7 +177,7 @@ exports.stripeWebhook = onRequest(
 const ADMIN = {
   region: REGION,
   maxInstances: 2,
-  cors: EMULATED ? true : ['https://silabrand.store', 'https://www.silabrand.store'],
+  cors: EMULATED ? true : [...ALLOWED_ORIGINS],
 };
 
 function requireOwner(request) {

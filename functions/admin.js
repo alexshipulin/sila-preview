@@ -7,7 +7,7 @@
  * would otherwise overwrite a sale that happened in that minute.
  */
 const { SIZES, STOCK_DOC, isRing, normalizeStock } = require('./catalog');
-const { KIND, LEAD_DAYS } = require('./order');
+const { KIND, dueAt } = require('./order');
 
 const DAY = 86400;
 const QUEUE_DAYS = 180;
@@ -29,7 +29,7 @@ async function adjustStock(db, { model, size, delta }) {
   const ref = db.doc(STOCK_DOC);
   return db.runTransaction(async (tx) => {
     const snap = await tx.get(ref);
-    const stock = normalizeStock(snap.exists ? snap.data() : {});
+    const stock = normalizeStock(snap.data());
     stock[model] = { ...stock[model], [size]: Math.max(0, stock[model][size] + delta) };
     tx.set(ref, stock);
     return stock;
@@ -37,8 +37,7 @@ async function adjustStock(db, { model, size, delta }) {
 }
 
 function queueRow(pi) {
-  const m = pi.metadata || {};
-  const charge = pi.latest_charge && typeof pi.latest_charge === 'object' ? pi.latest_charge : null;
+  const m = pi.metadata;
   return {
     id: pi.id,
     orderId: m.order_id || '',
@@ -48,10 +47,10 @@ function queueRow(pi) {
     whatsapp: m.whatsapp || '',
     comment: m.comment || '',
     paidAt: pi.created,
-    dueAt: pi.created + LEAD_DAYS * DAY,
+    dueAt: dueAt(pi.created),
     converted: m.converted === '1',
     doneAt: m.done_at || '',
-    refunded: !!(charge && charge.refunded),
+    refunded: !!(pi.latest_charge && pi.latest_charge.refunded),
   };
 }
 
@@ -64,7 +63,7 @@ async function listQueue(stripe, nowSeconds) {
     expand: ['data.latest_charge'],
   });
   for await (const pi of pages) {
-    if (pi.status === 'succeeded' && (pi.metadata || {}).kind === KIND.MADE) rows.push(queueRow(pi));
+    if (pi.status === 'succeeded' && pi.metadata.kind === KIND.MADE) rows.push(queueRow(pi));
   }
   return rows.sort((a, b) => a.dueAt - b.dueAt);
 }
@@ -72,7 +71,7 @@ async function listQueue(stripe, nowSeconds) {
 /** Ticks a made-to-order payment as made and sent, or un-ticks it. */
 async function markDone(stripe, id, done, now) {
   const pi = await stripe.paymentIntents.retrieve(id);
-  if ((pi.metadata || {}).kind !== KIND.MADE) return false;
+  if (pi.metadata.kind !== KIND.MADE) return false;
   // an empty string is how Stripe removes a metadata key
   await stripe.paymentIntents.update(id, { metadata: { done_at: done ? now.toISOString() : '' } });
   return true;

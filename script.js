@@ -223,10 +223,6 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     return Array.prototype.slice.call(grid.querySelectorAll('button.pd-size'));
   }
 
-  function cellIn(grid, size) {
-    return cells(grid).filter(function (btn) { return btn.dataset.size === size; })[0] || null;
-  }
-
   function openMade(open) {
     madeToggle.setAttribute('aria-expanded', String(open));
     madeBody.hidden = !open;
@@ -327,7 +323,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
   // a size that is not on the shelf: open the made-to-order list on it
   function orderMade(size) {
-    var twin = cellIn(madeGrid, size);
+    var twin = madeGrid.querySelector('[data-size="' + size + '"]');
     if (!twin) return;
     alertBox.hidden = true;
     openMade(true);
@@ -394,7 +390,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   function refused(status, body, order) {
     // the size went while the visitor was deciding: the fresh lists come with
     // the answer, and the size moves over to the made-to-order list
-    if (status === 409 && body.rings) {
+    if (status === 409) {
       catalogue = body.rings;
       renderOrder();
       alertText.textContent = 'Size ' + order.size + ' has just sold out. We can make it for you in about 15 days.';
@@ -414,7 +410,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       return;
     }
 
-    var field = body && body.field;
+    var field = body.field;
     if (status === 400 && (field === 'name' || field === 'whatsapp')) {
       var input = form.querySelector('[name="' + field + '"]');
       input.classList.add('is-missing');
@@ -430,7 +426,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   function restoreChoice(saved) {
     var ring = stockFor(currentKey);
     if (ring && ring.ready.indexOf(saved.size) !== -1) { choose(saved.size, STOCK); return; }
-    if (!cellIn(madeGrid, saved.size)) return;
+    if (!madeGrid.querySelector('[data-size="' + saved.size + '"]')) return;
     if (saved.expect === STOCK) { orderMade(saved.size); return; }
     openMade(true);
     choose(saved.size, MADE);

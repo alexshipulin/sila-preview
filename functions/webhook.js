@@ -8,7 +8,7 @@
  * a no-op, and the transaction is what makes two last-ring payments queue up.
  */
 const { normalizeStock, STOCK_DOC } = require('./catalog');
-const { KIND } = require('./order');
+const { KIND, paymentDescription } = require('./order');
 const { orderMessage } = require('./telegram');
 
 /**
@@ -36,7 +36,7 @@ function applyPaid(stock, meta) {
  * deps: { db, stripe, notify(text) -> true | 'failed', now }
  */
 async function handlePaid(session, { db, stripe, notify, now }) {
-  const meta = session.metadata || {};
+  const meta = session.metadata;
   const markerRef = db.doc(`processed/${session.id}`);
   const stockRef = db.doc(STOCK_DOC);
 
@@ -45,7 +45,7 @@ async function handlePaid(session, { db, stripe, notify, now }) {
     if (seen.exists) return seen.data();
 
     const snap = await tx.get(stockRef);
-    const { stock, outcome } = applyPaid(normalizeStock(snap.exists ? snap.data() : {}), meta);
+    const { stock, outcome } = applyPaid(normalizeStock(snap.data()), meta);
     if (outcome === 'decremented') tx.set(stockRef, stock);
 
     const fresh = {
@@ -66,7 +66,7 @@ async function handlePaid(session, { db, stripe, notify, now }) {
   if (marker.outcome === 'converted' && !marker.relabelled) {
     await stripe.paymentIntents.update(session.payment_intent, {
       metadata: { kind: KIND.MADE, converted: '1' },
-      description: `${meta.order_id} · ${meta.model} US ${meta.size_us} · MADE TO ORDER (last piece went to another buyer)`,
+      description: `${paymentDescription(meta.order_id, meta.model, meta.size_us, true)} (last piece went to another buyer)`,
     });
     await markerRef.update({ relabelled: true });
   }

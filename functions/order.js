@@ -8,7 +8,7 @@ const { CATALOG, SIZES, isRing } = require('./catalog');
 
 const KIND = { STOCK: 'in_stock', MADE: 'made_to_order' };
 const LEAD_DAYS = 15;
-const MADE_TERMS = 'Made to order in about 15 days, then delivered anywhere in Bali. Full prepayment.';
+const MADE_TERMS = `Made to order in about ${LEAD_DAYS} days, then delivered anywhere in Bali. Full prepayment.`;
 const LIMITS = { name: 80, whatsapp: 32, comment: 400 };
 
 /** Stripe metadata values are strings and capped at 500 characters. */
@@ -26,6 +26,16 @@ function orderId(now = new Date(), rand = Math.random) {
   let tail = '';
   for (let i = 0; i < 6; i++) tail += ALPHABET[Math.floor(rand() * ALPHABET.length)];
   return `SILA-${day}-${tail}`;
+}
+
+/** When a made-to-order ring is due, in seconds, counted from payment. */
+function dueAt(createdSeconds) {
+  return createdSeconds + LEAD_DAYS * 86400;
+}
+
+/** How the payment reads in the Stripe dashboard, where the owner looks orders up. */
+function paymentDescription(id, ringName, size, made) {
+  return `${id} · ${ringName} US ${size}${made ? ' · MADE TO ORDER' : ''}`;
 }
 
 class OrderError extends Error {
@@ -116,7 +126,7 @@ function buildSession(input, origin, stock, now = new Date()) {
     metadata,
     payment_intent_data: {
       metadata,
-      description: `${id} · ${product.name} US ${size}${made ? ' · MADE TO ORDER' : ''}`,
+      description: paymentDescription(id, product.name, size, made),
     },
     // the shortest Stripe allows: an abandoned tab must not pay tomorrow for a
     // ring sold tonight. 31, not 30 — Stripe measures from its own clock.
@@ -129,4 +139,4 @@ function buildSession(input, origin, stock, now = new Date()) {
   return session;
 }
 
-module.exports = { buildSession, decideKind, orderId, clean, OrderError, KIND, LEAD_DAYS, MADE_TERMS, LIMITS };
+module.exports = { buildSession, OrderError, KIND, LEAD_DAYS, MADE_TERMS, dueAt, paymentDescription };

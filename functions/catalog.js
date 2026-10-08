@@ -52,11 +52,7 @@ function normalizeStock(stored) {
  */
 async function loadStock(db) {
   const snap = await db.doc(STOCK_DOC).get();
-  return normalizeStock(snap.exists ? snap.data() : {});
-}
-
-function bySize(a, b) {
-  return parseFloat(a) - parseFloat(b);
+  return normalizeStock(snap.data());
 }
 
 /**
@@ -72,7 +68,7 @@ function publicCatalog(stock) {
       name: ring.name,
       amount: ring.amount,
       currency: ring.currency,
-      row: [...new Set([...ROW, ...ready])].sort(bySize),
+      row: SIZES.filter((s) => ROW.includes(s) || ready.includes(s)),
       ready,
       made: SIZES.filter((s) => !ready.includes(s)),
     };
@@ -80,4 +76,4 @@ function publicCatalog(stock) {
   return out;
 }
 
-module.exports = { CATALOG, SIZES, ROW, STOCK_DOC, isRing, count, normalizeStock, loadStock, publicCatalog };
+module.exports = { CATALOG, SIZES, STOCK_DOC, isRing, normalizeStock, loadStock, publicCatalog };

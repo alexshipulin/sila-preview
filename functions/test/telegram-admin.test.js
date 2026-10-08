@@ -30,17 +30,24 @@ test('the due date is counted on Bali time', () => {
   assert.equal(money(19950), '$199.50');
 });
 
+async function withFetch(impl, fn) {
+  const real = globalThis.fetch;
+  globalThis.fetch = impl;
+  try { return await fn(); } finally { globalThis.fetch = real; }
+}
+
 test('Telegram: delivered, refused for good, or worth a retry', async () => {
-  const answer = (status) => async () => ({ ok: status === 200, status });
-  assert.equal(await sendTelegram('t', 'c', 'x', answer(200)), true);
-  assert.equal(await sendTelegram('t', 'c', 'x', answer(400)), 'failed');
-  assert.equal(await sendTelegram('t', 'c', 'x', answer(403)), 'failed');
-  await assert.rejects(sendTelegram('t', 'c', 'x', answer(429)), /429/);
-  await assert.rejects(sendTelegram('t', 'c', 'x', answer(502)), /502/);
-  await assert.rejects(sendTelegram('t', 'c', 'x', async () => { throw new TypeError('fetch failed'); }), /fetch failed/);
+  const send = (status) => withFetch(async () => ({ ok: status === 200, status }), () => sendTelegram('t', 'c', 'x'));
+  assert.equal(await send(200), true);
+  assert.equal(await send(400), 'failed');
+  assert.equal(await send(403), 'failed');
+  await assert.rejects(send(429), /429/);
+  await assert.rejects(send(502), /502/);
+  await assert.rejects(withFetch(async () => { throw new TypeError('fetch failed'); }, () => sendTelegram('t', 'c', 'x')), /fetch failed/);
 
   let body;
-  await sendTelegram('t', '42', 'a_b *c*', async (url, init) => { body = JSON.parse(init.body); return { ok: true, status: 200 }; });
+  await withFetch(async (url, init) => { body = JSON.parse(init.body); return { ok: true, status: 200 }; },
+    () => sendTelegram('t', '42', 'a_b *c*'));
   assert.equal(body.parse_mode, undefined, 'plain text: markup in a comment cannot break delivery');
   assert.equal(body.text, 'a_b *c*');
 });

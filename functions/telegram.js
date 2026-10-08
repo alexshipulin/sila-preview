@@ -5,14 +5,12 @@
  * asterisk would make Telegram reject a Markdown message on every retry, and
  * the order would never be announced.
  */
-const { LEAD_DAYS } = require('./order');
-
-const DAY = 86400;
+const { LEAD_DAYS, dueAt } = require('./order');
 
 /** "23 окт." — counted from payment, read on Bali time, where the workshop is. */
 function dueDate(createdSeconds) {
   return new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'short', timeZone: 'Asia/Makassar' })
-    .format(new Date((createdSeconds + LEAD_DAYS * DAY) * 1000));
+    .format(new Date(dueAt(createdSeconds) * 1000));
 }
 
 function money(amount) {
@@ -29,7 +27,7 @@ function orderMessage(meta, outcome, amount, createdSeconds) {
   ];
   if (outcome === 'converted') {
     lines.push('⚠️ Последнее кольцо этого размера секундой раньше купил другой покупатель. '
-      + 'Предложите изготовление (~15 дней) или полный возврат.');
+      + `Предложите изготовление (~${LEAD_DAYS} дней) или полный возврат.`);
   }
   lines.push('', `Имя: ${meta.name}`, `WhatsApp: ${meta.whatsapp}`);
   if (meta.comment) lines.push(`Комментарий: ${meta.comment}`);
@@ -43,8 +41,8 @@ function orderMessage(meta, outcome, amount, createdSeconds) {
  * retrying that would never succeed. A network error, a 429 or a 5xx throws,
  * so the webhook answers 500 and Stripe redelivers later.
  */
-async function sendTelegram(token, chatId, text, fetchImpl = fetch) {
-  const res = await fetchImpl(`https://api.telegram.org/bot${token}/sendMessage`, {
+async function sendTelegram(token, chatId, text) {
+  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ chat_id: chatId, text, disable_web_page_preview: true }),
