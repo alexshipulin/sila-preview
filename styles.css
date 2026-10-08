@@ -1364,6 +1364,15 @@ hr { border: 0; }
   gap: 6px;
 }
 
+/* Belleza draws old-style figures — 6 and 8 ride high, 7 and 9 drop below the
+   line — so a row of sizes in it looks uneven. Archivo's lining figures, the
+   same face as the price, sit level in every cell. */
+.pd-order .pd-size {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  letter-spacing: 0.02em;
+}
+
 /* sold out: still tappable — it opens the made-to-order list on this size —
    but never chosen here. The diagonal says it without relying on colour. */
 .pd-size.is-out {
