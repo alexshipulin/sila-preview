@@ -1010,17 +1010,6 @@ hr { border: 0; }
   line-height: 1.15;
 }
 
-.pd-form { padding-top: 225px; }
-
-.pd-row {
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.pd-row + .pd-row { margin-top: 16px; }
-
 .pd-label { font-size: 18px; }
 
 .pd-field {
@@ -1038,18 +1027,7 @@ hr { border: 0; }
 
 .pd-field::placeholder { color: var(--line-grey); }
 
-/* ---- size picker ----------------------------------------------------------
-   Every size on show as its own button, one of them chosen. The row of five
-   fills the same column the stepper below it occupies, so Size and Quantity
-   line up on both edges. */
-
-.pd-sizes {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
-  width: 270px;
-}
-
+/* one size cell, shared by the ready-to-ship and the made-to-order lists */
 .pd-size {
   height: 48px;
   padding: 0;
@@ -1077,31 +1055,8 @@ hr { border: 0; }
 
 .pd-size:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
 
-/* the whole group is what is missing, so the mark goes on every button */
-.pd-sizes.is-missing .pd-size { border-color: #b4534f; }
-
 .pd-field { margin-top: 16px; }
-.pd-field:first-of-type { margin-top: 100px; }
 .pd-field.is-missing { border-color: #b4534f; }
-
-.pd-stepper { display: flex; }
-
-.pd-step,
-.pd-count {
-  height: 56px;
-  border: 1px solid var(--ink);
-  background: transparent;
-  color: var(--ink);
-  font-family: var(--font-display);
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pd-step { width: 44px; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease; }
-.pd-step:hover { background: var(--ink); color: var(--cream); }
-.pd-count { width: 182px; border-inline: 0; }
 
 .pd-confirm {
   margin-top: 16px;
@@ -1119,13 +1074,6 @@ hr { border: 0; }
 }
 
 .pd-confirm:hover { opacity: 0.85; }
-
-.pd-thanks {
-  margin-top: 16px;
-  text-align: center;
-  font-size: 18px;
-  color: var(--ink);
-}
 
 /* ===================== contact sheet (Pen: "Contact — Sila") =====================
    Same full-screen shell as the product modal; 1429 x 1136 sheet, content block
@@ -1317,6 +1265,10 @@ hr { border: 0; }
    the same cell, so the two grids line up column for column. */
 
 .pd-order { margin-top: 56px; }
+
+/* parts of the block come and go with the stock; several of them set their own
+   display, which would otherwise win over the hidden attribute */
+.pd-order [hidden] { display: none; }
 
 .pd-order-head {
   display: flex;
@@ -1574,9 +1526,6 @@ hr { border: 0; }
 .pd-sizeguide:hover { color: var(--ink); }
 .pd-sizeguide:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
 
-/* the row after it keeps the rhythm the adjacency selector used to give it */
-.pd-sizeguide + .pd-row { margin-top: 22px; }
-
 /* the guide opens over the product sheet, so it sits above it */
 .sz { z-index: 70; }
 
@@ -1709,7 +1658,6 @@ hr { border: 0; }
 
 @media (max-width: 900px) {
   .pd-sizeguide { font-size: 13px; margin-top: 10px; }
-  .pd-sizeguide + .pd-row { margin-top: 18px; }
 
   .sz-title { font-size: 32px; }
   .sz-steps { margin-top: 32px; }
@@ -1831,14 +1779,9 @@ hr { border: 0; }
   .pd-specs { margin-top: 20px; }
   .pd-specs div { height: 44px; font-size: 15px; }
   .pd-desc { margin-top: 24px; font-size: 16px; }
-  .pd-form { padding-top: 28px; }
   .pd-label { font-size: 16px; }
 
-  /* size and quantity are one control each — give them the same footprint */
-  .pd-sizes,
-  .pd-stepper { width: 62%; }
   .pd-size { height: 44px; font-size: 16px; }
-  .pd-count { width: auto; flex: 1; }
 
   /* the gallery already fills the screen here, so there is nothing to zoom into */
   .pd-hero { cursor: default; }

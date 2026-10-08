@@ -54,29 +54,57 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   var lightbox = document.getElementById('lightbox');
   if (!modal) return;
 
-  var API = 'https://europe-central2-silabrand.cloudfunctions.net';
+  // the live functions on the site itself; anywhere else — the dev server on
+  // this Mac, or a phone on the same Wi-Fi — the local Firebase emulator
+  var LIVE = /(^|\.)silabrand\.store$/.test(location.hostname);
+  var API = LIVE
+    ? 'https://europe-central2-silabrand.cloudfunctions.net'
+    : 'http://' + location.hostname + ':5001/silabrand/europe-central2';
 
-  // sizes we make, used until the live stock arrives so the picker is never
-  // empty; the server is the authority on what can actually be bought
-  var SIZES = ['6', '7', '8', '9', '10'];
+  var STOCK = 'in_stock';
+  var MADE = 'made_to_order';
 
-  var catalogue = null;          // { rings: { lattice: { sizes: [...] } } }
+  // the order as sent, so a cancelled payment comes back to the same choice
+  var SAVED = 'sila-checkout';
+
+  // every size the workshop makes: when the shelf cannot be read, any of them
+  // can still be made to order
+  var SIZES = ['4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12'];
+
+  // { lattice: { row, ready, made } } once loaded, null while loading,
+  // false when it could not be read
+  var catalogue = null;
   var cataloguePromise = null;
 
   function loadCatalogue() {
     if (cataloguePromise) return cataloguePromise;
     cataloguePromise = fetch(API + '/getCatalog')
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) { catalogue = d && d.rings ? d.rings : null; return catalogue; })
-      .catch(function () { return null; });      // fall back to SIZES
+      .then(function (r) {
+        if (!r.ok) throw new Error('catalogue ' + r.status);
+        return r.json();
+      })
+      .then(function (d) { catalogue = d.rings; })
+      .catch(function () {
+        catalogue = false;
+        cataloguePromise = null;     // the next ring opened asks again
+      });
     return cataloguePromise;
+  }
+
+  // asked for as the page loads, so the sizes are there when a ring is opened
+  loadCatalogue();
+
+  /** This ring's lists, or null when the shelf is unknown. */
+  function stockFor(key) {
+    var ring = catalogue && catalogue[key];
+    return ring && Array.isArray(ring.ready) ? ring : null;
   }
 
   var PRODUCTS = {
     signet: {
       title: 'Signet Ring',
       price: '$209',
-      priceAlt: '3\u00a0790\u00a0000\u00a0IDR',
+      priceAlt: '3 790 000 IDR',
       desc: 'A smooth silver signet ring with a black zircon stone at the center. Its rounded form feels calm and grounded, while the stone adds a quiet point of light. Inside, two small stones symbolize a connection with yourself.',
       specs: [['Material', 'Silver 925'], ['Plating', 'Rhodium Nano'], ['Stone', 'Zircon'], ['Made in', 'Bali']],
       images: ['assets/signet-1.jpg', 'assets/signet-2.jpg', 'assets/signet-3.jpg', 'assets/signet-4.jpg'],
@@ -85,7 +113,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     lattice: {
       title: 'Lattice Ring',
       price: '$199',
-      priceAlt: '3\u00a0590\u00a0000\u00a0IDR',
+      priceAlt: '3 590 000 IDR',
       desc: 'A sculptural silver ring built from small rounded elements, creating a soft open structure around the finger. Light-catching, tactile, and bold without feeling heavy. A piece for everyday presence — noticeable, but never loud.',
       specs: [['Material', 'Silver 925'], ['Plating', 'Rhodium Nano'], ['Stone', '—'], ['Made in', 'Bali']],
       images: ['assets/lattice-1.jpg', 'assets/lattice-2.jpg', 'assets/lattice-3.jpg', 'assets/lattice-4.jpg'],
@@ -94,7 +122,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     rhythm: {
       title: 'Rhythm Ring',
       price: '$239',
-      priceAlt: '4\u00a0290\u00a0000\u00a0IDR',
+      priceAlt: '4 290 000 IDR',
       desc: 'A silver ring shaped by repeated vertical forms, creating a clean architectural rhythm. Minimal from afar, detailed up close. Designed to become a daily piece with character — structured, calm, and strong.',
       specs: [['Material', 'Silver 925'], ['Plating', 'Rhodium Nano'], ['Stone', '—'], ['Made in', 'Bali']],
       images: ['assets/rhythm-1.jpg', 'assets/rhythm-2.jpg', 'assets/rhythm-3.jpg', 'assets/rhythm-4.jpg'],
@@ -103,6 +131,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   };
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var scrollBehaviour = reduce ? 'auto' : 'smooth';
 
   var dialog = modal.querySelector('.pd-dialog');
   var closeBtn = modal.querySelector('.pd-close');
@@ -113,24 +142,39 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   var priceEl = modal.querySelector('.pd-price');
   var descEl = modal.querySelector('.pd-desc');
   var specsEl = modal.querySelector('.pd-specs');
-  var sizeListEl = modal.querySelector('.pd-sizes');
-  var sizeInput = modal.querySelector('.pd-size-input');
-  var form = modal.querySelector('.pd-form');
-  var confirmBtn = modal.querySelector('.pd-confirm');
-  var thanksEl = modal.querySelector('.pd-thanks');
-  var countEl = modal.querySelector('.pd-count');
+
+  var form = modal.querySelector('.pd-order');
+  var orderHead = form.querySelector('.pd-order-head');
+  var sizeError = form.querySelector('[data-size-error]');
+  var readyTitle = form.querySelector('[data-ready-title]');
+  var readyGrid = form.querySelector('[data-grid="ready"]');
+  var stockHint = form.querySelector('.pd-stock-hint');
+  var madeBox = form.querySelector('.pd-made');
+  var madeToggle = form.querySelector('.pd-made-toggle');
+  var madeTitle = form.querySelector('[data-made-title]');
+  var madeBody = form.querySelector('.pd-made-body');
+  var madeNote = form.querySelector('.pd-made-note');
+  var madeGrid = form.querySelector('[data-grid="made"]');
   var fields = form.querySelectorAll('.pd-field');
+  var alertBox = form.querySelector('.pd-alert');
+  var alertText = alertBox.querySelector('[data-alert-text]');
+  var alertAction = alertBox.querySelector('.pd-alert-action');
+  var summary = form.querySelector('.pd-summary');
+  var confirmBtn = form.querySelector('.pd-confirm');
+  var madeTerms = form.querySelector('[data-made-note]');
+  var payError = form.querySelector('[data-pay-error]');
 
   var lbImg = lightbox && lightbox.querySelector('.lb-img');
   var lbClose = lightbox && lightbox.querySelector('.lb-close');
   var lbNext = lightbox && lightbox.querySelector('.lb-next');
 
   var lastTrigger = null;
-  var qty = 1;
   var savedScroll = 0;
   var current = null;      // active product
   var currentKey = null;   // its catalogue key
   var shown = 0;           // index of the image in the hero
+  var chosen = { size: '', kind: '' };
+  var sending = false;     // between the press of the button and Stripe's page
 
   function lockPage() {
     savedScroll = window.scrollY || document.documentElement.scrollTop || 0;
@@ -155,71 +199,241 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   }
 
 
-  // ---- size picker ----------------------------------------------------------
-  // Every size is a button, visible at a glance, one of them chosen. Arrow keys
-  // move within the group and only the chosen button is a tab stop, which is
-  // how a radio group is expected to behave.
+  // ---- order block -----------------------------------------------------------
+  // What is on the shelf comes first. A sold-out size stays in that row crossed
+  // through and leads into the made-to-order list, which sits folded under it
+  // while anything is ready to ship. One size, one button.
 
-  var chosenSize = '';
-
-  function sizeButtons() {
-    return Array.prototype.slice.call(sizeListEl.querySelectorAll('.pd-size'));
-  }
-
-  function sizesFor(key) {
-    var ring = catalogue && catalogue[key];
-    if (ring && ring.sizes && ring.sizes.length) {
-      return ring.sizes.map(function (entry) { return entry.size; });
+  function cell(size, out) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'pd-size' + (out ? ' is-out' : '');
+    btn.setAttribute('role', 'radio');
+    btn.setAttribute('aria-checked', 'false');
+    if (out) {
+      btn.setAttribute('aria-disabled', 'true');
+      btn.setAttribute('aria-label', size + ', sold out, can be made to order');
     }
-    return SIZES;
+    btn.dataset.size = size;
+    btn.textContent = size;
+    return btn;
   }
 
-  function setSize(value) {
-    chosenSize = value || '';
-    sizeInput.value = chosenSize;
-    if (chosenSize) sizeListEl.classList.remove('is-missing');
-    sizeButtons().forEach(function (btn, i) {
-      var on = btn.dataset.size === chosenSize;
-      btn.setAttribute('aria-checked', String(on));
-      // one tab stop for the group: the chosen size, or the first button
-      btn.tabIndex = (chosenSize ? on : i === 0) ? 0 : -1;
-    });
+  function cells(grid) {
+    return Array.prototype.slice.call(grid.querySelectorAll('button.pd-size'));
   }
 
-  function renderSizes() {
-    var live = !!(catalogue && catalogue[currentKey]);
+  function cellIn(grid, size) {
+    return cells(grid).filter(function (btn) { return btn.dataset.size === size; })[0] || null;
+  }
 
-    sizeListEl.textContent = '';
-    sizesFor(currentKey).forEach(function (size) {
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'pd-size';
-      btn.setAttribute('role', 'radio');
-      btn.setAttribute('aria-checked', 'false');
-      btn.dataset.size = size;
-      btn.textContent = size;
-      sizeListEl.appendChild(btn);
-    });
-    setSize('');
+  function openMade(open) {
+    madeToggle.setAttribute('aria-expanded', String(open));
+    madeBody.hidden = !open;
+  }
 
-    // Drawn from the fallback, so ask for the real list and redraw once.
-    // Guarded on `live`: without it the second pass would subscribe again to an
-    // already-resolved promise and call itself forever.
-    if (live) return;
-    loadCatalogue().then(function (rings) {
-      if (!rings || !rings[currentKey]) return;
-      if (modal.hidden || chosenSize) return;
-      renderSizes();
+  function renderOrder() {
+    var loading = catalogue === null;
+    var ring = stockFor(currentKey);
+    var onShelf = !!(ring && ring.ready.length);
+
+    readyTitle.hidden = !loading && !onShelf;
+    readyGrid.hidden = !loading && !onShelf;
+    readyGrid.textContent = '';
+    if (loading) {
+      for (var i = 0; i < 5; i++) {
+        var ghost = document.createElement('span');
+        ghost.className = 'pd-size is-loading';
+        ghost.setAttribute('aria-hidden', 'true');
+        ghost.textContent = '0';
+        readyGrid.appendChild(ghost);
+      }
+    } else if (onShelf) {
+      ring.row.forEach(function (size) {
+        readyGrid.appendChild(cell(size, ring.ready.indexOf(size) === -1));
+      });
+    }
+
+    var anyOut = onShelf && ring.row.length > ring.ready.length;
+    stockHint.hidden = loading || (onShelf && !anyOut);
+    stockHint.textContent = !ring
+      ? 'We couldn’t check what’s ready to ship — any size can be made to order.'
+      : onShelf
+        ? 'Crossed-out sizes are sold out — tap one to have it made.'
+        : 'Ready-to-ship pieces are sold out right now.';
+
+    // with nothing on the shelf the list is the only way to buy, so it has no fold
+    madeBox.hidden = loading;
+    madeBox.classList.toggle('is-only', !onShelf);
+    madeToggle.hidden = !onShelf;
+    madeTitle.hidden = onShelf;
+    madeNote.hidden = true;
+    madeGrid.textContent = '';
+    (ring ? ring.made : SIZES).forEach(function (size) { madeGrid.appendChild(cell(size, false)); });
+    openMade(!onShelf);
+
+    choose('', '');
+  }
+
+  function choose(size, kind) {
+    chosen = { size: size, kind: kind };
+    [readyGrid, madeGrid].forEach(function (grid) {
+      var mine = grid === (kind === MADE ? madeGrid : readyGrid);
+      var list = cells(grid);
+      var picked = null;
+      list.forEach(function (btn) {
+        var on = mine && btn.dataset.size === size;
+        btn.setAttribute('aria-checked', String(on));
+        if (on) picked = btn;
+      });
+      // one tab stop per list: its chosen size, or its first
+      list.forEach(function (btn, i) { btn.tabIndex = (picked ? btn === picked : i === 0) ? 0 : -1; });
     });
+
+    if (size) sizeError.hidden = true;
+    summary.classList.toggle('is-empty', !size);
+    summary.textContent = size ? 'Size ' + size + ' ' : 'Choose a size';
+    if (size) {
+      var tail = document.createElement('span');
+      tail.textContent = '· ' + (kind === MADE ? 'Made to order, about 15 days' : 'Ready to ship');
+      summary.appendChild(tail);
+    }
+    madeTerms.hidden = kind !== MADE;
+    label();
+  }
+
+  function label() {
+    if (catalogue === null) {
+      confirmBtn.disabled = true;
+      confirmBtn.textContent = 'Checking stock…';
+      return;
+    }
+    confirmBtn.disabled = sending;
+    if (sending) { confirmBtn.textContent = 'Opening payment…'; return; }
+
+    // before a size is chosen, the button speaks for what the page mostly offers
+    var ring = stockFor(currentKey);
+    var kind = chosen.kind || (ring && ring.ready.length ? STOCK : MADE);
+    confirmBtn.textContent = (kind === MADE ? 'Order — ' : 'Buy now — ') + current.price;
+  }
+
+  function pick(btn) {
+    alertBox.hidden = true;
+    payError.hidden = true;
+    if (btn.classList.contains('is-out')) { orderMade(btn.dataset.size); return; }
+    madeNote.hidden = true;
+    choose(btn.dataset.size, btn.parentNode === madeGrid ? MADE : STOCK);
+  }
+
+  // a size that is not on the shelf: open the made-to-order list on it
+  function orderMade(size) {
+    var twin = cellIn(madeGrid, size);
+    if (!twin) return;
+    alertBox.hidden = true;
+    openMade(true);
+    madeNote.textContent = 'Size ' + size + ' is sold out — we’ll make it for you.';
+    madeNote.hidden = false;
+    choose(size, MADE);
+    twin.focus({ preventScroll: true });
+    twin.scrollIntoView({ block: 'nearest', behavior: scrollBehaviour });
   }
 
   function moveSize(step) {
-    var btns = sizeButtons();
-    if (!btns.length) return;
-    var here = btns.indexOf(document.activeElement);
-    var next = btns[(here + step + btns.length) % btns.length];
-    setSize(next.dataset.size);
+    var here = document.activeElement;
+    var list = cells(here.parentNode);
+    var next = list[(list.indexOf(here) + step + list.length) % list.length];
     next.focus();
+    // a radio is chosen as the arrow reaches it — except a sold-out one, which
+    // would whisk the visitor off to the other list
+    if (!next.classList.contains('is-out')) pick(next);
+  }
+
+  function showError(text) {
+    payError.textContent = text;
+    payError.hidden = false;
+    label();
+  }
+
+  function checkout() {
+    var order = {
+      model: currentKey,
+      size: chosen.size,
+      expect: chosen.kind,
+      name: fields[0].value,
+      whatsapp: fields[1].value,
+      comment: fields[2].value
+    };
+    sending = true;
+    label();
+
+    fetch(API + '/createCheckout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(order)
+    })
+      .then(function (r) {
+        return r.json().then(function (body) { return { status: r.status, body: body }; });
+      })
+      .then(function (res) {
+        if (res.status === 200 && res.body.url) {
+          // a full Safari private tab can refuse storage; the payment still opens,
+          // only a cancelled one comes back to an empty form
+          try { sessionStorage.setItem(SAVED, JSON.stringify(order)); } catch (err) { /* see above */ }
+          location.assign(res.body.url);
+          return;
+        }
+        sending = false;
+        refused(res.status, res.body, order);
+      })
+      .catch(function () {
+        sending = false;
+        showError('The payment page didn’t open. Nothing was charged — please try again.');
+      });
+  }
+
+  function refused(status, body, order) {
+    // the size went while the visitor was deciding: the fresh lists come with
+    // the answer, and the size moves over to the made-to-order list
+    if (status === 409 && body.rings) {
+      catalogue = body.rings;
+      renderOrder();
+      alertText.textContent = 'Size ' + order.size + ' has just sold out. We can make it for you in about 15 days.';
+      alertAction.textContent = 'Order size ' + order.size;
+      alertAction.dataset.size = order.size;
+      alertBox.hidden = false;
+      alertBox.scrollIntoView({ block: 'nearest', behavior: scrollBehaviour });
+      return;
+    }
+
+    // the shelf could not be read at checkout: offer what does not depend on it
+    if (status === 503) {
+      catalogue = false;
+      cataloguePromise = null;
+      renderOrder();
+      showError('We couldn’t check what’s ready to ship just now. Choose a size above to have it made, or try again in a minute.');
+      return;
+    }
+
+    var field = body && body.field;
+    if (status === 400 && (field === 'name' || field === 'whatsapp')) {
+      var input = form.querySelector('[name="' + field + '"]');
+      input.classList.add('is-missing');
+      input.focus();
+      showError(body.error);
+      return;
+    }
+
+    showError('The payment page didn’t open. Nothing was charged — please try again.');
+  }
+
+  /** Back from a cancelled payment: the same ring, size and details. */
+  function restoreChoice(saved) {
+    var ring = stockFor(currentKey);
+    if (ring && ring.ready.indexOf(saved.size) !== -1) { choose(saved.size, STOCK); return; }
+    if (!cellIn(madeGrid, saved.size)) return;
+    if (saved.expect === STOCK) { orderMade(saved.size); return; }
+    openMade(true);
+    choose(saved.size, MADE);
   }
 
   function fill(product) {
@@ -244,8 +458,6 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       specsEl.appendChild(row);
     });
 
-    renderSizes();
-
     thumbBtns.forEach(function (btn, i) {
       var img = btn.querySelector('img');
       img.src = product.thumbs[i];
@@ -255,30 +467,32 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     show(0);
   }
 
-  function setQty(value) {
-    qty = Math.min(99, Math.max(1, value));
-    countEl.textContent = qty;
-  }
-
   function reset() {
     fields.forEach(function (field) {
       field.value = '';
-      field.disabled = false;
       field.classList.remove('is-missing');
     });
-    confirmBtn.hidden = false;
-    thanksEl.hidden = true;
-    setQty(1);
+    sending = false;
+    sizeError.hidden = true;
+    alertBox.hidden = true;
+    payError.hidden = true;
   }
 
   function open(slug, trigger) {
-    var product = PRODUCTS[slug];
-    if (!product) return;
+    if (!Object.prototype.hasOwnProperty.call(PRODUCTS, slug)) return;
 
     lastTrigger = trigger || null;
     currentKey = slug;
-    fill(product);
+    fill(PRODUCTS[slug]);
     reset();
+
+    if (catalogue === false) catalogue = null;     // unread last time: ask again
+    renderOrder();
+    if (catalogue === null) {
+      loadCatalogue().then(function () {
+        if (!modal.hidden && currentKey === slug) renderOrder();
+      });
+    }
 
     modal.hidden = false;
     modal.scrollTop = 0;
@@ -356,8 +570,15 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       return;
     }
 
-    var sizeBtn = e.target.closest('.pd-size');
-    if (sizeBtn) { setSize(sizeBtn.dataset.size); return; }
+    var sizeBtn = e.target.closest('.pd-order button.pd-size');
+    if (sizeBtn) { pick(sizeBtn); return; }
+
+    if (e.target.closest('.pd-made-toggle')) {
+      openMade(madeToggle.getAttribute('aria-expanded') !== 'true');
+      return;
+    }
+
+    if (e.target.closest('.pd-alert-action')) { orderMade(alertAction.dataset.size); return; }
 
     if (e.target.closest('.pd-hero')) { openLightbox(); return; }
 
@@ -387,9 +608,10 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     if (e.key === 'Escape') { close(); return; }
     if (e.key !== 'Tab') return;
 
-    var focusable = dialog.querySelectorAll('button, input:not([type="hidden"])');
+    // whole parts of the order block hide and show, so ask what is on screen
+    var focusable = dialog.querySelectorAll('button, input, a[href]');
     var visible = Array.prototype.filter.call(focusable, function (el) {
-      return !el.disabled && !el.hidden;
+      return !el.disabled && el.getClientRects().length > 0;
     });
     if (!visible.length) return;
     var first = visible[0];
@@ -398,35 +620,56 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   });
 
-  modal.querySelectorAll('.pd-step').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      setQty(qty + Number(btn.getAttribute('data-step')));
-    });
-  });
-
-  // Visual only — nothing is sent anywhere.
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var missing = false;
-    if (!chosenSize) {
-      sizeListEl.classList.add('is-missing');
-      missing = true;
-    }
-    Array.prototype.slice.call(fields, 0, 2).forEach(function (field) {
-      var empty = !field.value.trim();
-      field.classList.toggle('is-missing', empty);
-      if (empty) missing = true;
-    });
-    if (missing) {
-      var firstBad = form.querySelector('.is-missing');
-      if (firstBad) firstBad.focus({ preventScroll: false });
+    if (sending || catalogue === null) return;
+    payError.hidden = true;
+
+    if (!chosen.size) {
+      sizeError.hidden = false;
+      orderHead.scrollIntoView({ block: 'center', behavior: scrollBehaviour });
       return;
     }
 
-    fields.forEach(function (field) { field.disabled = true; });
-    confirmBtn.hidden = true;
-    thanksEl.hidden = false;
+    var firstBad = null;
+    Array.prototype.slice.call(fields, 0, 2).forEach(function (field) {
+      var empty = !field.value.trim();
+      field.classList.toggle('is-missing', empty);
+      if (empty && !firstBad) firstBad = field;
+    });
+    if (firstBad) { firstBad.focus(); return; }
+
+    checkout();
   });
+
+  // Back from Stripe with the browser's Back button: the page comes out of the
+  // back-forward cache exactly as it was left, button still saying it is busy
+  window.addEventListener('pageshow', function (e) {
+    if (!e.persisted || !sending) return;
+    sending = false;
+    label();
+  });
+
+  // Stripe's "back" link on a payment that was not finished
+  (function () {
+    var params = new URLSearchParams(location.search);
+    if (params.get('checkout') !== 'cancelled') return;
+    var key = params.get('ring');
+    history.replaceState(null, '', location.pathname);
+    if (!Object.prototype.hasOwnProperty.call(PRODUCTS, key)) return;
+
+    var saved = null;
+    try { saved = JSON.parse(sessionStorage.getItem(SAVED)); } catch (err) { /* nothing to restore */ }
+    open(key, null);
+    if (!saved || saved.model !== key) return;
+
+    fields[0].value = saved.name || '';
+    fields[1].value = saved.whatsapp || '';
+    fields[2].value = saved.comment || '';
+    loadCatalogue().then(function () {
+      if (!modal.hidden && currentKey === key && !chosen.size) restoreChoice(saved);
+    });
+  })();
 })();
 
 // Contact sheet (Pen: "Contact — Sila"). Same shell as the product modal.

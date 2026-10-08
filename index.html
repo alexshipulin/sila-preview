@@ -163,8 +163,8 @@
         <div class="info-col reveal">
           <h4>Payment</h4>
           <p>We keep payment simple — and flexible.<br>
-          You can pay by card transfer, Wise, or PayPal. Wherever you are in the world, there's a way that works for you.<br>
-          If none of these feel convenient, just <a class="wa-link" href="https://wa.me/48572387611" target="_blank" rel="noopener">write to us<svg class="wa-arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4.5 11.5 11.5 4.5M5.6 4.5h5.9v5.9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg></a>. We'll find an option that suits you — we always do.</p>
+          Pay by card right here on the site. Wherever you are in the world, there's a way that works for you.<br>
+          Prefer Wise, PayPal or a bank transfer? Just <a class="wa-link" href="https://wa.me/48572387611" target="_blank" rel="noopener">write to us<svg class="wa-arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4.5 11.5 11.5 4.5M5.6 4.5h5.9v5.9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg></a> and we'll arrange it — we always do.</p>
         </div>
       </div>
     </section>
@@ -252,8 +252,8 @@
           Bali only for now &mdash; and always free.<br>
           Canggu, Ubud, Uluwatu or somewhere quieter down the coast: just tell us where you are, and we&rsquo;ll bring your ring to you, wrapped with care.</p>
           <p><span>Payment</span><br>
-          Card online, bank transfer, Wise or PayPal.<br>
-          Need something else? <a class="wa-link" href="https://wa.me/48572387611" target="_blank" rel="noopener">Write to us<svg class="wa-arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4.5 11.5 11.5 4.5M5.6 4.5h5.9v5.9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg></a> &mdash; we&rsquo;ll find a way.</p>
+          Pay by card right here on the site.<br>
+          Prefer Wise, PayPal or a bank transfer? <a class="wa-link" href="https://wa.me/48572387611" target="_blank" rel="noopener">Write to us<svg class="wa-arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4.5 11.5 11.5 4.5M5.6 4.5h5.9v5.9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg></a> &mdash; we&rsquo;ll arrange it.</p>
         </div>
       </div>
 
@@ -264,29 +264,48 @@
         <dl class="pd-specs"></dl>
         <p class="pd-desc"></p>
 
-        <form class="pd-form" novalidate>
-          <div class="pd-row">
-            <span class="pd-label">Size</span>
-            <div class="pd-sizes" role="radiogroup" aria-label="Ring size"></div>
-            <input class="pd-size-input" type="hidden" name="size" value="">
+        <form class="pd-order" novalidate>
+          <div class="pd-order-head">
+            <span class="pd-label">Size (US)</span>
+            <button class="pd-sizeguide" type="button" aria-haspopup="dialog">Find Your Ring Size</button>
           </div>
-          <button class="pd-sizeguide" type="button" aria-haspopup="dialog">Find Your Ring Size</button>
+          <p class="pd-order-error" role="alert" data-size-error hidden>Please choose a size.</p>
 
-          <div class="pd-row">
-            <span class="pd-label">Quantity</span>
-            <div class="pd-stepper">
-              <button class="pd-step" type="button" data-step="-1" aria-label="Decrease quantity">&minus;</button>
-              <span class="pd-count" aria-live="polite">1</span>
-              <button class="pd-step" type="button" data-step="1" aria-label="Increase quantity">+</button>
+          <div class="pd-stock">
+            <p class="pd-group-title" data-ready-title>Ready to ship</p>
+            <div class="pd-grid" role="radiogroup" aria-label="Ready-to-ship sizes" data-grid="ready"></div>
+            <p class="pd-stock-hint" hidden></p>
+          </div>
+
+          <div class="pd-made" hidden>
+            <button class="pd-made-toggle" type="button" aria-expanded="false" aria-controls="pd-made-body">
+              <span><span class="pd-made-ask">Need another size?</span><span class="pd-group-title">Made to order <span>&middot; about 15 days</span></span></span>
+              <span class="pd-made-icon" aria-hidden="true"></span>
+            </button>
+            <p class="pd-group-title" data-made-title hidden>Made to order <span>&middot; about 15 days</span></p>
+            <div class="pd-made-body" id="pd-made-body" hidden>
+              <p class="pd-made-terms">Made to order in about 15 days, then delivered anywhere in Bali. Full prepayment.</p>
+              <p class="pd-made-note" hidden></p>
+              <div class="pd-grid" role="radiogroup" aria-label="Made-to-order sizes" data-grid="made"></div>
             </div>
           </div>
 
-          <input class="pd-field" type="text" name="name" placeholder="Your name" autocomplete="name">
-          <input class="pd-field" type="tel" name="phone" placeholder="WhatsApp Number" autocomplete="tel">
-          <input class="pd-field" type="text" name="extra" placeholder="Additional contact information">
+          <div class="pd-fields">
+            <input class="pd-field" type="text" name="name" placeholder="Your name" autocomplete="name" maxlength="80">
+            <input class="pd-field" type="tel" name="whatsapp" placeholder="WhatsApp Number" autocomplete="tel" maxlength="32">
+            <input class="pd-field" type="text" name="comment" placeholder="Additional contact information" maxlength="400">
+          </div>
 
-          <button class="pd-confirm" type="submit">Confirm order</button>
-          <p class="pd-thanks" role="status" hidden>Thank you &mdash; we&rsquo;ll be in touch</p>
+          <div class="pd-alert" role="alert" hidden>
+            <span data-alert-text></span><br>
+            <button class="pd-alert-action" type="button"></button>
+          </div>
+
+          <p class="pd-summary is-empty">Choose a size</p>
+
+          <button class="pd-confirm" type="submit"></button>
+          <p class="pd-confirm-note" data-made-note hidden>Full prepayment. Returns work as for any order &mdash; <a href="return-policy.html">Return Policy</a>.</p>
+          <p class="pd-order-error is-centered" role="alert" data-pay-error hidden></p>
         </form>
       </div>
       </div>
