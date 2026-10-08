@@ -13,71 +13,71 @@
        Neither of the site's faces has Cyrillic, so the system one throughout */
     body.admin { background: var(--cream); color: var(--ink); font-family: system-ui, -apple-system, sans-serif;
                  font-size: 16px; line-height: 1.4; overflow-x: visible; }
-    .ad-shell { max-width: 880px; margin: 0 auto; padding: 24px 16px 80px; }
-    .ad-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-    .ad-head h1, .ad-section h2 { font-weight: 400; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; }
-    .ad-who { font-size: 15px; color: var(--ink-soft); }
-    .ad-btn { min-height: 44px; padding: 0 18px; border: 1px solid var(--ink); background: transparent; color: var(--ink);
+    .ow-shell { max-width: 880px; margin: 0 auto; padding: 24px 16px 80px; }
+    .ow-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .ow-head h1, .ow-section h2 { font-weight: 400; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .ow-who { font-size: 15px; color: var(--ink-soft); }
+    .ow-btn { min-height: 44px; padding: 0 18px; border: 1px solid var(--ink); background: transparent; color: var(--ink);
               font-size: 14px; letter-spacing: 0.04em; cursor: pointer; }
-    .ad-btn:hover:not(:disabled) { background: var(--ink); color: var(--cream); }
-    .ad-btn:disabled { opacity: 0.4; cursor: default; }
-    .ad-btn.is-primary { background: var(--ink); color: var(--cream); }
-    .ad-link { padding: 12px 0; border: 0; background: none; color: var(--ink-soft); font: inherit; text-decoration: underline; text-underline-offset: 0.25em; cursor: pointer; }
-    .ad-msg { margin-top: 20px; padding: 14px 16px; border: 1px solid #b4534f; color: #b4534f; }
-    .ad-gate { margin-top: 48px; }
-    .ad-gate p { margin-bottom: 20px; max-width: 46ch; }
-    .ad-section { margin-top: 48px; }
-    .ad-section h2 { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-    .ad-tabs { margin-top: 16px; display: flex; gap: 6px; flex-wrap: wrap; }
-    .ad-tabs .ad-btn[aria-selected="true"] { background: var(--ink); color: var(--cream); }
-    .ad-stock { margin-top: 16px; border-top: 1px solid #e5e3da; }
-    .ad-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px solid #e5e3da; }
-    .ad-size { font-size: 15px; }
-    .ad-size.is-in { font-weight: 400; color: var(--ink); }
-    .ad-size:not(.is-in) { color: var(--ink-soft); }
-    .ad-step { display: flex; align-items: center; }
-    .ad-step .ad-btn { width: 44px; padding: 0; font-size: 18px; }
-    .ad-count { width: 52px; text-align: center; font-size: 17px; }
-    .ad-queue { margin-top: 16px; display: grid; gap: 12px; }
-    .ad-order { padding: 16px; border: 1px solid #e5e3da; background: #fff; }
-    .ad-order.is-done { opacity: 0.55; }
-    .ad-order-top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 15px; }
-    .ad-due.is-late { color: #b4534f; }
-    .ad-order p { margin-top: 6px; font-size: 15px; }
-    .ad-order a { text-decoration: underline; text-underline-offset: 0.2em; }
-    .ad-soft { color: var(--ink-soft); }
-    .ad-tag { display: inline-block; margin-right: 6px; padding: 2px 8px; border: 1px solid currentColor; font-size: 12px; letter-spacing: 0.04em; }
-    .ad-tag.is-warn { color: #b4534f; }
-    .ad-done { margin-top: 12px; display: flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; }
-    .ad-done input { width: 22px; height: 22px; accent-color: var(--ink); }
-    .ad-empty { margin-top: 16px; color: var(--ink-soft); }
+    .ow-btn:hover:not(:disabled) { background: var(--ink); color: var(--cream); }
+    .ow-btn:disabled { opacity: 0.4; cursor: default; }
+    .ow-btn.is-primary { background: var(--ink); color: var(--cream); }
+    .ow-link { padding: 12px 0; border: 0; background: none; color: var(--ink-soft); font: inherit; text-decoration: underline; text-underline-offset: 0.25em; cursor: pointer; }
+    .ow-msg { margin-top: 20px; padding: 14px 16px; border: 1px solid #b4534f; color: #b4534f; }
+    .ow-gate { margin-top: 48px; }
+    .ow-gate p { margin-bottom: 20px; max-width: 46ch; }
+    .ow-section { margin-top: 48px; }
+    .ow-section h2 { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+    .ow-tabs { margin-top: 16px; display: flex; gap: 6px; flex-wrap: wrap; }
+    .ow-tabs .ow-btn[aria-selected="true"] { background: var(--ink); color: var(--cream); }
+    .ow-stock { margin-top: 16px; border-top: 1px solid #e5e3da; }
+    .ow-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px solid #e5e3da; }
+    .ow-size { font-size: 15px; }
+    .ow-size.is-in { font-weight: 400; color: var(--ink); }
+    .ow-size:not(.is-in) { color: var(--ink-soft); }
+    .ow-step { display: flex; align-items: center; }
+    .ow-step .ow-btn { width: 44px; padding: 0; font-size: 18px; }
+    .ow-count { width: 52px; text-align: center; font-size: 17px; }
+    .ow-queue { margin-top: 16px; display: grid; gap: 12px; }
+    .ow-order { padding: 16px; border: 1px solid #e5e3da; background: #fff; }
+    .ow-order.is-done { opacity: 0.55; }
+    .ow-order-top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 15px; }
+    .ow-due.is-late { color: #b4534f; }
+    .ow-order p { margin-top: 6px; font-size: 15px; }
+    .ow-order a { text-decoration: underline; text-underline-offset: 0.2em; }
+    .ow-soft { color: var(--ink-soft); }
+    .ow-tag { display: inline-block; margin-right: 6px; padding: 2px 8px; border: 1px solid currentColor; font-size: 12px; letter-spacing: 0.04em; }
+    .ow-tag.is-warn { color: #b4534f; }
+    .ow-done { margin-top: 12px; display: flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; }
+    .ow-done input { width: 22px; height: 22px; accent-color: var(--ink); }
+    .ow-empty { margin-top: 16px; color: var(--ink-soft); }
   </style>
 </head>
 <body class="admin">
-  <div class="ad-shell">
-    <header class="ad-head">
+  <div class="ow-shell">
+    <header class="ow-head">
       <h1>SILA · склад и заказы</h1>
-      <p class="ad-who" data-who hidden><span data-email></span> · <button class="ad-link" type="button" data-signout>Выйти</button></p>
+      <p class="ow-who" data-who hidden><span data-email></span> · <button class="ow-link" type="button" data-signout>Выйти</button></p>
     </header>
 
-    <p class="ad-msg" role="alert" data-error hidden></p>
+    <p class="ow-msg" role="alert" data-error hidden></p>
 
-    <section class="ad-gate" data-gate hidden>
+    <section class="ow-gate" data-gate hidden>
       <p>Страница для владельца магазина. Войдите своим Google-аккаунтом.</p>
-      <button class="ad-btn is-primary" type="button" data-signin>Войти через Google</button>
+      <button class="ow-btn is-primary" type="button" data-signin>Войти через Google</button>
     </section>
 
     <div data-app hidden>
-      <section class="ad-section">
-        <h2>Склад <span class="ad-soft">сколько колец готово</span></h2>
-        <div class="ad-tabs" role="tablist" data-tabs></div>
-        <div class="ad-stock" data-stock></div>
+      <section class="ow-section">
+        <h2>Склад <span class="ow-soft">сколько колец готово</span></h2>
+        <div class="ow-tabs" role="tablist" data-tabs></div>
+        <div class="ow-stock" data-stock></div>
       </section>
 
-      <section class="ad-section">
-        <h2>Под заказ <button class="ad-link" type="button" data-reload>Обновить</button></h2>
-        <div class="ad-queue" data-queue></div>
-        <p class="ad-empty" data-queue-empty hidden>Заказов под изготовление нет.</p>
+      <section class="ow-section">
+        <h2>Под заказ <button class="ow-link" type="button" data-reload>Обновить</button></h2>
+        <div class="ow-queue" data-queue></div>
+        <p class="ow-empty" data-queue-empty hidden>Заказов под изготовление нет.</p>
       </section>
     </div>
   </div>
@@ -146,7 +146,7 @@
         const total = Object.values(shelf.stock[key]).reduce((sum, n) => sum + n, 0);
         const tab = document.createElement('button');
         tab.type = 'button';
-        tab.className = 'ad-btn';
+        tab.className = 'ow-btn';
         tab.setAttribute('role', 'tab');
         tab.setAttribute('aria-selected', String(key === ringShown));
         tab.dataset.ring = key;
@@ -161,18 +161,18 @@
       shelf.sizes.forEach((size) => {
         const n = shelf.stock[ringShown][size];
         const row = document.createElement('div');
-        row.className = 'ad-row';
+        row.className = 'ow-row';
         row.innerHTML =
-          '<span class="ad-size"></span>' +
-          '<span class="ad-step">' +
-            '<button class="ad-btn" type="button" data-delta="-1">−</button>' +
-            '<span class="ad-count" aria-live="polite"></span>' +
-            '<button class="ad-btn" type="button" data-delta="1">+</button>' +
+          '<span class="ow-size"></span>' +
+          '<span class="ow-step">' +
+            '<button class="ow-btn" type="button" data-delta="-1">−</button>' +
+            '<span class="ow-count" aria-live="polite"></span>' +
+            '<button class="ow-btn" type="button" data-delta="1">+</button>' +
           '</span>';
         row.dataset.size = size;
-        row.querySelector('.ad-size').textContent = 'US ' + size;
-        row.querySelector('.ad-size').classList.toggle('is-in', n > 0);
-        row.querySelector('.ad-count').textContent = n;
+        row.querySelector('.ow-size').textContent = 'US ' + size;
+        row.querySelector('.ow-size').classList.toggle('is-in', n > 0);
+        row.querySelector('.ow-count').textContent = n;
         row.querySelector('[data-delta="-1"]').disabled = n === 0;
         row.querySelector('[data-delta="-1"]').setAttribute('aria-label', 'Убрать одно кольцо US ' + size);
         row.querySelector('[data-delta="1"]').setAttribute('aria-label', 'Добавить одно кольцо US ' + size);
@@ -207,23 +207,23 @@
       const card = document.createElement('article');
       // nothing left to do: made and sent, or the money went back
       const closed = !!row.doneAt || row.refunded;
-      card.className = 'ad-order' + (closed ? ' is-done' : '');
+      card.className = 'ow-order' + (closed ? ' is-done' : '');
       card.innerHTML =
-        '<div class="ad-order-top"><span data-what></span><span class="ad-due"></span></div>' +
+        '<div class="ow-order-top"><span data-what></span><span class="ow-due"></span></div>' +
         '<p data-tags></p>' +
         '<p><span data-name></span> · <a target="_blank" rel="noopener" data-wa></a></p>' +
-        '<p class="ad-soft" data-comment></p>' +
-        '<p class="ad-soft" data-meta></p>' +
-        '<label class="ad-done"><input type="checkbox"> Сделано и отправлено</label>';
+        '<p class="ow-soft" data-comment></p>' +
+        '<p class="ow-soft" data-meta></p>' +
+        '<label class="ow-done"><input type="checkbox"> Сделано и отправлено</label>';
 
       card.querySelector('[data-what]').textContent = row.model + ' · US ' + row.size;
-      const due = card.querySelector('.ad-due');
+      const due = card.querySelector('.ow-due');
       due.textContent = row.doneAt ? 'готово ' + day(Date.parse(row.doneAt) / 1000) : 'сделать к ' + day(row.dueAt);
       due.classList.toggle('is-late', !closed && row.dueAt < now);
 
       const tags = card.querySelector('[data-tags]');
-      if (row.converted) tags.insertAdjacentHTML('beforeend', '<span class="ad-tag is-warn">последнее кольцо ушло другому — сделать</span>');
-      if (row.refunded) tags.insertAdjacentHTML('beforeend', '<span class="ad-tag is-warn">деньги возвращены</span>');
+      if (row.converted) tags.insertAdjacentHTML('beforeend', '<span class="ow-tag is-warn">последнее кольцо ушло другому — сделать</span>');
+      if (row.refunded) tags.insertAdjacentHTML('beforeend', '<span class="ow-tag is-warn">деньги возвращены</span>');
       tags.hidden = !tags.childElementCount;
 
       card.querySelector('[data-name]').textContent = row.name;
@@ -309,7 +309,7 @@
     });
     $('[data-stock]').addEventListener('click', (e) => {
       const btn = e.target.closest('[data-delta]');
-      if (btn) step(btn.closest('.ad-row'), Number(btn.dataset.delta));
+      if (btn) step(btn.closest('.ow-row'), Number(btn.dataset.delta));
     });
     $('[data-queue]').addEventListener('change', (e) => {
       if (e.target.matches('input[type="checkbox"]')) tick(e.target);
