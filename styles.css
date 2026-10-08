@@ -1354,10 +1354,13 @@ hr { border: 0; }
 
 .pd-group-title span { color: var(--ink-soft); }
 
+/* as many columns as fit at 48px or wider: nine to ten on the desktop sheet,
+   seven where that sheet narrows on a 1024px laptop, six on a phone. Both
+   lists sit in the same column, so they always get the same count and line up. */
 .pd-grid {
   margin-top: 12px;
   display: grid;
-  grid-template-columns: repeat(9, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
   gap: 6px;
 }
 
@@ -1530,8 +1533,6 @@ hr { border: 0; }
 @media (max-width: 900px) {
   .pd-order { margin-top: 32px; }
   .pd-stock { margin-top: 18px; }
-  /* six across keeps 17 sizes to three rows and each cell above 44px */
-  .pd-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .pd-made { margin-top: 24px; }
   .pd-made-ask { font-size: 16px; }
   .pd-made-terms,
