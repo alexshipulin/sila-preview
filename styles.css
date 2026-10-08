@@ -695,7 +695,7 @@ hr { border: 0; }
 .wa-link {
   text-decoration: underline;
   text-underline-offset: 0.16em;
-  text-decoration-thickness: 0.07em;
+  text-decoration-thickness: 2px;
   white-space: nowrap;
 }
 
