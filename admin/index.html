@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SILA · склад и заказы</title>
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* the site's sizes scale with the viewport; this page is a tool, so plain px.
+       Neither of the site's faces has Cyrillic, so the system one throughout */
+    body.admin { background: var(--cream); color: var(--ink); font-family: system-ui, -apple-system, sans-serif;
+                 font-size: 16px; line-height: 1.4; overflow-x: visible; }
+    .admin [hidden] { display: none !important; }
+    .ad-shell { max-width: 880px; margin: 0 auto; padding: 24px 16px 80px; }
+    .ad-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .ad-head h1, .ad-section h2 { font-weight: 400; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .ad-who { font-size: 15px; color: var(--ink-soft); }
+    .ad-btn { min-height: 44px; padding: 0 18px; border: 1px solid var(--ink); background: transparent; color: var(--ink);
+              font-size: 14px; letter-spacing: 0.04em; cursor: pointer; }
+    .ad-btn:hover:not(:disabled) { background: var(--ink); color: var(--cream); }
+    .ad-btn:disabled { opacity: 0.4; cursor: default; }
+    .ad-btn.is-primary { background: var(--ink); color: var(--cream); }
+    .ad-link { padding: 12px 0; border: 0; background: none; color: var(--ink-soft); font: inherit; text-decoration: underline; text-underline-offset: 0.25em; cursor: pointer; }
+    .ad-msg { margin-top: 20px; padding: 14px 16px; border: 1px solid #b4534f; color: #b4534f; }
+    .ad-gate { margin-top: 48px; }
+    .ad-gate p { margin-bottom: 20px; max-width: 46ch; }
+    .ad-section { margin-top: 48px; }
+    .ad-section h2 { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+    .ad-tabs { margin-top: 16px; display: flex; gap: 6px; flex-wrap: wrap; }
+    .ad-tabs .ad-btn[aria-selected="true"] { background: var(--ink); color: var(--cream); }
+    .ad-stock { margin-top: 16px; border-top: 1px solid #e5e3da; }
+    .ad-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px solid #e5e3da; }
+    .ad-size { font-size: 15px; }
+    .ad-size.is-in { font-weight: 400; color: var(--ink); }
+    .ad-size:not(.is-in) { color: var(--ink-soft); }
+    .ad-step { display: flex; align-items: center; }
+    .ad-step .ad-btn { width: 44px; padding: 0; font-size: 18px; }
+    .ad-count { width: 52px; text-align: center; font-size: 17px; }
+    .ad-queue { margin-top: 16px; display: grid; gap: 12px; }
+    .ad-order { padding: 16px; border: 1px solid #e5e3da; background: #fff; }
+    .ad-order.is-done { opacity: 0.55; }
+    .ad-order-top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 15px; }
+    .ad-due.is-late { color: #b4534f; }
+    .ad-order p { margin-top: 6px; font-size: 15px; }
+    .ad-order a { text-decoration: underline; text-underline-offset: 0.2em; }
+    .ad-soft { color: var(--ink-soft); }
+    .ad-tag { display: inline-block; margin-right: 6px; padding: 2px 8px; border: 1px solid currentColor; font-size: 12px; letter-spacing: 0.04em; }
+    .ad-tag.is-warn { color: #b4534f; }
+    .ad-done { margin-top: 12px; display: flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; }
+    .ad-done input { width: 22px; height: 22px; accent-color: var(--ink); }
+    .ad-empty { margin-top: 16px; color: var(--ink-soft); }
+  </style>
+</head>
+<body class="admin">
+  <div class="ad-shell">
+    <header class="ad-head">
+      <h1>SILA · склад и заказы</h1>
+      <p class="ad-who" data-who hidden><span data-email></span> · <button class="ad-link" type="button" data-signout>Выйти</button></p>
+    </header>
+
+    <p class="ad-msg" role="alert" data-error hidden></p>
+
+    <section class="ad-gate" data-gate hidden>
+      <p>Страница для владельца магазина. Войдите своим Google-аккаунтом.</p>
+      <button class="ad-btn is-primary" type="button" data-signin>Войти через Google</button>
+    </section>
+
+    <div data-app hidden>
+      <section class="ad-section">
+        <h2>Склад <span class="ad-soft">сколько колец готово</span></h2>
+        <div class="ad-tabs" role="tablist" data-tabs></div>
+        <div class="ad-stock" data-stock></div>
+      </section>
+
+      <section class="ad-section">
+        <h2>Под заказ <button class="ad-link" type="button" data-reload>Обновить</button></h2>
+        <div class="ad-queue" data-queue></div>
+        <p class="ad-empty" data-queue-empty hidden>Заказов под изготовление нет.</p>
+      </section>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js';
+    import { getAuth, connectAuthEmulator, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+      from 'https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js';
+    import { getFunctions, connectFunctionsEmulator, httpsCallable }
+      from 'https://www.gstatic.com/firebasejs/13.0.0/firebase-functions.js';
+
+    // on silabrand.store the real project; anywhere else the local emulators
+    const LIVE = /(^|\.)silabrand\.store$/.test(location.hostname);
+    const LIVE_CONFIG = null;   // the web app's config from the Firebase console, once it is registered
+    const LOCAL_CONFIG = { apiKey: 'local', authDomain: 'localhost', projectId: 'silabrand' };
+
+    const $ = (selector) => document.querySelector(selector);
+    const errorBox = $('[data-error]');
+
+    function showError(text) {
+      errorBox.textContent = text;
+      errorBox.hidden = !text;
+    }
+
+    function explain(err) {
+      if (err && err.code === 'functions/permission-denied') {
+        return 'Этот Google-аккаунт не владелец магазина. Выйдите и войдите нужным.';
+      }
+      if (err && err.code === 'auth/popup-closed-by-user') return '';
+      return 'Не получилось: ' + ((err && err.message) || 'нет связи') + '. Попробуйте ещё раз.';
+    }
+
+    if (LIVE && !LIVE_CONFIG) {
+      showError('Админка ещё не подключена к Firebase: нужно зарегистрировать веб-приложение в проекте silabrand.');
+      throw new Error('admin: no Firebase web config');
+    }
+
+    const app = initializeApp(LIVE ? LIVE_CONFIG : LOCAL_CONFIG);
+    const auth = getAuth(app);
+    const functions = getFunctions(app, 'europe-central2');
+    if (!LIVE) {
+      connectAuthEmulator(auth, 'http://' + location.hostname + ':9099', { disableWarnings: true });
+      connectFunctionsEmulator(functions, location.hostname, 5001);
+    }
+
+    const call = (name) => httpsCallable(functions, name);
+    const adminStock = call('adminStock');
+    const adminAdjust = call('adminAdjust');
+    const adminQueue = call('adminQueue');
+    const adminDone = call('adminDone');
+
+    const dateFmt = new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'short', timeZone: 'Asia/Makassar' });
+    const day = (seconds) => dateFmt.format(new Date(seconds * 1000));
+
+    let shelf = null;         // { rings: {key: name}, sizes: [...], stock: {key: {size: n}} }
+    let ringShown = null;
+
+    // ---- stock ----
+
+    function renderTabs() {
+      const tabs = $('[data-tabs]');
+      tabs.textContent = '';
+      Object.entries(shelf.rings).forEach(([key, name]) => {
+        const total = Object.values(shelf.stock[key]).reduce((sum, n) => sum + n, 0);
+        const tab = document.createElement('button');
+        tab.type = 'button';
+        tab.className = 'ad-btn';
+        tab.setAttribute('role', 'tab');
+        tab.setAttribute('aria-selected', String(key === ringShown));
+        tab.dataset.ring = key;
+        tab.textContent = name + ' · ' + total + ' шт';
+        tabs.appendChild(tab);
+      });
+    }
+
+    function renderStock() {
+      const list = $('[data-stock]');
+      list.textContent = '';
+      shelf.sizes.forEach((size) => {
+        const n = shelf.stock[ringShown][size];
+        const row = document.createElement('div');
+        row.className = 'ad-row';
+        row.innerHTML =
+          '<span class="ad-size"></span>' +
+          '<span class="ad-step">' +
+            '<button class="ad-btn" type="button" data-delta="-1">−</button>' +
+            '<span class="ad-count" aria-live="polite"></span>' +
+            '<button class="ad-btn" type="button" data-delta="1">+</button>' +
+          '</span>';
+        row.dataset.size = size;
+        row.querySelector('.ad-size').textContent = 'US ' + size;
+        row.querySelector('.ad-size').classList.toggle('is-in', n > 0);
+        row.querySelector('.ad-count').textContent = n;
+        row.querySelector('[data-delta="-1"]').disabled = n === 0;
+        row.querySelector('[data-delta="-1"]').setAttribute('aria-label', 'Убрать одно кольцо US ' + size);
+        row.querySelector('[data-delta="1"]').setAttribute('aria-label', 'Добавить одно кольцо US ' + size);
+        list.appendChild(row);
+      });
+    }
+
+    async function loadStock() {
+      shelf = (await adminStock()).data;
+      if (!ringShown) ringShown = Object.keys(shelf.rings)[0];
+      renderTabs();
+      renderStock();
+    }
+
+    async function step(row, delta) {
+      const buttons = row.querySelectorAll('button');
+      buttons.forEach((b) => { b.disabled = true; });
+      try {
+        const { data } = await adminAdjust({ model: ringShown, size: row.dataset.size, delta });
+        shelf.stock[data.model] = data.counts;
+        showError('');
+      } catch (err) {
+        showError(explain(err));
+      }
+      renderTabs();
+      renderStock();
+    }
+
+    // ---- made-to-order queue ----
+
+    function orderCard(row, now) {
+      const card = document.createElement('article');
+      card.className = 'ad-order' + (row.doneAt ? ' is-done' : '');
+      card.innerHTML =
+        '<div class="ad-order-top"><span data-what></span><span class="ad-due"></span></div>' +
+        '<p data-tags></p>' +
+        '<p><span data-name></span> · <a target="_blank" rel="noopener" data-wa></a></p>' +
+        '<p class="ad-soft" data-comment></p>' +
+        '<p class="ad-soft" data-meta></p>' +
+        '<label class="ad-done"><input type="checkbox"> Сделано и отправлено</label>';
+
+      card.querySelector('[data-what]').textContent = row.model + ' · US ' + row.size;
+      const due = card.querySelector('.ad-due');
+      due.textContent = row.doneAt ? 'готово ' + day(Date.parse(row.doneAt) / 1000) : 'сделать к ' + day(row.dueAt);
+      due.classList.toggle('is-late', !row.doneAt && row.dueAt < now);
+
+      const tags = card.querySelector('[data-tags]');
+      if (row.converted) tags.insertAdjacentHTML('beforeend', '<span class="ad-tag is-warn">последнее кольцо ушло другому — сделать</span>');
+      if (row.refunded) tags.insertAdjacentHTML('beforeend', '<span class="ad-tag is-warn">деньги возвращены</span>');
+      tags.hidden = !tags.childElementCount;
+
+      card.querySelector('[data-name]').textContent = row.name;
+      const wa = card.querySelector('[data-wa]');
+      wa.textContent = row.whatsapp;
+      wa.href = 'https://wa.me/' + row.whatsapp.replace(/\D/g, '');
+
+      const comment = card.querySelector('[data-comment]');
+      comment.textContent = row.comment;
+      comment.hidden = !row.comment;
+
+      card.querySelector('[data-meta]').textContent = row.orderId + ' · оплачен ' + day(row.paidAt);
+
+      const box = card.querySelector('input');
+      box.checked = !!row.doneAt;
+      box.dataset.id = row.id;
+      return card;
+    }
+
+    async function loadQueue() {
+      const { rows } = (await adminQueue()).data;
+      const now = Date.now() / 1000;
+      const list = $('[data-queue]');
+      list.textContent = '';
+      // still to make first, soonest due on top; finished ones below
+      [...rows.filter((r) => !r.doneAt), ...rows.filter((r) => r.doneAt)]
+        .forEach((row) => list.appendChild(orderCard(row, now)));
+      $('[data-queue-empty]').hidden = rows.length > 0;
+    }
+
+    async function tick(box) {
+      box.disabled = true;
+      try {
+        await adminDone({ id: box.dataset.id, done: box.checked });
+        showError('');
+        await loadQueue();
+      } catch (err) {
+        box.checked = !box.checked;
+        box.disabled = false;
+        showError(explain(err));
+      }
+    }
+
+    // ---- wiring ----
+
+    async function loadAll() {
+      try {
+        await Promise.all([loadStock(), loadQueue()]);
+        $('[data-app]').hidden = false;
+        showError('');
+      } catch (err) {
+        $('[data-app]').hidden = true;
+        showError(explain(err));
+      }
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      $('[data-gate]').hidden = !!user;
+      $('[data-who]').hidden = !user;
+      $('[data-app]').hidden = true;
+      if (!user) return;
+      $('[data-email]').textContent = user.email;
+      loadAll();
+    });
+
+    $('[data-signin]').addEventListener('click', () => {
+      signInWithPopup(auth, new GoogleAuthProvider()).catch((err) => showError(explain(err)));
+    });
+    $('[data-signout]').addEventListener('click', () => { showError(''); signOut(auth); });
+    $('[data-reload]').addEventListener('click', () => loadQueue().catch((err) => showError(explain(err))));
+
+    $('[data-tabs]').addEventListener('click', (e) => {
+      const tab = e.target.closest('[data-ring]');
+      if (!tab) return;
+      ringShown = tab.dataset.ring;
+      renderTabs();
+      renderStock();
+    });
+    $('[data-stock]').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-delta]');
+      if (btn) step(btn.closest('.ad-row'), Number(btn.dataset.delta));
+    });
+    $('[data-queue]').addEventListener('change', (e) => {
+      if (e.target.matches('input[type="checkbox"]')) tick(e.target);
+    });
+  </script>
+</body>
+</html>
