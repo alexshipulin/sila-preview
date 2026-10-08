@@ -1325,7 +1325,13 @@ hr { border: 0; }
   gap: 16px;
 }
 
-.pd-order-head .pd-sizeguide { margin: 0; }
+/* the link reads small but must still take a thumb: the padding makes a 45px+
+   target, the negative margin keeps it from pushing the row apart */
+.pd-order-head .pd-sizeguide {
+  margin: -16px 0;
+  padding: 16px 0;
+  color: var(--ink-soft);
+}
 
 .pd-order-error {
   margin-top: 10px;
@@ -1441,7 +1447,7 @@ hr { border: 0; }
 
 .pd-made-body { padding-bottom: 24px; }
 .pd-made-body[hidden] { display: none; }
-.pd-made.is-only .pd-made-body { padding-top: 0; }
+.pd-made.is-only .pd-made-body { padding-top: 12px; }
 
 .pd-made-terms {
   font-size: 16px;
@@ -1458,6 +1464,10 @@ hr { border: 0; }
 
 .pd-order .pd-fields { margin-top: 36px; }
 .pd-order .pd-field:first-of-type { margin-top: 0; }
+.pd-order .pd-field::placeholder { color: var(--ink-soft); }
+
+.pd-order .pd-field:focus-visible,
+.pd-order .pd-confirm:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
 
 .pd-summary {
   margin-top: 28px;
@@ -1479,7 +1489,11 @@ hr { border: 0; }
   color: var(--ink-soft);
 }
 
-.pd-confirm-note a { text-decoration: underline; text-underline-offset: 0.2em; }
+.pd-confirm-note a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  white-space: nowrap;
+}
 
 /* the server found the size gone between page load and payment */
 .pd-alert {
