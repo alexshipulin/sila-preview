@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank you — SILA</title>
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/favicon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400&family=Belleza&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="legal-page">
+
+  <header class="site-header">
+    <div class="shell site-header-inner">
+      <a class="brand" href="index.html" aria-label="SILA — home">
+        <img class="logo-mark" src="assets/logo-s-small.svg" alt="Sila">
+      </a>
+      <nav class="main-nav">
+        <a href="index.html#rings">rings</a>
+        <a href="index.html#delivery">delivery</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="legal">
+    <div class="legal-inner">
+      <h1>Thank you</h1>
+
+      <!-- Stripe sends the buyer here after a successful payment; the address
+           says which ring and whether it ships now or is being made -->
+      <p data-kind="">Your payment went through. We&rsquo;ll message you on WhatsApp shortly to arrange delivery &mdash; anywhere in Bali, always free.</p>
+      <p data-kind="in_stock" hidden>Your <strong data-ring>ring</strong> is ready and waiting. We&rsquo;ll message you on WhatsApp within a day to arrange delivery &mdash; anywhere in Bali, always free.</p>
+      <p data-kind="made_to_order" hidden>We&rsquo;re making your <strong data-ring>ring</strong> by hand. It takes about 15 days. We&rsquo;ll message you on WhatsApp to confirm the details, and again when it&rsquo;s ready to bring to you &mdash; anywhere in Bali, always free.</p>
+
+      <p data-order hidden>Your order number is <strong data-order-id></strong>. Keep it handy if you write to us.</p>
+      <p>Questions? <a href="https://wa.me/48572387611" target="_blank" rel="noopener">Message us on WhatsApp</a>.</p>
+      <p><a href="index.html">Back to SILA</a></p>
+    </div>
+  </main>
+
+  <footer class="legal-footer">
+    <div class="legal-inner">
+      <p>SINHRONE spółka z ograniczoną odpowiedzialnością. Warsaw, Poland.</p>
+      <p><a href="return-policy.html" rel="nofollow">Return &amp; Exchange Policy</a> · <a href="terms.html" rel="nofollow">Terms of Service</a> · <a href="privacy.html" rel="nofollow">Privacy Policy</a></p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var RINGS = { signet: 'Signet Ring', lattice: 'Lattice Ring', rhythm: 'Rhythm Ring' };
+      var params = new URLSearchParams(location.search);
+      var kind = params.get('kind');
+      var ring = Object.prototype.hasOwnProperty.call(RINGS, params.get('ring')) ? RINGS[params.get('ring')] : '';
+      var size = /^\d{1,2}(\.5)?$/.test(params.get('size') || '') ? params.get('size') : '';
+      var order = /^SILA-\d{8}-[A-Z0-9]{6}$/.test(params.get('order') || '') ? params.get('order') : '';
+
+      if (ring && (kind === 'in_stock' || kind === 'made_to_order')) {
+        document.querySelector('[data-kind=""]').hidden = true;
+        var line = document.querySelector('[data-kind="' + kind + '"]');
+        line.querySelector('[data-ring]').textContent = ring + (size ? ' in size ' + size : '');
+        line.hidden = false;
+      }
+      if (order) {
+        document.querySelector('[data-order-id]').textContent = order;
+        document.querySelector('[data-order]').hidden = false;
+      }
+
+      // the order is paid: a later visit to a ring starts with an empty form
+      try { sessionStorage.removeItem('sila-checkout'); } catch (err) { /* storage blocked: nothing was saved */ }
+
+      // a re-opened tab otherwise restores its old scroll position and the page
+      // comes up with the header out of view
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    })();
+  </script>
+
+</body>
+</html>

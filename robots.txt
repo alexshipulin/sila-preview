@@ -4,6 +4,8 @@ User-agent: *
 Disallow: /return-policy.html
 Disallow: /terms.html
 Disallow: /privacy.html
+Disallow: /thank-you.html
+Disallow: /admin/
 
-# The legal pages are additionally marked noindex in their own <head>,
+# These pages are additionally marked noindex in their own <head>,
 # which is what actually keeps them out of search results.
