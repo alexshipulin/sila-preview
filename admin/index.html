@@ -203,7 +203,9 @@
 
     function orderCard(row, now) {
       const card = document.createElement('article');
-      card.className = 'ad-order' + (row.doneAt ? ' is-done' : '');
+      // nothing left to do: made and sent, or the money went back
+      const closed = !!row.doneAt || row.refunded;
+      card.className = 'ad-order' + (closed ? ' is-done' : '');
       card.innerHTML =
         '<div class="ad-order-top"><span data-what></span><span class="ad-due"></span></div>' +
         '<p data-tags></p>' +
@@ -215,7 +217,7 @@
       card.querySelector('[data-what]').textContent = row.model + ' · US ' + row.size;
       const due = card.querySelector('.ad-due');
       due.textContent = row.doneAt ? 'готово ' + day(Date.parse(row.doneAt) / 1000) : 'сделать к ' + day(row.dueAt);
-      due.classList.toggle('is-late', !row.doneAt && row.dueAt < now);
+      due.classList.toggle('is-late', !closed && row.dueAt < now);
 
       const tags = card.querySelector('[data-tags]');
       if (row.converted) tags.insertAdjacentHTML('beforeend', '<span class="ad-tag is-warn">последнее кольцо ушло другому — сделать</span>');
@@ -244,8 +246,9 @@
       const now = Date.now() / 1000;
       const list = $('[data-queue]');
       list.textContent = '';
-      // still to make first, soonest due on top; finished ones below
-      [...rows.filter((r) => !r.doneAt), ...rows.filter((r) => r.doneAt)]
+      // still to make first, soonest due on top; finished and refunded ones below
+      const open = (r) => !r.doneAt && !r.refunded;
+      [...rows.filter(open), ...rows.filter((r) => !open(r))]
         .forEach((row) => list.appendChild(orderCard(row, now)));
       $('[data-queue-empty]').hidden = rows.length > 0;
     }
@@ -280,7 +283,11 @@
       $('[data-gate]').hidden = !!user;
       $('[data-who]').hidden = !user;
       $('[data-app]').hidden = true;
-      if (!user) return;
+      if (!user) {
+        // signed out: buyers' names and numbers do not stay in the page
+        ['[data-tabs]', '[data-stock]', '[data-queue]'].forEach((sel) => { $(sel).textContent = ''; });
+        return;
+      }
       $('[data-email]').textContent = user.email;
       loadAll();
     });
