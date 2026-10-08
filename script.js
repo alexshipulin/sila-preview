@@ -69,7 +69,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
   // every size the workshop makes: when the shelf cannot be read, any of them
   // can still be made to order
-  var SIZES = ['4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12'];
+  var SIZES = ['4', '5', '6', '7', '8', '9', '10', '11', '12'];
 
   // { lattice: { row, ready, made } } once loaded, null while loading,
   // false when it could not be read

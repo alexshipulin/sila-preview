@@ -7,7 +7,7 @@ const { CATALOG, SIZES, normalizeStock, publicCatalog } = require('../catalog');
 
 test('every ring gets every size, and only whole positive counts survive', () => {
   const stock = normalizeStock({
-    lattice: { '6': 2, '7': true, '8': false, '9': '3', '10': -1, '11.5': 1, '13': 4 },
+    lattice: { '6': 2, '7': true, '8': false, '9': '3', '10': -1, '11': 1, '10.5': 1, '13': 4 },
   });
   assert.deepEqual(Object.keys(stock).sort(), Object.keys(CATALOG).sort());
   for (const ring of Object.values(stock)) assert.deepEqual(Object.keys(ring).sort(), [...SIZES].sort());
@@ -15,8 +15,9 @@ test('every ring gets every size, and only whole positive counts survive', () =>
   assert.equal(stock.lattice['7'], 0, 'old yes/no format must not read as stock');
   assert.equal(stock.lattice['9'], 0, 'a string is not a count');
   assert.equal(stock.lattice['10'], 0);
-  assert.equal(stock.lattice['11.5'], 1);
+  assert.equal(stock.lattice['11'], 1);
   assert.equal(stock.lattice['13'], undefined, 'a size we do not make is dropped');
+  assert.equal(stock.lattice['10.5'], undefined, 'half sizes are not made');
   assert.equal(stock.signet['8'], 0, 'a missing ring is an empty shelf');
 });
 

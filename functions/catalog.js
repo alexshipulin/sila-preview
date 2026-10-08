@@ -9,8 +9,7 @@
  */
 
 /** Every size the workshop makes to order, US scale, in display order. */
-const SIZES = ['4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5',
-  '9', '9.5', '10', '10.5', '11', '11.5', '12'];
+const SIZES = ['4', '5', '6', '7', '8', '9', '10', '11', '12'];
 
 /** The ready-to-ship row always shows these, crossed out when there are none. */
 const ROW = ['6', '7', '8', '9', '10'];

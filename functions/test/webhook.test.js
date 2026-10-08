@@ -74,7 +74,7 @@ test('two buyers of the last ring: the second becomes made to order and the owne
 test('made to order leaves the shelf alone', async () => {
   const db = fakeDb({ [STOCK_DOC]: { lattice: { '8': 1 } } });
   const d = deps(db);
-  assert.equal(await handlePaid(session('c1', KIND.MADE, '10.5'), d), 'made');
+  assert.equal(await handlePaid(session('c1', KIND.MADE, '11'), d), 'made');
   assert.equal(db.docs.get(STOCK_DOC).lattice['8'], 1);
   assert.match(d.sent[0], /Под заказ/);
 });

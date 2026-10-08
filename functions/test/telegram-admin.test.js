@@ -62,8 +62,8 @@ test('only the owner’s verified Google account gets in', () => {
 });
 
 test('stock steps are ±1 on a real ring and size, and never go below zero', async () => {
-  assert.equal(isAdjustment({ model: 'lattice', size: '10.5', delta: 1 }), true);
-  for (const bad of [{ model: 'x', size: '8', delta: 1 }, { model: 'lattice', size: '13', delta: 1 },
+  assert.equal(isAdjustment({ model: 'lattice', size: '11', delta: 1 }), true);
+  for (const bad of [{ model: 'lattice', size: '10.5', delta: 1 }, { model: 'x', size: '8', delta: 1 }, { model: 'lattice', size: '13', delta: 1 },
     { model: 'lattice', size: '8', delta: 2 }, { model: 'lattice', size: '8', delta: '1' }, null]) {
     assert.equal(isAdjustment(bad), false, JSON.stringify(bad));
   }
@@ -71,8 +71,8 @@ test('stock steps are ±1 on a real ring and size, and never go below zero', asy
   await adjustStock(db, { model: 'lattice', size: '8', delta: -1 });
   await adjustStock(db, { model: 'lattice', size: '8', delta: -1 });
   assert.equal(db.docs.get(STOCK_DOC).lattice['8'], 0);
-  await adjustStock(db, { model: 'lattice', size: '11.5', delta: 1 });
-  assert.equal(db.docs.get(STOCK_DOC).lattice['11.5'], 1);
+  await adjustStock(db, { model: 'lattice', size: '11', delta: 1 });
+  assert.equal(db.docs.get(STOCK_DOC).lattice['11'], 1);
 });
 
 test('the queue lists paid made-to-order rings, soonest due first, refunds marked', async () => {

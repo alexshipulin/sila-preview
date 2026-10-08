@@ -26,6 +26,7 @@ test('unknown ring, including a prototype key, is refused', () => {
 test('a size the workshop does not make is refused', () => {
   rejects(() => order({ size: '13' }), 400, 'size');
   rejects(() => order({ size: '' }), 400, 'size');
+  rejects(() => order({ size: '10.5', expect: KIND.MADE }), 400, 'size');
 });
 
 test('on the shelf and picked as ready: sold ready to ship', () => {
@@ -45,9 +46,9 @@ test('gone but picked as ready: 409, never a silent switch to made to order', ()
 });
 
 test('gone and picked as made to order: made to order, with the terms on Stripe', () => {
-  const s = order({ size: '10.5', expect: KIND.MADE });
+  const s = order({ size: '11', expect: KIND.MADE });
   assert.equal(s.metadata.kind, KIND.MADE);
-  assert.equal(s.line_items[0].price_data.product_data.name, 'Lattice Ring — US 10.5 · Made to order');
+  assert.equal(s.line_items[0].price_data.product_data.name, 'Lattice Ring — US 11 · Made to order');
   assert.equal(s.custom_text.submit.message, MADE_TERMS);
   assert.match(s.payment_intent_data.description, /MADE TO ORDER/);
 });
@@ -69,11 +70,11 @@ test('the payment page closes after 31 minutes', () => {
 });
 
 test('return addresses carry what the thank-you page needs and nothing personal', () => {
-  const s = order({ size: '10.5', expect: KIND.MADE });
+  const s = order({ size: '11', expect: KIND.MADE });
   const url = new URL(s.success_url);
   assert.equal(url.searchParams.get('kind'), KIND.MADE);
   assert.equal(url.searchParams.get('ring'), 'lattice');
-  assert.equal(url.searchParams.get('size'), '10.5');
+  assert.equal(url.searchParams.get('size'), '11');
   assert.ok(!s.success_url.includes('Anna') && !s.success_url.includes('572'));
   assert.equal(s.cancel_url, `${ORIGIN}/?ring=lattice&checkout=cancelled`);
 });
