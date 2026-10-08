@@ -91,7 +91,14 @@
 
     // on silabrand.store the real project; anywhere else the local emulators
     const LIVE = /(^|\.)silabrand\.store$/.test(location.hostname);
-    const LIVE_CONFIG = null;   // the web app's config from the Firebase console, once it is registered
+    // the registered web app; these values are public by design — access is
+    // decided by the server, which checks the owner's account itself
+    const LIVE_CONFIG = {
+      apiKey: 'AIzaSyBH_ply0cvXoyx3uPZaDjg_wANOyixC0-I',
+      authDomain: 'silabrand.firebaseapp.com',
+      projectId: 'silabrand',
+      appId: '1:711755544016:web:6a142da941ef8281c635d5',
+    };
     const LOCAL_CONFIG = { apiKey: 'local', authDomain: 'localhost', projectId: 'silabrand' };
 
     const $ = (selector) => document.querySelector(selector);
@@ -108,11 +115,6 @@
       }
       if (err && err.code === 'auth/popup-closed-by-user') return '';
       return 'Не получилось: ' + ((err && err.message) || 'нет связи') + '. Попробуйте ещё раз.';
-    }
-
-    if (LIVE && !LIVE_CONFIG) {
-      showError('Админка ещё не подключена к Firebase: нужно зарегистрировать веб-приложение в проекте silabrand.');
-      throw new Error('admin: no Firebase web config');
     }
 
     const app = initializeApp(LIVE ? LIVE_CONFIG : LOCAL_CONFIG);
