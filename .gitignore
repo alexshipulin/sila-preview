@@ -15,6 +15,8 @@ sila
 .stripe*
 .env
 .env.*
+# Секреты для локального эмулятора Firebase (functions/.secret.local)
+*.secret.local
 hf_*.png
 ring2-3_black_stone.png
 
@@ -36,6 +38,7 @@ VidGen/
 
 # Локальный кэш и логи Firebase CLI
 .firebase/
+*-debug.log
 
 # Превью QR-кода упаковки — рабочий файл, файл для типографии лежит вне репозитория
 sila-qr-*.png

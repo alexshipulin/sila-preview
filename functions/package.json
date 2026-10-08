@@ -2,6 +2,9 @@
   "name": "sila-functions",
   "description": "Creates Stripe Checkout Sessions for silabrand.store",
   "main": "index.js",
+  "scripts": {
+    "test": "node --test test/"
+  },
   "engines": {
     "node": "22"
   },

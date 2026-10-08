@@ -1,12 +1,14 @@
 /**
  * Turns an order from the site into a Stripe Checkout Session.
  *
- * Kept free of Firebase and of the network so it can be unit-tested and run
- * against the sandbox without deploying anything: the only things it touches
- * are the catalogue and the Stripe client it is handed.
+ * Kept free of Firebase and of the network so it can be unit-tested: it is
+ * handed the shelf and returns exactly what Stripe should be told.
  */
-const { CATALOG } = require('./catalog');
+const { CATALOG, SIZES, isRing } = require('./catalog');
 
+const KIND = { STOCK: 'in_stock', MADE: 'made_to_order' };
+const LEAD_DAYS = 15;
+const MADE_TERMS = 'Made to order in about 15 days, then delivered anywhere in Bali. Full prepayment.';
 const LIMITS = { name: 80, whatsapp: 32, comment: 400 };
 
 /** Stripe metadata values are strings and capped at 500 characters. */
@@ -27,31 +29,47 @@ function orderId(now = new Date(), rand = Math.random) {
 }
 
 class OrderError extends Error {
-  constructor(message, field) {
+  constructor(message, field, status = 400) {
     super(message);
     this.field = field;
-    this.status = 400;
+    this.status = status;
   }
 }
 
 /**
- * Validates the order and returns exactly what Stripe should be told.
+ * Which kind of order this becomes. The server decides from the shelf; the
+ * page only says which list the size was picked from (`expect`).
  *
- * `stock` comes from Firestore and is checked here rather than trusted from
- * the page, so a stale tab or a crafted request cannot buy a size that has
- * run out between the page loading and the button being pressed.
+ *   on the shelf                     → ready to ship, even if it was picked
+ *                                      from the made-to-order list
+ *   gone, but picked as ready        → 409: the shopper agrees to wait 15 days
+ *                                      knowingly, never by surprise
+ *   gone, picked as made to order    → made to order
+ *   shelf unknown (stock === null)   → made to order is fine, ready to ship is
+ *                                      a 503: nothing can be promised from it
  */
-function buildSession(input, origin, stock = {}) {
+function decideKind(stock, model, size, expect) {
+  if (stock === null) {
+    if (expect === KIND.STOCK) {
+      throw new OrderError('We could not check stock just now. Please try again in a minute.', 'size', 503);
+    }
+    return KIND.MADE;
+  }
+  if (stock[model][size] > 0) return KIND.STOCK;
+  if (expect === KIND.STOCK) throw new OrderError(`Size ${size} has just sold out`, 'size', 409);
+  return KIND.MADE;
+}
+
+function buildSession(input, origin, stock, now = new Date()) {
+  if (!isRing(input.model)) throw new OrderError('Unknown ring', 'model');
   const product = CATALOG[input.model];
-  if (!product) throw new OrderError('Unknown ring', 'model');
 
   const size = clean(input.size, 8);
-  if (!product.sizes.includes(size)) {
-    throw new OrderError('We do not make that size', 'size');
-  }
-  if ((stock[input.model] || {})[size] === false) {
-    throw new OrderError('That size has just sold out', 'size');
-  }
+  if (!SIZES.includes(size)) throw new OrderError('We do not make that size', 'size');
+
+  const expect = input.expect === KIND.MADE ? KIND.MADE : KIND.STOCK;
+  const kind = decideKind(stock, input.model, size, expect);
+  const made = kind === KIND.MADE;
 
   const name = clean(input.name, LIMITS.name);
   if (!name) throw new OrderError('Please tell us your name', 'name');
@@ -62,7 +80,7 @@ function buildSession(input, origin, stock = {}) {
   }
 
   const comment = clean(input.comment, LIMITS.comment);
-  const id = input.orderId || orderId();
+  const id = orderId(now);
 
   // Everything the order consists of rides on the payment itself, so Stripe is
   // the record: searchable by id, exportable, and impossible to get out of step
@@ -72,12 +90,13 @@ function buildSession(input, origin, stock = {}) {
     model: product.name,
     model_key: input.model,
     size_us: size,
+    kind,
     name,
     whatsapp,
   };
   if (comment) metadata.comment = comment;
 
-  return {
+  const session = {
     mode: 'payment',
     line_items: [{
       quantity: 1,
@@ -85,8 +104,8 @@ function buildSession(input, origin, stock = {}) {
         currency: product.currency,
         unit_amount: product.amount,
         product_data: {
-          name: `${product.name} — US ${size}`,
-          description: 'Handmade in Bali · sterling silver 925',
+          name: `${product.name} — US ${size}${made ? ' · Made to order' : ''}`,
+          description: made ? MADE_TERMS : 'Ready to ship · handmade in Bali, sterling silver 925',
         },
       },
     }],
@@ -95,10 +114,19 @@ function buildSession(input, origin, stock = {}) {
     phone_number_collection: { enabled: false },
     client_reference_id: id,
     metadata,
-    payment_intent_data: { metadata },
-    success_url: `${origin}/thank-you.html?order=${id}`,
-    cancel_url: `${origin}/?checkout=cancelled`,
+    payment_intent_data: {
+      metadata,
+      description: `${id} · ${product.name} US ${size}${made ? ' · MADE TO ORDER' : ''}`,
+    },
+    // the shortest Stripe allows: an abandoned tab must not pay tomorrow for a
+    // ring sold tonight. 31, not 30 — Stripe measures from its own clock.
+    expires_at: Math.floor(now.getTime() / 1000) + 31 * 60,
+    success_url: `${origin}/thank-you.html?order=${id}&kind=${kind}`
+      + `&ring=${input.model}&size=${encodeURIComponent(size)}`,
+    cancel_url: `${origin}/?ring=${input.model}&checkout=cancelled`,
   };
+  if (made) session.custom_text = { submit: { message: MADE_TERMS } };
+  return session;
 }
 
-module.exports = { buildSession, orderId, clean, OrderError, LIMITS };
+module.exports = { buildSession, decideKind, orderId, clean, OrderError, KIND, LEAD_DAYS, MADE_TERMS, LIMITS };

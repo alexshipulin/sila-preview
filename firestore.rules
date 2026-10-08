@@ -1,0 +1,11 @@
+rules_version = '2';
+
+// The site never reads or writes Firestore from the browser: stock reaches the
+// page through getCatalog and changes only through the server functions.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
