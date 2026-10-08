@@ -460,6 +460,8 @@ hr { border: 0; }
   color: var(--cream);
 }
 
+.info-col p a { text-decoration: underline; text-underline-offset: 0.15em; }
+
 /* ============================== footer ============================== */
 
 .site-footer { padding-bottom: 8.4rem; }
@@ -931,6 +933,8 @@ hr { border: 0; }
 }
 
 .pd-note p + p { margin-top: 1.2em; }
+
+.pd-note a { text-decoration: underline; text-underline-offset: 0.15em; }
 
 /* ---------- right column: details + order form ---------- */
 
