@@ -16,6 +16,7 @@
   --ink: #1f1f1f;                /* text on the light band */
   --wordmark: #b1b1b1;
   --line-grey: #9e9e9e;
+  --ink-soft: #6e6e6e;           /* secondary text that must still read: 5:1 on cream, #9e9e9e is 2.6:1 */
   --spec-line: rgba(255, 255, 255, 0.18);
   --card-veil: rgba(0, 0, 0, 0.7);
 
@@ -1307,6 +1308,223 @@ hr { border: 0; }
   .ct-docs a { height: 54px; font-size: 17px; }
   .ct-note { font-size: 15px; }
   .ct-legal { font-size: 14px; }
+}
+
+/* ===================== order block: ready to ship + made to order =====================
+   One size, one form, one button. What is on the shelf comes first; a sold-out
+   size stays in that row crossed through and leads to the made-to-order list,
+   which sits folded underneath while anything is ready to ship. Both lists use
+   the same cell, so the two grids line up column for column. */
+
+.pd-order { margin-top: 56px; }
+
+.pd-order-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pd-order-head .pd-sizeguide { margin: 0; }
+
+.pd-order-error {
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.35;
+  color: #b4534f;
+}
+
+.pd-stock { margin-top: 22px; }
+
+.pd-group-title {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.3;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.pd-group-title span { color: var(--ink-soft); }
+
+.pd-grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 6px;
+}
+
+/* sold out: still tappable — it opens the made-to-order list on this size —
+   but never chosen here. The diagonal says it without relying on colour. */
+.pd-size.is-out {
+  border-color: var(--line-grey);
+  color: var(--ink-soft);
+  background-color: transparent;
+  background-image: linear-gradient(to top right,
+    transparent calc(50% - 0.5px), var(--line-grey) calc(50% - 0.5px),
+    var(--line-grey) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+}
+
+.pd-size.is-out:hover { background-color: #f1eee2; }
+
+.pd-size.is-loading {
+  border-color: #e5e3da;
+  background: #efede4;
+  color: transparent;
+  cursor: default;
+  animation: pd-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pd-pulse { 50% { opacity: 0.5; } }
+
+.pd-stock-hint {
+  margin-top: 12px;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+
+.pd-made {
+  margin-top: 32px;
+  border-top: 1px solid #e5e3da;
+  border-bottom: 1px solid #e5e3da;
+}
+
+.pd-made-toggle {
+  width: 100%;
+  padding: 18px 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.pd-made-toggle:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+
+.pd-made-ask {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 18px;
+}
+
+/* a plus that turns into a minus as the list opens */
+.pd-made-icon {
+  position: relative;
+  flex: none;
+  width: 14px;
+  height: 14px;
+}
+
+.pd-made-icon::before,
+.pd-made-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: currentColor;
+}
+
+.pd-made-icon::after { transform: rotate(90deg); transition: transform 0.3s ease; }
+.pd-made-toggle[aria-expanded="true"] .pd-made-icon::after { transform: rotate(0deg); }
+
+/* when nothing is on the shelf the list is the only way to buy, so it has no fold */
+.pd-made.is-only { border-bottom: 0; padding-top: 18px; }
+
+.pd-made-body { padding-bottom: 24px; }
+.pd-made-body[hidden] { display: none; }
+.pd-made.is-only .pd-made-body { padding-top: 0; }
+
+.pd-made-terms {
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.pd-made-note {
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.pd-order .pd-fields { margin-top: 36px; }
+.pd-order .pd-field:first-of-type { margin-top: 0; }
+
+.pd-summary {
+  margin-top: 28px;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.pd-summary span { color: var(--ink-soft); }
+.pd-summary.is-empty { color: var(--ink-soft); }
+
+.pd-order .pd-confirm { margin-top: 12px; }
+.pd-confirm[disabled] { opacity: 0.45; cursor: default; }
+
+.pd-confirm-note {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.pd-confirm-note a { text-decoration: underline; text-underline-offset: 0.2em; }
+
+/* the server found the size gone between page load and payment */
+.pd-alert {
+  margin-top: 28px;
+  padding: 16px 18px;
+  border: 1px solid var(--ink);
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.pd-alert-action {
+  margin-top: 12px;
+  height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.pd-alert-action:hover { background: var(--ink); color: var(--cream); }
+
+.pd-order .pd-order-error.is-centered { text-align: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pd-size.is-loading { animation: none; }
+  .pd-made-icon::after { transition: none; }
+}
+
+@media (max-width: 900px) {
+  .pd-order { margin-top: 32px; }
+  .pd-stock { margin-top: 18px; }
+  /* six across keeps 17 sizes to three rows and each cell above 44px */
+  .pd-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .pd-made { margin-top: 24px; }
+  .pd-made-ask { font-size: 16px; }
+  .pd-made-terms,
+  .pd-made-note,
+  .pd-alert { font-size: 15px; }
+  .pd-order .pd-fields { margin-top: 28px; }
+  .pd-summary { margin-top: 24px; font-size: 16px; }
 }
 
 /* ===================== ring size guide ===================== */
