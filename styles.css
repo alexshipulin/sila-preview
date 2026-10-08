@@ -460,7 +460,6 @@ hr { border: 0; }
   color: var(--cream);
 }
 
-.info-col p a { text-decoration: underline; text-underline-offset: 0.15em; }
 
 /* ============================== footer ============================== */
 
@@ -691,6 +690,22 @@ hr { border: 0; }
   .hero-grid { grid-template-columns: 1fr; }
   .footer-links { font-size: 13px; }
 }
+/* Inline links to WhatsApp sit inside running copy, so they carry the weight
+   of the underline plus the outbound arrow to read as tappable. */
+.wa-link {
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+  text-decoration-thickness: 0.07em;
+  white-space: nowrap;
+}
+
+.wa-arrow {
+  width: 0.72em;
+  height: 0.72em;
+  margin-left: 0.22em;
+  vertical-align: -0.02em;
+}
+
 /* ===================== legal pages ===================== */
 
 .legal-page { background: var(--dark); }
@@ -934,7 +949,6 @@ hr { border: 0; }
 
 .pd-note p + p { margin-top: 1.2em; }
 
-.pd-note a { text-decoration: underline; text-underline-offset: 0.15em; }
 
 /* ---------- right column: details + order form ---------- */
 
@@ -1237,6 +1251,9 @@ hr { border: 0; }
 
 .ct-whatsapp:hover { opacity: 0.85; }
 
+.ct-label + .ct-whatsapp { margin-top: 0; }
+.ct-whatsapp + .ct-rows { margin-top: 44px; }
+
 .ct-docs a {
   height: 60px;
   display: flex;
@@ -1286,6 +1303,7 @@ hr { border: 0; }
   .ct-rows dt { font-size: 16px; }
   .ct-rows dd { font-size: 17px; }
   .ct-whatsapp { margin-top: 28px; height: 54px; font-size: 17px; }
+  .ct-whatsapp + .ct-rows { margin-top: 28px; }
   .ct-docs a { height: 54px; font-size: 17px; }
   .ct-note { font-size: 15px; }
   .ct-legal { font-size: 14px; }
