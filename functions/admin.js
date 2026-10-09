@@ -3,14 +3,15 @@
  *
  * Every write goes through the server, which checks the caller's Google
  * account itself; the page's own checks are only convenience. Stock changes
- * are sent as +1 / −1, never as a final number: a screen opened a minute ago
+ * are sent as differences, never as final numbers: a screen opened a minute ago
  * would otherwise overwrite a sale that happened in that minute.
  */
-const { SIZES, STOCK_DOC, isRing, normalizeStock } = require('./catalog');
+const { CATALOG, SIZES, STOCK_DOC, isRing, normalizeStock } = require('./catalog');
 const { KIND, dueAt } = require('./order');
 
 const DAY = 86400;
 const QUEUE_DAYS = 180;
+const MAX_STEP = 100;
 
 function isOwner(auth, ownerEmail) {
   const token = auth && auth.token;
@@ -20,17 +21,28 @@ function isOwner(auth, ownerEmail) {
     && token.email.toLowerCase() === ownerEmail.trim().toLowerCase();
 }
 
-function isAdjustment(input) {
-  return !!input && isRing(input.model) && SIZES.includes(input.size) && (input.delta === 1 || input.delta === -1);
+/** The owner's saved edits: [{ model, size, delta }], one per ring and size. */
+function isAdjustment(changes) {
+  if (!Array.isArray(changes) || changes.length === 0) return false;
+  if (changes.length > Object.keys(CATALOG).length * SIZES.length) return false;
+  const seen = new Set();
+  return changes.every((c) => !!c && isRing(c.model) && SIZES.includes(c.size)
+    && Number.isInteger(c.delta) && c.delta !== 0 && Math.abs(c.delta) <= MAX_STEP
+    && !seen.has(`${c.model}/${c.size}`) && !!seen.add(`${c.model}/${c.size}`));
 }
 
-/** Applies ±1 inside a transaction, so it queues behind a sale rather than racing it. */
-async function adjustStock(db, { model, size, delta }) {
+/**
+ * Applies all the edits in one transaction, so a save queues behind a sale
+ * rather than racing it. A count never goes below zero.
+ */
+async function adjustStock(db, changes) {
   const ref = db.doc(STOCK_DOC);
   return db.runTransaction(async (tx) => {
     const snap = await tx.get(ref);
     const stock = normalizeStock(snap.data());
-    stock[model] = { ...stock[model], [size]: Math.max(0, stock[model][size] + delta) };
+    for (const { model, size, delta } of changes) {
+      stock[model] = { ...stock[model], [size]: Math.max(0, stock[model][size] + delta) };
+    }
     tx.set(ref, stock);
     return stock;
   });

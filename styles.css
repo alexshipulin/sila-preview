@@ -1526,6 +1526,16 @@ hr { border: 0; }
 /* the guide opens over the product sheet, so it sits above it */
 .sz { z-index: 70; }
 
+/* the ring and size the visitor picked, on the order-on-WhatsApp sheet */
+.wo-pick {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e3da;
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
 .sz-inner {
   width: 720px;
   max-width: 100%;

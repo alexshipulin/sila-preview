@@ -67,6 +67,11 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   // the order as sent, so a cancelled payment comes back to the same choice
   var SAVED = 'sila-checkout';
 
+  // Online payment is paused: the button opens a sheet that hands the order
+  // over to WhatsApp instead of Stripe. Set to false to sell by card again.
+  var ORDER_ON_WHATSAPP = true;
+  var WHATSAPP = 'https://wa.me/48572387611';
+
   // every size the workshop makes: when the shelf cannot be read, any of them
   // can still be made to order
   var SIZES = ['4', '5', '6', '7', '8', '9', '10', '11', '12'];
@@ -76,14 +81,19 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   var catalogue = null;
   var cataloguePromise = null;
 
-  function loadCatalogue() {
-    if (cataloguePromise) return cataloguePromise;
-    cataloguePromise = fetch(API + '/getCatalog')
+  function fetchCatalogue() {
+    return fetch(API + '/getCatalog')
       .then(function (r) {
         if (!r.ok) throw new Error('catalogue ' + r.status);
         return r.json();
       })
-      .then(function (d) { catalogue = d.rings; })
+      .then(function (d) { return d.rings; });
+  }
+
+  function loadCatalogue() {
+    if (cataloguePromise) return cataloguePromise;
+    cataloguePromise = fetchCatalogue()
+      .then(function (rings) { catalogue = rings; })
       .catch(function () {
         catalogue = false;
         cataloguePromise = null;     // the next ring opened asks again
@@ -163,6 +173,14 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   var confirmBtn = form.querySelector('.pd-confirm');
   var madeTerms = form.querySelector('[data-made-note]');
   var payError = form.querySelector('[data-pay-error]');
+
+  var waSheet = document.getElementById('wa-order-modal');
+  var openWaSheet = overSheet(waSheet, 'data-wo-close');
+  var waPick = waSheet.querySelector('[data-wo-pick]');
+  var waLink = waSheet.querySelector('[data-wo-link]');
+
+  // name and number are asked for on WhatsApp itself while it takes the orders
+  form.querySelector('.pd-fields').hidden = ORDER_ON_WHATSAPP;
 
   var lbImg = lightbox && lightbox.querySelector('.lb-img');
   var lbClose = lightbox && lightbox.querySelector('.lb-close');
@@ -350,6 +368,16 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     label();
   }
 
+  // the chosen ring and size go into the first message, so the buyer only presses send
+  function orderOnWhatsApp() {
+    var made = chosen.kind === MADE;
+    var how = made ? 'made to order' : 'ready to ship';
+    waPick.textContent = 'Your choice: ' + current.title + ' \u00b7 size ' + chosen.size + ' \u00b7 ' + how + ' \u00b7 ' + current.price;
+    waLink.href = WHATSAPP + '?text=' + encodeURIComponent(
+      'Hi SILA! I\u2019d like to order the ' + current.title + ', size ' + chosen.size + ' (' + how + ').');
+    openWaSheet(confirmBtn);
+  }
+
   function checkout() {
     var order = {
       model: currentKey,
@@ -488,6 +516,15 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       loadCatalogue().then(function () {
         if (!modal.hidden && currentKey === slug) renderOrder();
       });
+    } else {
+      // the owner may have saved new stock since the page loaded: ask again and
+      // redraw, unless the visitor has already started choosing. If the ask
+      // fails, the lists already shown stay — checkout checks the shelf anyway
+      fetchCatalogue().then(function (rings) {
+        if (JSON.stringify(rings) === JSON.stringify(catalogue)) return;
+        catalogue = rings;
+        if (!modal.hidden && currentKey === slug && !chosen.size && !sending) renderOrder();
+      }, function () {});
     }
 
     modal.hidden = false;
@@ -627,6 +664,8 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       return;
     }
 
+    if (ORDER_ON_WHATSAPP) { orderOnWhatsApp(); return; }
+
     var firstBad = null;
     Array.prototype.slice.call(fields, 0, 2).forEach(function (field) {
       var empty = !field.value.trim();
@@ -748,12 +787,10 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 })();
 
 
-// Ring size guide. Opens over the product sheet, which already holds the page
-// lock, so this one only takes the lock if nobody else has it.
-(function () {
-  var sheet = document.getElementById('size-modal');
-  if (!sheet) return;
-
+// Sheets that open over the product sheet: the ring size guide and the
+// order-on-WhatsApp screen. The product sheet already holds the page lock, so
+// a sheet only takes the lock if nobody else has it. Returns its open().
+function overSheet(sheet, closeAttr) {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var dialog = sheet.querySelector('.pd-dialog');
   var closeBtn = sheet.querySelector('.pd-close');
@@ -819,9 +856,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   }
 
   document.addEventListener('click', function (e) {
-    if (e.target.closest('[data-sz-close]')) { close(); return; }
-    var btn = e.target.closest('.pd-sizeguide');
-    if (btn) { open(btn); }
+    if (e.target.closest('[' + closeAttr + ']')) close();
   });
 
   document.addEventListener('keydown', function (e) {
@@ -836,5 +871,19 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     var last = visible[visible.length - 1];
     if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  return open;
+}
+
+// Ring size guide.
+(function () {
+  var sheet = document.getElementById('size-modal');
+  if (!sheet) return;
+  var open = overSheet(sheet, 'data-sz-close');
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.pd-sizeguide');
+    if (btn) open(btn);
   });
 })();

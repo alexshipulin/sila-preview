@@ -38,6 +38,13 @@
     .ow-step { display: flex; align-items: center; }
     .ow-step .ow-btn { width: 44px; padding: 0; font-size: 18px; }
     .ow-count { width: 52px; text-align: center; font-size: 17px; }
+    .ow-row.is-changed { background: #f1eee2; }
+    .ow-row.is-changed .ow-count { font-weight: 600; }
+    .ow-was { margin-left: 8px; font-size: 13px; color: var(--ink-soft); }
+    .ow-save { position: sticky; bottom: 0; margin-top: 16px; padding: 12px 0; background: var(--cream);
+               border-top: 1px solid #e5e3da; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .ow-save-note { font-size: 15px; color: var(--ink-soft); }
+    .ow-save-note.is-pending { color: var(--ink); }
     .ow-queue { margin-top: 16px; display: grid; gap: 12px; }
     .ow-order { padding: 16px; border: 1px solid #e5e3da; background: #fff; }
     .ow-order.is-done { opacity: 0.55; }
@@ -72,6 +79,10 @@
         <h2>Склад <span class="ow-soft">сколько колец готово</span></h2>
         <div class="ow-tabs" role="tablist" data-tabs></div>
         <div class="ow-stock" data-stock></div>
+        <div class="ow-save">
+          <p class="ow-save-note" role="status" data-save-note>Изменений нет</p>
+          <button class="ow-btn is-primary" type="button" data-save disabled>Обновить на сайте</button>
+        </div>
       </section>
 
       <section class="ow-section">
@@ -139,18 +150,25 @@
 
     // ---- stock ----
 
+    // −/+ edit a draft; nothing reaches the site until "Обновить на сайте"
+    let draft = {};           // { 'lattice/8': +2, ... } — differences from what is saved
+    const timeFmt = new Intl.DateTimeFormat('ru-RU', { hour: '2-digit', minute: '2-digit' });
+
+    const shown = (ring, size) => shelf.stock[ring][size] + (draft[ring + '/' + size] || 0);
+    const changedIn = (ring) => Object.keys(draft).some((key) => key.startsWith(ring + '/'));
+
     function renderTabs() {
       const tabs = $('[data-tabs]');
       tabs.textContent = '';
       Object.entries(shelf.rings).forEach(([key, name]) => {
-        const total = Object.values(shelf.stock[key]).reduce((sum, n) => sum + n, 0);
+        const total = shelf.sizes.reduce((sum, size) => sum + shown(key, size), 0);
         const tab = document.createElement('button');
         tab.type = 'button';
         tab.className = 'ow-btn';
         tab.setAttribute('role', 'tab');
         tab.setAttribute('aria-selected', String(key === ringShown));
         tab.dataset.ring = key;
-        tab.textContent = name + ' · ' + total + ' шт';
+        tab.textContent = name + ' · ' + total + ' шт' + (changedIn(key) ? ' •' : '');
         tabs.appendChild(tab);
       });
     }
@@ -159,11 +177,12 @@
       const list = $('[data-stock]');
       list.textContent = '';
       shelf.sizes.forEach((size) => {
-        const n = shelf.stock[ringShown][size];
+        const saved = shelf.stock[ringShown][size];
+        const n = shown(ringShown, size);
         const row = document.createElement('div');
-        row.className = 'ow-row';
+        row.className = 'ow-row' + (n !== saved ? ' is-changed' : '');
         row.innerHTML =
-          '<span class="ow-size"></span>' +
+          '<span><span class="ow-size"></span><span class="ow-was"></span></span>' +
           '<span class="ow-step">' +
             '<button class="ow-btn" type="button" data-delta="-1">−</button>' +
             '<span class="ow-count" aria-live="polite"></span>' +
@@ -172,6 +191,7 @@
         row.dataset.size = size;
         row.querySelector('.ow-size').textContent = 'US ' + size;
         row.querySelector('.ow-size').classList.toggle('is-in', n > 0);
+        row.querySelector('.ow-was').textContent = n !== saved ? 'было ' + saved : '';
         row.querySelector('.ow-count').textContent = n;
         row.querySelector('[data-delta="-1"]').disabled = n === 0;
         row.querySelector('[data-delta="-1"]').setAttribute('aria-label', 'Убрать одно кольцо US ' + size);
@@ -180,25 +200,51 @@
       });
     }
 
-    async function loadStock() {
-      shelf = (await adminStock()).data;
-      if (!ringShown) ringShown = Object.keys(shelf.rings)[0];
-      renderTabs();
-      renderStock();
+    function renderSave(note) {
+      const count = Object.keys(draft).length;
+      const line = $('[data-save-note]');
+      line.textContent = note || (count ? 'Не сохранено изменений: ' + count : 'Изменений нет');
+      line.classList.toggle('is-pending', count > 0);
+      $('[data-save]').disabled = count === 0;
     }
 
-    async function step(row, delta) {
-      const buttons = row.querySelectorAll('button');
-      buttons.forEach((b) => { b.disabled = true; });
-      try {
-        const { data } = await adminAdjust({ model: ringShown, size: row.dataset.size, delta });
-        shelf.stock[data.model] = data.counts;
-        showError('');
-      } catch (err) {
-        showError(explain(err));
-      }
+    function renderShelf(note) {
       renderTabs();
       renderStock();
+      renderSave(note);
+    }
+
+    async function loadStock() {
+      shelf = (await adminStock()).data;
+      draft = {};
+      if (!ringShown) ringShown = Object.keys(shelf.rings)[0];
+      renderShelf();
+    }
+
+    function step(size, delta) {
+      const key = ringShown + '/' + size;
+      const next = (draft[key] || 0) + delta;
+      if (shelf.stock[ringShown][size] + next < 0) return;
+      if (next === 0) delete draft[key]; else draft[key] = next;
+      renderShelf();
+    }
+
+    async function save() {
+      const changes = Object.entries(draft).map(([key, delta]) => {
+        const [model, size] = key.split('/');
+        return { model, size, delta };
+      });
+      $('[data-save]').disabled = true;
+      $('[data-save-note]').textContent = 'Сохраняю…';
+      try {
+        shelf.stock = (await adminAdjust({ changes })).data.stock;
+        draft = {};
+        showError('');
+        renderShelf('Сохранено в ' + timeFmt.format(new Date()) + ' — на сайте уже новые остатки.');
+      } catch (err) {
+        showError(explain(err));
+        renderShelf();
+      }
     }
 
     // ---- made-to-order queue ----
@@ -288,6 +334,7 @@
       if (!user) {
         // signed out: buyers' names and numbers do not stay in the page
         ['[data-tabs]', '[data-stock]', '[data-queue]'].forEach((sel) => { $(sel).textContent = ''; });
+        draft = {};
         return;
       }
       $('[data-email]').textContent = user.email;
@@ -300,6 +347,13 @@
     $('[data-signout]').addEventListener('click', () => { showError(''); signOut(auth); });
     $('[data-reload]').addEventListener('click', () => loadQueue().catch((err) => showError(explain(err))));
 
+    $('[data-save]').addEventListener('click', save);
+
+    // closing the page with unsaved edits would silently drop them
+    window.addEventListener('beforeunload', (e) => {
+      if (Object.keys(draft).length) e.preventDefault();
+    });
+
     $('[data-tabs]').addEventListener('click', (e) => {
       const tab = e.target.closest('[data-ring]');
       if (!tab) return;
@@ -309,7 +363,7 @@
     });
     $('[data-stock]').addEventListener('click', (e) => {
       const btn = e.target.closest('[data-delta]');
-      if (btn) step(btn.closest('.ow-row'), Number(btn.dataset.delta));
+      if (btn) step(btn.closest('.ow-row').dataset.size, Number(btn.dataset.delta));
     });
     $('[data-queue]').addEventListener('change', (e) => {
       if (e.target.matches('input[type="checkbox"]')) tick(e.target);

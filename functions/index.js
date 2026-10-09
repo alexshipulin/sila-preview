@@ -81,7 +81,8 @@ exports.getCatalog = onRequest(
 
     try {
       const stock = await loadStock(db);
-      res.set('Cache-Control', 'public, max-age=60');
+      // never kept: what the owner saves in the admin shows on the next ring opened
+      res.set('Cache-Control', 'no-store');
       res.json({ rings: publicCatalog(stock) });
     } catch (err) {
       logger.error('catalog failed', err);
@@ -195,10 +196,9 @@ exports.adminStock = onCall(ADMIN, async (request) => {
 
 exports.adminAdjust = onCall(ADMIN, async (request) => {
   requireOwner(request);
-  const input = request.data;
-  if (!isAdjustment(input)) throw new HttpsError('invalid-argument', 'Unknown ring, size or step.');
-  const stock = await adjustStock(db, input);
-  return { model: input.model, counts: stock[input.model] };
+  const changes = request.data && request.data.changes;
+  if (!isAdjustment(changes)) throw new HttpsError('invalid-argument', 'Unknown ring, size or step.');
+  return { stock: await adjustStock(db, changes) };
 });
 
 exports.adminQueue = onCall({ ...ADMIN, secrets: [STRIPE_SECRET_KEY] }, async (request) => {
