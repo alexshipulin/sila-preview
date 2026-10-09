@@ -1164,8 +1164,9 @@ hr { border: 0; }
   color: var(--line-grey);
 }
 
+/* same rhythm and face as the document links below, so the sheet reads as one list */
 .ct-rows div {
-  height: 62px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1178,7 +1179,6 @@ hr { border: 0; }
 }
 
 .ct-rows dd {
-  font-family: var(--font-sans);
   font-size: 20px;
   color: var(--ink);
 }
