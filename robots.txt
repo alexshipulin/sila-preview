@@ -2,8 +2,11 @@
 
 User-agent: *
 Disallow: /return-policy.html
+Disallow: /return-policy-id.html
 Disallow: /terms.html
+Disallow: /terms-id.html
 Disallow: /privacy.html
+Disallow: /privacy-id.html
 Disallow: /thank-you.html
 Disallow: /admin/
 
