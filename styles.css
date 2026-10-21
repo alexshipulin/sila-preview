@@ -1098,14 +1098,6 @@ hr { border: 0; }
 
 .nav-contact:hover { opacity: 0.55; }
 
-/* the contact sheet draws a larger, thinner close mark than the product modal */
-.ct .pd-close {
-  top: 14px;
-  right: 76px;
-  font-size: 80px;
-  font-weight: 100;
-}
-
 .ct-inner {
   width: 1265px;
   max-width: 100%;
@@ -1132,7 +1124,6 @@ hr { border: 0; }
 }
 
 .ct-note  { grid-column: 1; grid-row: 2; }
-.ct-legal { grid-column: 2; grid-row: 2; }
 
 .ct-title {
   font-family: var(--font-sans);
@@ -1183,6 +1174,20 @@ hr { border: 0; }
   color: var(--ink);
 }
 
+/* the company row carries its registration numbers underneath: there for
+   whoever needs them, quiet for everyone else */
+.ct-rows .is-tall { height: auto; padding: 18px 0; align-items: flex-start; }
+.ct-rows .is-tall dd { text-align: right; }
+
+.ct-ids {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  color: var(--line-grey);
+}
+
 .ct-rows a { transition: opacity 0.3s ease; }
 .ct-rows a:hover { opacity: 0.55; }
 
@@ -1230,21 +1235,14 @@ hr { border: 0; }
   color: var(--line-grey);
 }
 
-.ct-legal {
-  font-size: 16px;
-  line-height: 1.4;
-  color: var(--line-grey);
-}
-
 @media (max-width: 900px) {
   .nav-contact { font-size: 15px; }
 
   .ct-inner { grid-template-columns: 1fr; row-gap: 24px; }
-  .ct-photo, .ct-right, .ct-note, .ct-legal { grid-column: 1; }
+  .ct-photo, .ct-right, .ct-note { grid-column: 1; }
   .ct-photo  { grid-row: 1; }
   .ct-right  { grid-row: 2; }
   .ct-note   { grid-row: 3; }
-  .ct-legal  { grid-row: 4; }
 
   .ct-title { font-size: 32px; }
   .ct-intro { margin-top: 12px; font-size: 17px; }
@@ -1257,7 +1255,7 @@ hr { border: 0; }
   .ct-whatsapp + .ct-rows { margin-top: 28px; }
   .ct-docs a { height: 54px; font-size: 17px; }
   .ct-note { font-size: 15px; }
-  .ct-legal { font-size: 14px; }
+  .ct-ids { font-size: 12px; }
 }
 
 /* ===================== order block: ready to ship + made to order =====================
@@ -1765,7 +1763,6 @@ hr { border: 0; }
   .pd-right { order: 3; }
   .pd-note { order: 4; margin-top: 0; font-size: 15px; }
 
-  /* .ct .pd-close carries a desktop override, so match its specificity here */
   .pd .pd-close {
     top: var(--sheet-air);
     right: 4px;
